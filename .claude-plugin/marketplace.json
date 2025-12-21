@@ -1,0 +1,13 @@
+{
+  "name": "DIO0550-marketplace",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "cc-plugin",
+      "source": "./",
+      "description": "プラグイン"
+    }
+  ]
+}

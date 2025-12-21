@@ -1,0 +1,11 @@
+{
+  "name": "cc-plugin",
+  "version": "1.0.1",
+  "description": "プラグイン",
+  "author": {
+    "name": "DIO0550"
+  },
+  "repository": "https://github.com/DIO0550/cc-plugin",
+  "license": "MIT",
+  "skills": "./skills/"
+}
