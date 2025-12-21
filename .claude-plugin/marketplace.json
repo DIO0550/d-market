@@ -1,13 +1,23 @@
 {
-  "name": "DIO0550-marketplace",
+  "name": "d-market",
   "owner": {
     "name": "DIO0550"
   },
   "plugins": [
     {
-      "name": "cc-plugin",
-      "source": "./",
-      "description": "プラグイン"
+      "name": "git-workflow-plugin",
+      "source": "./plugins/git-workflow-plugin",
+      "description": "Git操作支援プラグイン（コミット・PR作成・ブランチ保護）"
+    },
+    {
+      "name": "code-review-plugin",
+      "source": "./plugins/code-review-plugin",
+      "description": "コードレビュー・品質チェックプラグイン"
+    },
+    {
+      "name": "workflow-automation-plugin",
+      "source": "./plugins/workflow-automation-plugin",
+      "description": "ワークフロー自動化プラグイン（Issue作成・修正）"
     }
   ]
 }

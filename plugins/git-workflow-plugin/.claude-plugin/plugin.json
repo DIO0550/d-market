@@ -1,0 +1,10 @@
+{
+  "name": "git-workflow-plugin",
+  "version": "1.0.0",
+  "description": "Git操作支援プラグイン（コミット・PR作成・ブランチ保護）",
+  "author": {
+    "name": "DIO0550"
+  },
+  "repository": "https://github.com/DIO0550/cc-plugin",
+  "license": "MIT"
+}
