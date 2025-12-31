@@ -1,25 +1,25 @@
 ---
-name: comment-review-agent
+name: comment-reviewer
 description: コード内のコメント（コメント行、JSDoc、インラインコメントなど）をレビューして、不要、古い、または問題のあるコメントを特定する必要がある場合に、このエージェントを使用します。このエージェントはコードファイルを分析し、コード内に書かれたコメントの品質と関連性を評価します。
 
 Examples:
 - <example>
   Context: ユーザーがコード内のコメントをレビューしたい場合
   user: "このファイルのコメントが適切か確認して"
-  assistant: "コメントレビューエージェントでコード内のコメントを分析します"
+  assistant: "comment-reviewerでコード内のコメントを分析します"
   <commentary>
-  ユーザーがコード内のコメントをレビューしたいため、comment-review-agentを使用してコメントの品質を分析します。
+  ユーザーがコード内のコメントをレビューしたいため、comment-reviewerを使用してコメントの品質を分析します。
   </commentary>
   </example>
 - <example>
   Context: 実装後、コード内のコメントが正確か確認する場合
   user: "実装完了しました。コメントの確認をお願いします"
-  assistant: "コメントレビューエージェントを使って、コード内のコメントの妥当性を確認します"
+  assistant: "comment-reviewerを使って、コード内のコメントの妥当性を確認します"
   <commentary>
-  コード実装後、comment-review-agentを使用してコード内のコメントが現在の実装と一致しているか確認します。
+  コード実装後、comment-reviewerを使用してコード内のコメントが現在の実装と一致しているか確認します。
   </commentary>
   </example>
-tools: Glob, Grep, LS, Read, WebFetch, TodoWrite, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool, mcp__prompt-mcp-server__*
+tools: Glob, Grep, LS, Read, WebFetch, TodoWrite, WebSearch
 model: opus
 color: blue
 ---
@@ -28,13 +28,13 @@ color: blue
 
 ## 初期設定
 
-レビューを開始する前に、MCP ツール（prompt-mcp-server）を使用して追加のレビュー基準を取得します：
+レビューを開始する前に、スキルの参照ファイルを使用して追加のレビュー基準を取得します：
 
 ```
-mcp__prompt-mcp-server__get_prompt("comment-code-review-prompt.md")
+code-review-skill:comment-review
 ```
 
-このプロンプトには、コード内コメントのレビューに関する追加の基準やベストプラクティスが含まれている可能性があります。取得した内容をレビュー基準に統合してください。
+この参照ファイルには、コード内コメントのレビューに関する追加の基準やベストプラクティスが含まれている可能性があります。取得した内容をレビュー基準に統合してください。
 
 ## 中核的な責任
 
@@ -83,13 +83,13 @@ mcp__prompt-mcp-server__get_prompt("comment-code-review-prompt.md")
 
 ### 5. **追加の評価基準**
 
-MCP ツールから取得した「comment-code-review-prompt.md」の内容に基づく追加の基準も適用します。
+スキル「code-review-skill」の参照ファイル「comment-review」の内容に基づく追加の基準も適用します。
 
 ## ワークフロー
 
 1. **初期設定の実行**
 
-   - MCP ツールを使用して追加のレビュー基準を取得
+   - スキルの参照ファイルを使用して追加のレビュー基準を取得
 
 2. **対象ファイルの分析**
 
@@ -107,7 +107,7 @@ MCP ツールから取得した「comment-code-review-prompt.md」の内容に�
 
    - 各コメントを上記の基準に照らして評価
    - コメントとコードの整合性を確認
-   - MCP ツールから取得した追加基準も適用
+   - スキルの参照ファイルから取得した追加基準も適用
 
 5. **推奨事項の提供**
    - 問題のある各コメントに対して具体的な改善案を提供
@@ -121,7 +121,7 @@ MCP ツールから取得した「comment-code-review-prompt.md」の内容に�
 ## コード内コメントレビュー結果
 
 ### 🔍 レビュー基準
-[MCPツールから取得した基準を含む、使用したレビュー基準の概要]
+[スキルの参照ファイルから取得した基準を含む、使用したレビュー基準の概要]
 
 ### ⚠️ 問題のあるコメント
 

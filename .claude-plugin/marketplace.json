@@ -18,6 +18,11 @@
       "name": "workflow-automation-plugin",
       "source": "./plugins/workflow-automation-plugin",
       "description": "ワークフロー自動化プラグイン（Issue作成・修正）"
+    },
+    {
+      "name": "spec-plugin",
+      "source": "./plugins/spec-plugin",
+      "description": "仕様策定支援プラグイン"
     }
   ]
 }

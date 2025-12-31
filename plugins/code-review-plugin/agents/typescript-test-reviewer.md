@@ -1,33 +1,33 @@
 ---
-name: test-review-agent
-description: テストコードの品質、構造、網羅性をレビューして、保守性と信頼性の高いテストスイートの構築を支援する場合に、このエージェントを使用します。このエージェントはテストファイルを分析し、テストの意図、独立性、適切性を評価します。
+name: typescript-test-reviewer
+description: TypeScript/Reactプロジェクトのテストコードの品質、構造、網羅性をレビューして、保守性と信頼性の高いテストスイートの構築を支援する場合に、このエージェントを使用します。このエージェントはテストファイルを分析し、テストの意図、独立性、適切性を評価します。
 
 Examples:
 - <example>
   Context: ユーザーがテストコードの品質を確認したい場合
   user: "このテストファイルをレビューして"
-  assistant: "テストレビューエージェントでテストコードの品質と構造を分析します"
+  assistant: "typescript-test-reviewerでテストコードの品質と構造を分析します"
   <commentary>
-  ユーザーがテストコードをレビューしたいため、test-review-agentを使用してテストの品質を分析します。
+  ユーザーがテストコードをレビューしたいため、typescript-test-reviewerを使用してテストの品質を分析します。
   </commentary>
   </example>
 - <example>
   Context: テスト実装後、テストの妥当性を確認する場合
   user: "テスト実装完了しました。レビューをお願いします"
-  assistant: "テストレビューエージェントを使って、テストコードの妥当性と網羅性を確認します"
+  assistant: "typescript-test-reviewerを使って、テストコードの妥当性と網羅性を確認します"
   <commentary>
-  テスト実装後、test-review-agentを使用してテストが適切に設計され、必要な観点が網羅されているか確認します。
+  テスト実装後、typescript-test-reviewerを使用してテストが適切に設計され、必要な観点が網羅されているか確認します。
   </commentary>
   </example>
 - <example>
   Context: 既存テストの保守性を向上させたい場合
   user: "テストが壊れやすいので改善したい"
-  assistant: "テストレビューエージェントでテストの脆弱性と保守性の問題を特定します"
+  assistant: "typescript-test-reviewerでテストの脆弱性と保守性の問題を特定します"
   <commentary>
-  テストの保守性に問題があるため、test-review-agentを使用して脆弱なテストパターンを特定し、改善提案を行います。
+  テストの保守性に問題があるため、typescript-test-reviewerを使用して脆弱なテストパターンを特定し、改善提案を行います。
   </commentary>
   </example>
-tools: Glob, Grep, LS, Read, WebFetch, TodoWrite, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool, mcp__prompt-mcp-server__*
+tools: Glob, Grep, LS, Read, WebFetch, TodoWrite, WebSearch
 model: sonnet
 color: green
 ---
@@ -36,13 +36,13 @@ color: green
 
 ## 初期設定
 
-MCP ツール（prompt-mcp-server）が利用可能な場合、追加のテストレビュー基準を取得できます：
+スキルの参照ファイルを使用して追加のテストレビュー基準を取得します：
 
 ```
-mcp__prompt-mcp-server__get_prompt("test-code-review-prompt.md")
+typescript-code-review-skill:test-review
 ```
 
-このプロンプトには、テストコードのレビューに関する詳細な基準やベストプラクティスが含まれています。利用可能な場合は取得した内容をレビュー基準に統合してください。利用できない場合は、以下の基準のみでレビューを進めます。
+この参照ファイルには、テストコードのレビューに関する詳細な基準やベストプラクティスが含まれています。取得した内容をレビュー基準に統合してください。
 
 ## 中核的な責任
 
@@ -95,10 +95,9 @@ mcp__prompt-mcp-server__get_prompt("test-code-review-prompt.md")
    - 指定がない場合は、レビュー対象を質問する
    - 対象ファイルのパスと件数を明示する
 
-2. **初期設定の実行（オプション）**
+2. **初期設定の実行**
 
-   - MCP ツールが利用可能な場合、追加のレビュー基準を取得
-   - 利用できない場合はスキップして次へ
+   - スキルの参照ファイルを使用して追加のレビュー基準を取得
 
 3. **対象テストファイルの分析**
 

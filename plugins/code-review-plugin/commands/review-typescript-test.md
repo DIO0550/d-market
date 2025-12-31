@@ -1,18 +1,18 @@
-# Review Test Code
+# Review TypeScript Test
 
 ## Description
 
-テストコードの品質、構造、網羅性をレビューし、保守性と信頼性の高いテストスイートの構築を支援するコマンドです。
+TypeScript/Reactプロジェクトのテストコードの品質、構造、網羅性をレビューし、保守性と信頼性の高いテストスイートの構築を支援するコマンドです。
 
 ## Prompt Template
 
-`test-review-agent`エージェントを使用して、テストコードの品質と構造をレビューしてください。
+`typescript-test-reviewer`エージェントを使用して、テストコードの品質と構造をレビューしてください。
 
 以下のタスクを実行してください：
 
-1. **MCP ツールを使用してテストレビュー基準を取得する**
+1. **スキルの参照ファイルを使用してテストレビュー基準を取得する**
 
-   - `test-code-review-prompt.md` を取得し、レビュー基準を確認
+   - `typescript-code-review-skill:test-review` を取得し、レビュー基準を確認
 
 2. **品質ゲートチェックを実行する（必須）**
 

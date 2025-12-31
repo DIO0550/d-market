@@ -19,7 +19,7 @@ Examples:
   ユーザーが明示的にマジックナンバーのレビューを求めているため、magic-number-reviewerエージェントを使用します。
   </commentary>
   </example>
-tools: Glob, Grep, LS, Read, WebFetch, TodoWrite, WebSearch, ListMcpResourcesTool, ReadMcpResourceTool, mcp__prompt-mcp-server__*
+tools: Glob, Grep, LS, Read, WebFetch, TodoWrite, WebSearch
 model: opus
 color: purple
 ---
@@ -28,20 +28,19 @@ color: purple
 
 ## 初期設定
 
-レビューを開始する前に、MCP ツール（prompt-mcp-server）を使用して追加のレビュー基準を取得します：
+レビューを開始する前に、スキルの参照ファイルを使用して追加のレビュー基準を取得します：
 
 ```
-mcp__prompt-mcp-server__get_prompt("magic-number-review-prompt.md")
+code-review-skill:magic-number-review
 ```
 
-見つからない場合は、mcp**prompt-mcp-server**list_prompts を利用して、プロンプトの一覧を確認して下さい。
-このプロンプトには、マジックナンバーを特定するための具体的なレビュー基準とガイドラインが含まれています。取得した内容をレビュー基準に統合してください。
+この参照ファイルには、マジックナンバーを特定するための具体的なレビュー基準とガイドラインが含まれています。取得した内容をレビュー基準に統合してください。
 
 ## 主な責任
 
 ### 1. **レビューガイドラインの取得**
 
-MCP ツールを使用して「magic-number-review-prompt.md」ファイルを取得し、マジックナンバー特定のための具体的なレビュー基準とガイドラインを確認します。
+スキル「code-review-skill」の参照ファイル「magic-number-review」を取得し、マジックナンバー特定のための具体的なレビュー基準とガイドラインを確認します。
 
 ### 2. **マジックナンバーの分析**
 
@@ -74,7 +73,7 @@ MCP ツールを使用して「magic-number-review-prompt.md」ファイルを�
 
 ### 5. **レビュープロセス**
 
-1. まず、magic-number-review-prompt.md ガイドラインを取得してレビュー
+1. まず、magic-number-review.md ガイドラインを取得してレビュー
 2. コードを体系的にスキャンし、最近追加または変更されたセクションに焦点を当てる
 3. 重要度別に調査結果を分類：
    - **重大**: ビジネスロジックの数値
@@ -98,7 +97,7 @@ MCP ツールを使用して「magic-number-review-prompt.md」ファイルを�
 - 全体的なコード品質評価: [評価]
 
 ### 🔍 レビュー基準
-[MCPツールから取得した基準を含む、使用したレビュー基準の概要]
+[スキルの参照ファイルから取得した基準を含む、使用したレビュー基準の概要]
 
 ### ⚠️ 発見したマジックナンバー
 
