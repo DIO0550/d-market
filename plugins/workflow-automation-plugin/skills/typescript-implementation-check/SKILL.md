@@ -1,11 +1,11 @@
 ---
-name: implementation-check
-description: 実装ワークフロー確認スキル。TDD、品質チェック（test/lint/type-check）、Gitワークフロー（ブランチ運用）、コミットルールの準拠を確認する。「実装確認」「品質チェック」「ワークフロー確認」などのリクエスト時に使用。
+name: typescript-implementation-check
+description: TypeScript実装ワークフロー確認スキル。TDD、品質チェック（test/lint/type-check）、Gitワークフロー（ブランチ運用）、コミットルールの準拠を確認する。「実装確認」「品質チェック」「ワークフロー確認」などのリクエスト時に使用。
 ---
 
-# 実装ワークフロー確認
+# TypeScript実装ワークフロー確認
 
-実装フローとGitワークフローの準拠状況を確認するスキル。
+TypeScript実装フローとGitワークフローの準拠状況を確認するスキル。
 
 ## 必須ルール
 
@@ -25,17 +25,17 @@ description: 実装ワークフロー確認スキル。TDD、品質チェック�
 
 ```bash
 # テスト実行
-npm run test
+pnpm test
 
 # Lintチェック
-npm run lint
+pnpm lint
 
 # 型チェック
-npm run type-check
+pnpm type-check
 ```
 
 **禁止事項**
-- `npx` の使用禁止（必ず `npm run` を使用）
+- `npx` の使用禁止（必ず `pnpm` を使用）
 - ESLint無効化禁止（`eslint-disable` 系ディレクティブ禁止）
 - チェックが全て通るまでコミット禁止
 
@@ -70,9 +70,9 @@ npm run type-check
 - [ ] `eslint-disable` を使用していない
 
 ## 実装後
-- [ ] `npm run test` 通過
-- [ ] `npm run lint` 通過
-- [ ] `npm run type-check` 通過
+- [ ] `pnpm test` 通過
+- [ ] `pnpm lint` 通過
+- [ ] `pnpm type-check` 通過
 - [ ] コミットルールに従っている
 ```
 
@@ -92,5 +92,5 @@ npm run type-check
 
 ## 推奨アクション
 1. 型エラーを修正
-2. `npm run type-check` で再確認
+2. `pnpm type-check` で再確認
 ```
