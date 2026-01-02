@@ -1,11 +1,11 @@
 ---
-name: typescript-implementation-check
-description: TypeScript実装ワークフロー確認スキル。TDD、品質チェック（test/lint/type-check）、Gitワークフロー（ブランチ運用）、コミットルールの準拠を確認する。「実装確認」「品質チェック」「ワークフロー確認」などのリクエスト時に使用。
+name: implementation-workflow
+description: TypeScript実装ワークフロースキル。TDD、品質チェック（test/lint/type-check）、Gitワークフロー（ブランチ運用）、コミットルールを定義。実装時に参照すべき開発ルールを提供する。
 ---
 
-# TypeScript実装ワークフロー確認
+# TypeScript実装ワークフロー
 
-TypeScript実装フローとGitワークフローの準拠状況を確認するスキル。
+TypeScript開発における実装フローとGitワークフローのルールを定義するスキル。
 
 ## 必須ルール
 
@@ -74,23 +74,4 @@ pnpm type-check
 - [ ] `pnpm lint` 通過
 - [ ] `pnpm type-check` 通過
 - [ ] コミットルールに従っている
-```
-
-## 出力形式
-
-```
-## ワークフロー準拠チェック結果
-
-### ✅ 準拠
-- ブランチ: feature/xxx で作業中
-- テスト: 全パス
-- Lint: エラーなし
-
-### ❌ 違反
-- 型チェック: 3件のエラー
-  - src/xxx.ts:10 - Type 'string' is not assignable...
-
-## 推奨アクション
-1. 型エラーを修正
-2. `pnpm type-check` で再確認
 ```
