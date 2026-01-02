@@ -1,5 +1,5 @@
 ---
-name: code-similarity
+name: code-similarity-ts
 description: TypeScriptコード重複検出・共通化スキル。similarity-tsを使用してコードの意味的類似を検出し、リファクタリング計画を立てる。「重複コードを見つけて」「共通化したい」「類似コード検出」などのリクエスト時に使用。
 ---
 
