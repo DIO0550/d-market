@@ -68,8 +68,14 @@ Additional focus: $custom"
         echo ""
     } > "$output_file"
     
+    # プロンプトにレビュー対象の内容を含める
+    local full_prompt="$prompt
+
+--- Code to review ---
+$content"
+
     # Codex実行、teeでファイルとコンソール両方に出力
-    echo "$content" | codex exec "$prompt" | tee -a "$output_file"
+    codex exec "$full_prompt" | tee -a "$output_file"
     
     echo ""
     echo "---"

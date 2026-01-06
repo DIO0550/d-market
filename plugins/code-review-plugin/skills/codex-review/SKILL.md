@@ -55,11 +55,15 @@ scripts/review.sh pr origin/main "Check for breaking API changes"
 スクリプトを使わず直接実行する場合：
 
 ```bash
-# 差分をパイプで渡す
-git diff --staged | codex exec "Review this code diff. Report issues with severity, file, line range."
+# 差分をプロンプトに含めて渡す
+codex exec "Review this code diff. Report issues with severity, file, line range.
 
-# ファイル内容を渡す
-cat src/main.ts | codex exec "Review this TypeScript file for issues."
+$(git diff --staged)"
+
+# ファイル内容を含めて渡す
+codex exec "Review this TypeScript file for issues.
+
+$(cat src/main.ts)"
 ```
 
 ## カスタム指示
