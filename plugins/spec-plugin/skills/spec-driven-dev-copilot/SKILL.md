@@ -1,9 +1,9 @@
 ---
-name: spec-driven-dev
-description: 仕様駆動型開発スキル。機能実装前に対話的なヒアリングで仕様を明確化し、implementation-plan.mdとtasks.mdを生成する。「機能を実装したい」「新しいコンポーネントを作りたい」「○○を追加したい」などの実装リクエスト時に使用。Codexによる自動レビューと修正ループで品質を担保する。
+name: spec-driven-dev-copilot
+description: 仕様駆動型開発スキル（Copilot版）。機能実装前に対話的なヒアリングで仕様を明確化し、implementation-plan.mdとtasks.mdを生成する。「機能を実装したい」「新しいコンポーネントを作りたい」「○○を追加したい」などの実装リクエスト時に使用。GitHub Copilot CLIによる自動レビューと修正ループで品質を担保する。
 ---
 
-# Spec-Driven Development
+# Spec-Driven Development (Copilot版)
 
 機能実装前に仕様を明確化し、実装計画とタスクリストを生成するスキル。
 
@@ -16,7 +16,7 @@ description: 仕様駆動型開発スキル。機能実装前に対話的なヒ�
    ↓
 3. implementation-plan.md 生成
    ↓
-4. Codexレビュー → 修正ループ（自動）
+4. Copilotレビュー → 修正ループ（自動）
    ↓
 5. tasks.md 生成
    ↓
@@ -92,14 +92,14 @@ ASCII図の例:
 - **エッジケース**: エラー時・タイムアウト時の遷移
 - **ループ**: 繰り返し処理がある場合
 
-## Step 3: Codexレビューループ
+## Step 3: Copilotレビューループ
 
-生成した implementation-plan.md を Codex でレビューする。
+生成した implementation-plan.md を GitHub Copilot CLI でレビューする。
 
 ### レビュー実行
 
 ```bash
-codex exec "以下の実装計画をレビューしてください。
+copilot -p "以下の実装計画をレビューしてください。
 
 レビュー観点:
 1. 仕様の曖昧さ・抜け漏れはないか
@@ -118,11 +118,11 @@ $(cat .specs/{feature-name}/implementation-plan.md)
 
 ### ループ処理
 
-1. Codexの出力を解析
+1. Copilotの出力を解析
 2. 「問題なし」なら Step 4 へ
 3. 問題があれば:
    - 指摘内容を元に implementation-plan.md を修正
-   - 再度 Codex レビューを実行
+   - 再度 Copilot レビューを実行
    - 最大5回までループ
 
 レビュー観点の詳細は `references/review-criteria.md` を参照。
@@ -142,7 +142,7 @@ Task: {目的}
   □ サブタスク1
   □ サブタスク2
 
-□ Implementation  
+□ Implementation
   □ サブタスク1
   □ サブタスク2
 
