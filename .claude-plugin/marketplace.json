@@ -23,6 +23,16 @@
       "name": "spec-plugin",
       "source": "./plugins/spec-plugin",
       "description": "仕様策定支援プラグイン"
+    },
+    {
+      "name": "typescript-rules-plugin",
+      "source": "./plugins/typescript-rules-plugin",
+      "description": "TypeScript開発ルールプラグイン（実装ワークフロー、TDD、品質チェック、Gitワークフロー）"
+    },
+    {
+      "name": "react-rules-plugin",
+      "source": "./plugins/react-rules-plugin",
+      "description": "React開発ルールプラグイン（コーディング規約、コンポーネント、カスタムフック、Storybook、TDD、テスト）"
     }
   ]
 }
