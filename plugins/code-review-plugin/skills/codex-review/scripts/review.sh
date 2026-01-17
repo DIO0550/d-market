@@ -75,7 +75,8 @@ Additional focus: $custom"
 $content"
 
     # Codex実行、teeでファイルとコンソール両方に出力
-    codex exec "$full_prompt" | tee -a "$output_file"
+    # レビューは読み取り専用で十分なため、read-onlyサンドボックスを使用
+    codex exec --sandbox read-only "$full_prompt" | tee -a "$output_file"
     
     echo ""
     echo "---"
