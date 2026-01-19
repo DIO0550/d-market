@@ -33,6 +33,16 @@
       "name": "react-rules-plugin",
       "source": "./plugins/react-rules-plugin",
       "description": "React開発ルールプラグイン（コーディング規約、コンポーネント、カスタムフック、Storybook、TDD、テスト）"
+    },
+    {
+      "name": "typescript-workflow-plugin",
+      "source": "./plugins/typescript-workflow-plugin",
+      "description": "TypeScriptワークフロープラグイン（テスト実行、型チェックエージェント）"
+    },
+    {
+      "name": "rust-workflow-plugin",
+      "source": "./plugins/rust-workflow-plugin",
+      "description": "Rustワークフロープラグイン（テスト実行、型チェックエージェント）"
     }
   ]
 }
