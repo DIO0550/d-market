@@ -36,7 +36,7 @@
 3. **Codexレビューループ**
 
    ```bash
-   codex exec "以下の実装計画をレビューしてください。
+   cat .specs/{feature-name}/implementation-plan.md | codex exec "以下の実装計画をレビューしてください。
 
    レビュー観点:
    1. 仕様の曖昧さ・抜け漏れはないか
@@ -47,9 +47,6 @@
 
    問題がなければ「問題なし」と回答してください。
    問題があれば具体的な指摘と改善案を提示してください。
-
-   ---
-   $(cat .specs/{feature-name}/implementation-plan.md)
    "
    ```
 

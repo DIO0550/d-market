@@ -68,15 +68,16 @@ Additional focus: $custom"
         echo ""
     } > "$output_file"
     
-    # プロンプトにレビュー対象の内容を含める
+    # プロンプトにレビュー指示を設定
     local full_prompt="$prompt
 
---- Code to review ---
-$content"
+以下の内容をレビューしてください:
+"
 
     # Codex実行、teeでファイルとコンソール両方に出力
     # レビューは読み取り専用で十分なため、read-onlyサンドボックスを使用
-    codex exec --sandbox read-only "$full_prompt" | tee -a "$output_file"
+    # コンテンツはパイプで渡し、プロンプトは引数で渡す
+    echo "$content" | codex exec --sandbox read-only "$full_prompt" | tee -a "$output_file"
     
     echo ""
     echo "---"

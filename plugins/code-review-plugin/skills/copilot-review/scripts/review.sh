@@ -68,14 +68,15 @@ Additional focus: $custom"
         echo ""
     } > "$output_file"
 
-    # プロンプトにレビュー対象の内容を含める
+    # プロンプトにレビュー指示を設定
     local full_prompt="$prompt
 
---- Code to review ---
-$content"
+以下の内容をレビューしてください:
+"
 
     # Copilot実行、teeでファイルとコンソール両方に出力
-    copilot -p "$full_prompt" | tee -a "$output_file"
+    # コンテンツはパイプで渡し、プロンプトは引数で渡す
+    echo "$content" | copilot -p "$full_prompt" | tee -a "$output_file"
 
     echo ""
     echo "---"
