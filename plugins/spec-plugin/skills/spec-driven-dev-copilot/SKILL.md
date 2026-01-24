@@ -115,7 +115,7 @@ implementation-plan.md生成後、以下を確認すること：
 ### レビュー実行
 
 ```bash
-cat .specs/{feature-name}/implementation-plan.md | copilot -p "以下の実装計画をレビューしてください。
+copilot -p "以下の実装計画をレビューしてください。
 
 レビュー観点:
 1. 仕様の曖昧さ・抜け漏れはないか
@@ -126,7 +126,7 @@ cat .specs/{feature-name}/implementation-plan.md | copilot -p "以下の実装�
 
 問題がなければ「問題なし」と回答してください。
 問題があれば具体的な指摘と改善案を提示してください。
-"
+" .specs/{feature-name}/implementation-plan.md
 ```
 
 ### ループ処理
