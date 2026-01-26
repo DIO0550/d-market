@@ -36,7 +36,9 @@
 3. **Codexレビューループ**
 
    ```bash
-   cat .specs/{feature-name}/implementation-plan.md | codex exec "以下の実装計画をレビューしてください。
+   codex exec --dangerously-bypass-approvals-and-sandbox "以下の実装計画をレビューしてください。
+
+   レビュー対象: .specs/{feature-name}/implementation-plan.md
 
    レビュー観点:
    1. 仕様の曖昧さ・抜け漏れはないか

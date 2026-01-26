@@ -40,21 +40,21 @@ generate_output_path() {
 }
 
 review_with_codex() {
-    local content="$1"
+    local instruction="$1"
     local context="$2"
     local output_file="$3"
     local custom="${4:-}"
-    
+
     local prompt="$DEFAULT_PROMPT
 
 Context: $context"
-    
+
     if [[ -n "$custom" ]]; then
         prompt="$prompt
 
 Additional focus: $custom"
     fi
-    
+
     # ヘッダーをファイルに書き込み
     {
         echo "# Codex Review"
@@ -67,17 +67,15 @@ Additional focus: $custom"
         echo "---"
         echo ""
     } > "$output_file"
-    
+
     # プロンプトにレビュー指示を設定
     local full_prompt="$prompt
 
-以下の内容をレビューしてください:
-"
+$instruction"
 
     # Codex実行、teeでファイルとコンソール両方に出力
-    # レビューは読み取り専用で十分なため、read-onlyサンドボックスを使用
-    # コンテンツはパイプで渡し、プロンプトは引数で渡す
-    echo "$content" | codex exec --sandbox read-only "$full_prompt" | tee -a "$output_file"
+    # Docker環境ではサンドボックスが動作しないため、バイパスフラグを使用
+    codex exec --dangerously-bypass-approvals-and-sandbox "$full_prompt" | tee -a "$output_file"
     
     echo ""
     echo "---"
@@ -93,9 +91,9 @@ case "$MODE" in
             exit 0
         fi
         output_file=$(generate_output_path "staged")
-        review_with_codex "$diff_content" "Staged changes" "$output_file" "$custom"
+        review_with_codex "git diff --staged を実行して、ステージされた変更をレビューしてください。" "Staged changes" "$output_file" "$custom"
         ;;
-        
+
     uncommitted)
         custom="${1:-}"
         diff_content=$(git diff HEAD)
@@ -104,9 +102,9 @@ case "$MODE" in
             exit 0
         fi
         output_file=$(generate_output_path "uncommitted")
-        review_with_codex "$diff_content" "All uncommitted changes" "$output_file" "$custom"
+        review_with_codex "git diff HEAD を実行して、コミットされていない全ての変更をレビューしてください。" "All uncommitted changes" "$output_file" "$custom"
         ;;
-        
+
     file)
         file_path="${1:-}"
         custom="${2:-}"
@@ -118,11 +116,12 @@ case "$MODE" in
             echo "File not found: $file_path"
             exit 1
         fi
-        file_content=$(cat "$file_path")
+        # 絶対パスに変換
+        abs_path=$(realpath "$file_path")
         output_file=$(generate_output_path "file" "$file_path")
-        review_with_codex "$file_content" "File: $file_path" "$output_file" "$custom"
+        review_with_codex "ファイル $abs_path を読み込んでレビューしてください。" "File: $file_path" "$output_file" "$custom"
         ;;
-        
+
     files)
         custom=""
         files=()
@@ -138,17 +137,15 @@ case "$MODE" in
             echo "Usage: review.sh files <file1> <file2> ... [custom_instructions]"
             exit 1
         fi
-        combined_content=""
+        # 絶対パスのリストを作成
+        abs_files=()
         for f in "${files[@]}"; do
-            combined_content+="
---- File: $f ---
-$(cat "$f")
-"
+            abs_files+=("$(realpath "$f")")
         done
         output_file=$(generate_output_path "files" "multiple-${#files[@]}")
-        review_with_codex "$combined_content" "Files: ${files[*]}" "$output_file" "$custom"
+        review_with_codex "以下のファイルを読み込んでレビューしてください: ${abs_files[*]}" "Files: ${files[*]}" "$output_file" "$custom"
         ;;
-        
+
     branch)
         base_branch="${1:-main}"
         target_branch="${2:-HEAD}"
@@ -159,17 +156,16 @@ $(cat "$f")
             exit 0
         fi
         output_file=$(generate_output_path "branch" "${base_branch}-${target_branch}")
-        review_with_codex "$diff_content" "Branch: $base_branch...$target_branch" "$output_file" "$custom"
+        review_with_codex "git diff $base_branch...$target_branch を実行して、ブランチ間の差分をレビューしてください。" "Branch: $base_branch...$target_branch" "$output_file" "$custom"
         ;;
-        
+
     commit)
         commit_hash="${1:-HEAD}"
         custom="${2:-}"
-        commit_content=$(git show "$commit_hash")
         output_file=$(generate_output_path "commit" "$commit_hash")
-        review_with_codex "$commit_content" "Commit: $commit_hash" "$output_file" "$custom"
+        review_with_codex "git show $commit_hash を実行して、コミットの内容をレビューしてください。" "Commit: $commit_hash" "$output_file" "$custom"
         ;;
-        
+
     pr)
         base_branch="${1:-origin/main}"
         custom="${2:-}"
@@ -179,7 +175,7 @@ $(cat "$f")
             exit 0
         fi
         output_file=$(generate_output_path "pr" "$base_branch")
-        review_with_codex "$diff_content" "PR against $base_branch" "$output_file" "$custom"
+        review_with_codex "git diff $base_branch...HEAD を実行して、PRの差分をレビューしてください。" "PR against $base_branch" "$output_file" "$custom"
         ;;
         
     help|--help|-h)
