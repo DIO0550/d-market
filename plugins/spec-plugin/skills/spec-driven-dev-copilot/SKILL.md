@@ -12,20 +12,33 @@ description: 仕様駆動型開発スキル（Copilot版）。機能実装前に
 このスキルで生成するimplementation-plan.mdには**必ずシステム図（状態マシン図 + データフロー図）を含めること**。
 システム図がないimplementation-plan.mdは不完全であり、生成完了とみなさない。
 
+## ⚠️ 重要: AutoCompact対策
+
+計画フェーズ中にAutoCompactが発生すると、コンテキストが要約され意図しない実装が始まる可能性がある。
+これを防ぐため、**PLANNINGファイル**を使用して計画中であることを明示する。
+
+- `.specs/{feature-name}/PLANNING` ファイルが存在する間は**計画フェーズ**
+- AutoCompact時にPreCompact hookがPLANNINGファイルを検出し、警告を出力
+- **PLANNINGファイルがある限り、絶対にコードを実装しない**
+
 ## ワークフロー概要
 
 ```
 1. ユーザーが目的を伝える
    ↓
-2. AskUserQuestion形式でヒアリング
+2. specsフォルダ作成 + PLANNINGファイル配置
    ↓
-3. implementation-plan.md 生成
+3. AskUserQuestion形式でヒアリング
    ↓
-4. Copilotレビュー → 修正ループ（自動）
+4. implementation-plan.md 生成
    ↓
-5. tasks.md 生成
+5. Copilotレビュー → 修正ループ（自動）
    ↓
-6. ユーザーに提示
+6. tasks.md 生成
+   ↓
+7. ユーザーに提示
+   ↓
+8. 実装開始許可後、PLANNINGファイル削除
 ```
 
 ## Step 1: ヒアリング
@@ -51,13 +64,23 @@ description: 仕様駆動型開発スキル（Copilot版）。機能実装前に
 
 質問形式の詳細は `references/question-patterns.md` を参照。
 
-## Step 2: implementation-plan.md 生成
+## Step 2: specsフォルダ + PLANNINGファイル作成
+
+ヒアリング開始前または開始直後に、specディレクトリとPLANNINGファイルを作成する。
+
+```bash
+mkdir -p .specs/{feature-name} && touch .specs/{feature-name}/PLANNING
+```
+
+**重要**: PLANNINGファイルが存在する間は計画フェーズであり、コードの実装は禁止。
+
+## Step 3: implementation-plan.md 生成
 
 ヒアリング結果を元に `.specs/{feature-name}/implementation-plan.md` を生成。
 
 テンプレート: `assets/templates/implementation-plan.md`
 
-### Step 2-1: 各セクションを執筆
+### Step 3-1: 各セクションを執筆
 
 - 1機能 = 1計画（小さく保つ）
 - ファイル単位で変更内容を明記
@@ -65,7 +88,7 @@ description: 仕様駆動型開発スキル（Copilot版）。機能実装前に
 - 検証計画を必ず含める
 - **必ずシステム図を含める**（状態マシン図 + データフロー図）
 
-### Step 2-2: システム図を作成
+### Step 3-2: システム図を作成
 
 状態マシン図とデータフロー図を**必ず**作成する。これにより：
 - すべてのパス・分岐・エッジケースを可視化
@@ -97,7 +120,7 @@ ASCII図の例:
 - **エッジケース**: エラー時・タイムアウト時の遷移
 - **ループ**: 繰り返し処理がある場合
 
-### Step 2-3: 完了チェックリスト
+### Step 3-3: 完了チェックリスト
 
 implementation-plan.md生成後、以下を確認すること：
 
@@ -108,7 +131,7 @@ implementation-plan.md生成後、以下を確認すること：
 
 **チェックリストを満たさない場合、生成完了とみなさない。**
 
-## Step 3: Copilotレビューループ
+## Step 4: Copilotレビューループ
 
 生成した implementation-plan.md を GitHub Copilot CLI でレビューする。
 
@@ -132,7 +155,7 @@ copilot -p "以下の実装計画をレビューしてください。
 ### ループ処理
 
 1. Copilotの出力を解析
-2. 「問題なし」なら Step 4 へ
+2. 「問題なし」なら Step 5 へ
 3. 問題があれば:
    - 指摘内容を元に implementation-plan.md を修正
    - 再度 Copilot レビューを実行
@@ -140,7 +163,7 @@ copilot -p "以下の実装計画をレビューしてください。
 
 レビュー観点の詳細は `references/review-criteria.md` を参照。
 
-## Step 4: tasks.md 生成
+## Step 5: tasks.md 生成
 
 レビュー完了後、`.specs/{feature-name}/tasks.md` を生成。
 
@@ -164,7 +187,7 @@ Task: {目的}
   □ サブタスク2
 ```
 
-## Step 5: ユーザー確認
+## Step 6: ユーザー確認
 
 生成したファイルをユーザーに提示:
 
@@ -172,13 +195,24 @@ Task: {目的}
 2. tasks.md のタスク一覧
 3. 「修正が必要な場合はお知らせください」
 
-ユーザーが修正を要求した場合は Step 3 のループに戻る。
+ユーザーが修正を要求した場合は Step 4 のループに戻る。
+
+## Step 7: PLANNINGファイル削除（実装開始）
+
+ユーザーから実装開始の許可を得たら、PLANNINGファイルを削除して実装フェーズに移行する。
+
+```bash
+rm .specs/{feature-name}/PLANNING
+```
+
+**注意**: PLANNINGファイル削除前に実装コードを書いてはならない。
 
 ## 出力ディレクトリ
 
 ```
 .specs/
 └── {feature-name}/
+    ├── PLANNING                 # 計画中は存在、実装開始時に削除
     ├── implementation-plan.md
     └── tasks.md
 ```

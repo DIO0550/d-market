@@ -1,0 +1,15 @@
+{
+  "description": "Spec-driven開発時のAutoCompact対策。PLANNINGファイルの存在を検出し、計画中であることを警告する。",
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'files=$(find .specs -name PLANNING 2>/dev/null); if [ -n \"$files\" ]; then echo \"\\n=== SPEC-DRIVEN PLANNING IN PROGRESS ===\\n\" >&2; for f in $files; do dir=$(dirname \"$f\"); echo \"Planning: ${dir##*/}\" >&2; done; echo \"\\nDO NOT IMPLEMENT CODE.\\nContinue planning and spec creation only.\\nAsk user before transitioning to implementation.\\n\" >&2; fi; exit 0'"
+          }
+        ]
+      }
+    ]
+  }
+}
