@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Glob|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash plugins/file-search-plugin/hooks/file-search-redirect.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
