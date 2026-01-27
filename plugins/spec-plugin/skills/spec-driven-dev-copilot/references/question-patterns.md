@@ -31,19 +31,6 @@ questions:
         description: "複数箇所に影響"
       - label: "アーキテクチャ変更"
         description: "全体構造に影響"
-
-  - question: "優先度はどれくらいですか？"
-    header: "優先度"
-    multiSelect: false
-    options:
-      - label: "緊急（今日中）"
-        description: "即座に対応が必要"
-      - label: "高（今週中）"
-        description: "早めの対応が必要"
-      - label: "中（今月中）"
-        description: "計画的に対応"
-      - label: "低（いつでも）"
-        description: "余裕があるときに"
 ```
 
 ## Batch 2: 技術的詳細
