@@ -32,6 +32,7 @@
    - `.specs/{feature-name}/implementation-plan.md` に出力
    - ファイル単位で `[NEW]` `[MODIFY]` `[DELETE]` タグを使用
    - 検証計画を必ず含める
+   - **システム図（状態マシン図 + データフロー図）を必ず含める**
 
 3. **Codexレビューループ**
 

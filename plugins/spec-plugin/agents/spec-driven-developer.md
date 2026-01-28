@@ -87,6 +87,7 @@ spec-driven-dev:review-criteria
 - ファイル単位で変更内容を明記
 - `[NEW]` `[MODIFY]` `[DELETE]` タグを使用
 - 検証計画を必ず含める
+- **システム図（状態マシン図 + データフロー図）を必ず含める**
 
 ### tasks.md 構成
 
