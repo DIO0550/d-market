@@ -10,6 +10,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c '[ -d .specs ] || exit 0; moved=0; for dir in .specs/[0-9][0-9][0-9]-*/; do [ -d \"$dir\" ] || continue; [ -f \"${dir}PLANNING\" ] && continue; mkdir -p .specs/archive && mv \"$dir\" .specs/archive/ && moved=$((moved+1)); done; [ $moved -gt 0 ] && echo \"Archived $moved completed spec(s) to .specs/archive/\" >&2; exit 0'"
+          }
+        ]
+      }
     ]
   }
 }
