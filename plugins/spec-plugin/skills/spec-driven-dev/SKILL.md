@@ -140,6 +140,8 @@ implementation-plan.md生成後、以下を確認すること：
 ```bash
 codex exec --cd "$PWD" --dangerously-bypass-approvals-and-sandbox "以下の実装計画をレビューしてください。
 
+【重要】ファイルの作成・編集は一切行わないでください。レビュー結果は標準出力のみで回答してください。
+
 レビュー対象: .specs/{feature-name}/implementation-plan.md
 
 レビュー観点:
