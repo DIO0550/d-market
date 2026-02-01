@@ -69,7 +69,7 @@ description: 仕様駆動型開発スキル（Copilot版）。機能実装前に
 ヒアリング開始前または開始直後に、specディレクトリとPLANNINGファイルを作成する。
 
 ```bash
-next_num=$(printf "%03d" $(($(ls -1d .specs/[0-9][0-9][0-9]-* 2>/dev/null | wc -l) + 1)))
+next_num=$(printf "%03d" $(( $(ls -1d .specs/[0-9][0-9][0-9]-* .specs/archive/[0-9][0-9][0-9]-* 2>/dev/null | sed 's|.*/\([0-9]\{3\}\)-.*|\1|' | sort -rn | head -1 | sed 's/^0*//; s/^$/0/') + 1 )))
 mkdir -p .specs/${next_num}-{feature-name} && touch .specs/${next_num}-{feature-name}/PLANNING
 ```
 
