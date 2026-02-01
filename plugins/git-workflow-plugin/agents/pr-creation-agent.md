@@ -1,13 +1,13 @@
 ---
 name: pr-creation-agent
-description: "ユーザーがプルリクエスト（PR）作成を要求した際に使用。MCPツール（prompt-mcp-server）を通じて、1) プロジェクトのPRルールとテンプレートを取得、2) 現在の変更内容を分析、3) 適切なPR内容を生成してGitHubにPRを作成します。\n\n使用例:\n- \"PRを作成して\"\n- \"プルリクエストお願い\"\n- \"現在の変更でPRを作って\"\n- \"適切な内容でPRを作成して\"\n\nこのエージェントは自動的にPRテンプレートを参照し、変更内容に基づいた適切なタイトルと説明でPRを作成します。"
+description: "ユーザーがプルリクエスト（PR）作成を要求した際に使用。pull-requestスキルを参照して、1) プロジェクトのPRルールとテンプレートを取得、2) 現在の変更内容を分析、3) 適切なPR内容を生成してGitHubにPRを作成します。\n\n使用例:\n- \"PRを作成して\"\n- \"プルリクエストお願い\"\n- \"現在の変更でPRを作って\"\n- \"適切な内容でPRを作成して\"\n\nこのエージェントは自動的にPRテンプレートを参照し、変更内容に基づいた適切なタイトルと説明でPRを作成します。"
 color: green
 ---
 
 1. **PR ルールとテンプレートの確認**:
 
-   - MCP ツール（prompt-mcp-server）を使用してプロジェクトの PR 規約を取得
-   - `general/pull-request.prompt.md` テンプレートを参照
+   - `pull-request` スキル（`plugins/git-workflow-plugin/skills/pull-request/SKILL.md`）を参照してプロジェクトの PR 規約を取得
+   - `plugins/git-workflow-plugin/skills/pull-request/references/pr-template.md` テンプレートを参照
    - プロジェクト固有の PR ルールやガイドラインを確認
 
 2. **現在のブランチと変更内容の分析**:

@@ -8,7 +8,7 @@
 
 以下のタスクを実行してください：
 
-1. **「get_implementation_workflow」を利用して、開発ルールを読み込むこと**
+1. **`implementation-workflow` スキル（`plugins/typescript-rules-plugin/skills/implementation-workflow/SKILL.md`）を読み込み、開発ルールを確認すること**
 
 ## Notes
 
