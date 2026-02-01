@@ -9,6 +9,15 @@
             "command": "bash plugins/file-search-plugin/hooks/file-search-redirect.sh"
           }
         ]
+      },
+      {
+        "matcher": "WebSearch|WebFetch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash plugins/file-search-plugin/hooks/web-search-redirect.sh"
+          }
+        ]
       }
     ]
   }
