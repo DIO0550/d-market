@@ -56,16 +56,38 @@ spec_dir=$(ls -1d .specs/${nnn}-* 2>/dev/null | head -1)
 
 未完了タスク（`□`）がない場合は「全タスク完了済み」と報告して終了。
 
+## Step 3.5: TaskCreate による進捗管理の初期化
+
+tasks.md の未完了タスク（`□`）をすべて TaskCreate ツールで登録する。
+
+### 登録ルール
+
+- 各 `□` 行に対して TaskCreate を実行
+- `subject`: タスク行のテキストをそのまま使用
+- `activeForm`: 進行形に変換（例: "型定義を作成" → "型定義を作成中"）
+- `description`: implementation-plan.md の該当セクションから補足情報を含める
+
+### 依存関係の設定
+
+TaskUpdate の `addBlockedBy` を使い、以下の順序で依存関係を設定する：
+
+- Research & Planning のタスク → Implementation のタスクが blockedBy で依存
+- Implementation のタスク → Verification のタスクが blockedBy で依存
+- 同一セクション内で順序依存がある場合も blockedBy を設定
+- 独立して実行可能なタスク同士には依存関係を設定しない
+
 ## Step 4: タスクの順次実装
 
 未完了タスク（`□`）を上から順番に実装する。
 
 ### 各タスクの実装手順
 
-1. タスク内容を確認
-2. implementation-plan.md の該当セクションを参照
-3. コードを実装
-4. tasks.md の該当タスクを更新（`□` → `■`）
+1. TaskUpdate で該当タスクの status を `in_progress` に変更
+2. タスク内容を確認
+3. implementation-plan.md の該当セクションを参照
+4. コードを実装
+5. TaskUpdate で該当タスクの status を `completed` に変更
+6. tasks.md の該当タスクを更新（`□` → `■`）
 
 ### tasks.md の更新
 
