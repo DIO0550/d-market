@@ -31,7 +31,7 @@
 
 4. **Design Doc生成**
 
-   - `.specs/{project-name}/design-doc.md` に出力
+   - `.specs/{nnn}-{project-name}/design-doc.md` に出力
    - テンプレート: `assets/templates/design-doc-template.md`
 
 ## Notes

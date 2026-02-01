@@ -38,7 +38,7 @@
 
 6. **実装設計書生成**
 
-   - `.specs/{feature-name}/implementation-plan.md` に出力
+   - `.specs/{nnn}-{feature-name}/implementation-plan.md` に出力
    - テンプレート: `assets/templates/implementation-plan-template.md`
 
 ## Notes

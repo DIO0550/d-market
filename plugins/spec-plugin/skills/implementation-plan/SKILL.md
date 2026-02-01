@@ -51,7 +51,7 @@ description: 機能実装設計スキル。特定機能の実装設計書を作�
 
 ## Step 2: 実装設計書生成
 
-ヒアリング結果を元に `.specs/{feature-name}/implementation-plan.md` を生成。
+ヒアリング結果を元に `.specs/{nnn}-{feature-name}/implementation-plan.md` を生成。
 
 テンプレート: `assets/templates/implementation-plan-template.md`
 
@@ -141,4 +141,5 @@ ASCII図の例:
     └── implementation-plan.md
 ```
 
+`{nnn}` は `.specs/` 内の既存フォルダ数に基づく3桁の連番（001, 002, 003...）
 `{feature-name}` はケバブケースで命名。

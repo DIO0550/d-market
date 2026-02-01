@@ -29,7 +29,7 @@
 
 2. **implementation-plan.md 生成**
 
-   - `.specs/{feature-name}/implementation-plan.md` に出力
+   - `.specs/{nnn}-{feature-name}/implementation-plan.md` に出力
    - ファイル単位で `[NEW]` `[MODIFY]` `[DELETE]` タグを使用
    - 検証計画を必ず含める
    - **⚠️ システム図を最初に生成する**（状態マシン図 + データフロー図 — 省略禁止）
@@ -43,7 +43,7 @@
 
    【重要】ファイルの作成・編集は一切行わないでください。レビュー結果は標準出力のみで回答してください。
 
-   レビュー対象: .specs/{feature-name}/implementation-plan.md
+   レビュー対象: .specs/{nnn}-{feature-name}/implementation-plan.md
 
    レビュー観点:
    1. 仕様の曖昧さ・抜け漏れはないか
@@ -61,7 +61,7 @@
 
 4. **tasks.md 生成**
 
-   - `.specs/{feature-name}/tasks.md` に出力
+   - `.specs/{nnn}-{feature-name}/tasks.md` に出力
    - Research & Planning / Implementation / Verification の3構成
 
 5. **ユーザー確認**

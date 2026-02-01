@@ -80,7 +80,7 @@ spec-driven-dev-lite:question-patterns
 
 ```
 .specs/
-└── {feature-name}/
+└── {nnn}-{feature-name}/
     ├── PLANNING                 # 計画中は存在、実装開始時に削除
     ├── implementation-plan.md
     └── tasks.md
@@ -164,6 +164,7 @@ Task: {目的}
 
 - AskUserQuestionを使用して対話的にヒアリングを行う
 - 曖昧な点は必ず確認してから進める
+- `{nnn}` は `.specs/` 内の既存フォルダ数に基づく3桁の連番（001, 002, 003...）
 - `{feature-name}` はケバブケースで命名
 - 生成後は必ずユーザーに確認を取る
 - ユーザーが修正を要求した場合は修正して再提示する

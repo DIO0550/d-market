@@ -58,7 +58,7 @@ description: Design Doc（設計ドキュメント）作成スキル。プロジ
 
 ## Step 2: Design Doc 生成
 
-ヒアリング結果を元に `.specs/{project-name}/design-doc.md` を生成。
+ヒアリング結果を元に `.specs/{nnn}-{project-name}/design-doc.md` を生成。
 
 テンプレート: `assets/templates/design-doc-template.md`
 
@@ -132,4 +132,5 @@ Design Doc生成後、以下を確認すること：
     └── design-doc.md
 ```
 
+`{nnn}` は `.specs/` 内の既存フォルダ数に基づく3桁の連番（001, 002, 003...）
 `{project-name}` はケバブケースで命名。

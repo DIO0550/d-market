@@ -18,7 +18,7 @@ description: 仕様駆動型開発スキル（Lite版）。機能実装前に対
 計画フェーズ中にAutoCompactが発生すると、コンテキストが要約され意図しない実装が始まる可能性がある。
 これを防ぐため、**PLANNINGファイル**を使用して計画中であることを明示する。
 
-- `.specs/{feature-name}/PLANNING` ファイルが存在する間は**計画フェーズ**
+- `.specs/{nnn}-{feature-name}/PLANNING` ファイルが存在する間は**計画フェーズ**
 - AutoCompact時にPreCompact hookがPLANNINGファイルを検出し、警告を出力
 - **PLANNINGファイルがある限り、絶対にコードを実装しない**
 
@@ -67,14 +67,15 @@ description: 仕様駆動型開発スキル（Lite版）。機能実装前に対
 ヒアリング開始前または開始直後に、specディレクトリとPLANNINGファイルを作成する。
 
 ```bash
-mkdir -p .specs/{feature-name} && touch .specs/{feature-name}/PLANNING
+next_num=$(printf "%03d" $(($(ls -1d .specs/[0-9][0-9][0-9]-* 2>/dev/null | wc -l) + 1)))
+mkdir -p .specs/${next_num}-{feature-name} && touch .specs/${next_num}-{feature-name}/PLANNING
 ```
 
 **重要**: PLANNINGファイルが存在する間は計画フェーズであり、コードの実装は禁止。
 
 ## Step 3: implementation-plan.md 生成
 
-ヒアリング結果を元に `.specs/{feature-name}/implementation-plan.md` を生成。
+ヒアリング結果を元に `.specs/{nnn}-{feature-name}/implementation-plan.md` を生成。
 
 テンプレート: `assets/templates/implementation-plan.md`
 
@@ -131,7 +132,7 @@ implementation-plan.md生成後、以下を確認すること：
 
 ## Step 4: tasks.md 生成
 
-implementation-plan.md完成後、`.specs/{feature-name}/tasks.md` を生成。
+implementation-plan.md完成後、`.specs/{nnn}-{feature-name}/tasks.md` を生成。
 
 テンプレート: `assets/templates/tasks.md`
 
@@ -168,7 +169,7 @@ Task: {目的}
 ユーザーから実装開始の許可を得たら、PLANNINGファイルを削除して実装フェーズに移行する。
 
 ```bash
-rm .specs/{feature-name}/PLANNING
+rm .specs/{nnn}-{feature-name}/PLANNING
 ```
 
 **注意**: PLANNINGファイル削除前に実装コードを書いてはならない。
@@ -183,4 +184,5 @@ rm .specs/{feature-name}/PLANNING
     └── tasks.md
 ```
 
-`{feature-name}` はケバブケースで命名（例: `user-authentication`, `block-button`）
+`{nnn}` は `.specs/` 内の既存フォルダ数に基づく3桁の連番（001, 002, 003...）
+`{feature-name}` はケバブケースで命名（例: `001-user-authentication`, `002-block-button`）

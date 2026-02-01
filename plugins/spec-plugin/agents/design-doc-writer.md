@@ -82,7 +82,7 @@ Design Docを以下の構造で生成します：
 
 ```
 .specs/
-└── {project-name}/
+└── {nnn}-{project-name}/
     └── design-doc.md
 ```
 
@@ -102,5 +102,6 @@ Design Docを以下の構造で生成します：
 
 - AskUserQuestionを使用して対話的にヒアリングを行う
 - 曖昧な点は必ず確認してから進める
+- `{nnn}` は `.specs/` 内の既存フォルダ数に基づく3桁の連番（001, 002, 003...）
 - `{project-name}` はケバブケースで命名
 - 生成後は必ずユーザーに確認を取る
