@@ -193,17 +193,4 @@ src/
 
 ## ツール別の実装
 
-### Claude Code
-- ファイルパターン検索: `Glob` ツール
-- コード内容検索: `Grep` ツール
-- ファイル読み込み: `Read` ツール
-
-### GitHub Copilot
-- ファイル検索: `#file` コンテキスト
-- コード検索: `#codebase` 検索
-- ファイル読み込み: エディタ統合
-
-### OpenAI Codex
-- ファイル検索: ファイルシステム探索
-- コード検索: コード検索機能
-- ファイル読み込み: ファイル読み込み機能
+[tool-mapping.md](../tool-mapping.md) の「Explorer」セクションを参照。

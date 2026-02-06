@@ -200,18 +200,4 @@ color: green
 
 ## ツール別の実装
 
-### Claude Code
-- タスク取得: `TaskGet` ツール
-- タスク更新: `TaskUpdate` ツール
-- ファイル編集: `Edit` ツール
-- ファイル作成: `Write` ツール
-
-### GitHub Copilot
-- タスク管理: GitHub Issues のステータス更新
-- ファイル編集: エディタ統合
-- コード生成: Copilot のコード補完
-
-### OpenAI Codex
-- タスク管理: マークダウンのタスクリスト更新
-- ファイル編集: ファイルシステム操作
-- コード生成: Codex のコード生成
+[tool-mapping.md](../tool-mapping.md) の「Implementer」セクションを参照。

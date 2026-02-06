@@ -64,13 +64,16 @@ Task ツール:
 ```
 
 ### GitHub Copilot の場合
-```
-#runSubagent explorer
-タスク: {ユーザーのタスク}
 
-または自動選択:
-「関連ファイルを探索して」→ Copilotが自動でexplorerを選択
+**重要**: ツール名を明示的に指定すること。省略するとサブエージェントが起動しない。
+
 ```
+#tool:runSubagent を使用して explorer エージェントを起動。
+subagentType: explorer
+タスク: {ユーザーのタスク}
+```
+
+前提: フロントマターに `tools: ["runSubagent", ...]` が必要。
 
 ### OpenAI Codex の場合
 ```
@@ -166,3 +169,9 @@ Task ツール:
 - 実装承認（Phase 2 後）← 追加する場合
 - コミット承認（Phase 4 前）
 ```
+
+---
+
+## ツール別の実装
+
+[tool-mapping.md](../tool-mapping.md) の「Orchestrator」セクションを参照。

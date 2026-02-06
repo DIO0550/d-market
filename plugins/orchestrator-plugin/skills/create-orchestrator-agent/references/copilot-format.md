@@ -74,9 +74,45 @@ tools: []
 - `read` - ファイル読み取り
 - `edit` - ファイル編集
 - `search` - 検索
-- `agent` - サブエージェント
+- `runSubagent` / `agent` / `custom-agent` / `Task` - サブエージェント起動
 - `web` - Web アクセス
 - `todo` - タスク管理
+
+## サブエージェント起動
+
+**重要**: Copilot ではツール名を明示的に指定しないとサブエージェントを起動しない。
+
+### 前提条件
+
+呼び出し側のエージェントの `tools` に `runSubagent` を含める:
+
+```yaml
+tools: ["read", "edit", "search", "runSubagent"]
+```
+
+### 呼び出し構文
+
+エージェントの指示本文で `#tool:runSubagent` を使用し、`subagentType` でエージェント名を指定:
+
+```markdown
+#tool:runSubagent を使用して explorer エージェントを起動してください。
+subagentType: explorer
+```
+
+- `subagentType` は **必須**。省略するとサブエージェントが実行されない
+- 複数のサブエージェントを同時起動可能（並列実行）
+
+### handoffs プロパティ
+
+VS Code / IDE 環境では `handoffs` プロパティでエージェント間遷移が可能:
+
+```yaml
+handoffs:
+  - agent: implementer
+    description: "実装フェーズに移行"
+```
+
+**注意**: `handoffs` は GitHub.com の Copilot coding agent では未サポート。IDE 環境のみ。
 
 ## MCP サーバー設定（組織レベルのみ）
 

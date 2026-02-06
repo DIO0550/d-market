@@ -243,18 +243,4 @@ graph TD
 
 ## ツール別の実装
 
-### Claude Code
-- タスク作成: `TaskCreate` ツール
-- タスク更新: `TaskUpdate` ツール
-- ファイル検索: `Glob` ツール
-- コード検索: `Grep` ツール
-
-### GitHub Copilot
-- タスク管理: GitHub Issues または TODO コメント
-- ファイル検索: `#file` コンテキスト
-- コード検索: `#codebase` 検索
-
-### OpenAI Codex
-- タスク管理: タスクリストをマークダウンで管理
-- ファイル検索: ファイルシステム探索
-- コード検索: コード検索機能
+[tool-mapping.md](../tool-mapping.md) の「Planner」セクションを参照。

@@ -24,7 +24,7 @@ description: "オーケストレーターフロー用のエージェント定義
 | ツール | 形式 | 配置先 | サブエージェント呼び出し |
 |--------|------|--------|------------------------|
 | Claude Code | YAML + Markdown | `.claude/agents/` | `Task` ツール |
-| GitHub Copilot | YAML + Markdown | `.github/agents/` | `#runSubagent` |
+| GitHub Copilot | YAML + Markdown | `.github/agents/` | `#tool:runSubagent` (subagentType必須) |
 | OpenAI Codex | 純粋 Markdown | `AGENTS.md` | 別ファイル参照 |
 
 フォーマット詳細:
@@ -81,46 +81,12 @@ description: "オーケストレーターフロー用のエージェント定義
 
 ## Step 4: ツール別の調整
 
-テンプレートの「必要な操作」をターゲットツールの形式に変換:
+テンプレートの「必要な操作」をターゲットツールの形式に変換する。
 
-### 操作名の対応表
-
-| 汎用操作 | Claude Code | Copilot | Codex |
-|---------|-------------|---------|-------|
-| ファイル読み込み | `Read` | `#file` | ファイル読み込み |
-| ファイル作成 | `Write` | エディタ | ファイル作成 |
-| ファイル編集 | `Edit` | エディタ | ファイル編集 |
-| ファイルパターン検索 | `Glob` | `#file` パターン | ファイル検索 |
-| コード内容検索 | `Grep` | `#codebase` | コード検索 |
-| コマンド実行 | `Bash` | ターミナル | シェル実行 |
-| タスク作成 | `TaskCreate` | GitHub Issues | マークダウンリスト |
-| タスク更新 | `TaskUpdate` | Issues更新 | リスト更新 |
-| タスク一覧 | `TaskList` | Issues一覧 | リスト参照 |
-| サブエージェント起動 | `Task` | `#runSubagent` | 別ファイル参照 |
-| ユーザー確認 | `AskUserQuestion` | チャット | 対話 |
-
-### サブエージェント呼び出しの変換
-
-#### Claude Code
-```
-Task ツール:
-  subagent_type: explorer
-  run_in_background: true
-  prompt: "タスク: {内容}"
-```
-
-#### GitHub Copilot
-```
-#runSubagent explorer
-タスク: {内容}
-
-または description で自動選択
-```
-
-#### OpenAI Codex
-```
-explorer/AGENTS.md の指示に従って実行
-```
+詳細は [tool-mapping.md](references/tool-mapping.md) を参照:
+- 汎用操作名 → ツール固有名の対応表
+- サブエージェント呼び出しの変換方法
+- エージェント別の使用操作一覧
 
 ## Step 5: エージェント定義の生成
 
