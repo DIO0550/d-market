@@ -197,25 +197,19 @@
 
 ---
 
-## 結果の受け渡し方式
+## 出力ディレクトリ構造
 
-各エージェントは結果を標準出力で返す（ファイルには書き込まない）。
-Orchestrator がサブエージェントの返り値を受け取り、必要に応じて後続エージェントのプロンプトに含める。
+オーケストレーターフローで使用する標準ディレクトリ:
 
-| エージェント | 出力内容 | 受け渡し先 |
-|-------------|---------|-----------|
-| Explorer | 探索結果 | Planner, Orchestrator |
-| Planner | 計画書 | Implementer, Plan Reviewer, Orchestrator |
-| Plan Reviewer | レビュー結果 | Orchestrator |
-| Implementer | 実装ログ | Committer, Code Reviewer, Orchestrator |
-| Code Reviewer | レビュー結果 | Refactorer, Orchestrator |
-| Test Runner | テスト結果 | Debugger, Orchestrator |
-| Linter | Lint結果 | Debugger, Orchestrator |
-| Security Scanner | スキャン結果 | Orchestrator |
-| Debugger | デバッグレポート | Implementer, Orchestrator |
-| Refactorer | リファクタリングログ | Orchestrator |
-| Committer | コミット結果 | PR Creator, Orchestrator |
-| PR Creator | PR URL | Orchestrator |
+```
+.orchestrator/
+├── plans/           # 計画書（Planner出力）
+├── exploration/     # 探索結果（Explorer出力）
+├── reviews/         # レビュー結果（Plan Reviewer, Code Reviewer出力）
+├── logs/            # 実装ログ（Implementer, Refactorer出力）
+├── results/         # テスト・Lint結果（Test Runner, Linter, Security Scanner出力）
+└── debug/           # デバッグレポート（Debugger出力）
+```
 
 ---
 

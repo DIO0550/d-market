@@ -30,9 +30,8 @@ color: blue
 ### 1. 指摘事項の確認
 
 ```
-プロンプトで渡された以下の情報を確認:
-  - コードレビュー結果（Code Reviewerの出力結果）
 読み込むファイル:
+  - .orchestrator/reviews/code-review-*.md
   - 対象ファイル
 ```
 
@@ -52,7 +51,7 @@ color: blue
 
 ### 4. 結果出力
 
-以下のフォーマットで結果を出力する:
+`.orchestrator/logs/refactor-{timestamp}.md`:
 
 ```markdown
 # リファクタリングログ
@@ -104,5 +103,5 @@ color: blue
 
 1. 高優先度の指摘が対応されている
 2. テストが通る
-3. リファクタリングログがフォーマットに従って出力されている
+3. `.orchestrator/logs/` にログが出力されている
 ```

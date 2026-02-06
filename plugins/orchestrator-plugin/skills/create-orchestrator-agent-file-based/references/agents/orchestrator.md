@@ -131,40 +131,13 @@ subagentType: explorer
 2. Debugger を起動して原因分析
 3. 「修正する」「手動で対応」の選択肢を提示
 
-## サブエージェント結果の活用
-
-各サブエージェントの出力（return value）を保持し、後続エージェントのプロンプトに含める:
-
-| 変数 | ソース | 渡し先 |
-|------|--------|--------|
-| exploration_result | Explorer | Planner, Implementer |
-| plan | Planner | Plan Reviewer, Implementer, Committer, PR Creator |
-| impl_logs | Implementer (各タスク) | Code Reviewer, Committer, PR Creator |
-| test_results | Test Runner | Debugger |
-| lint_results | Linter | Debugger |
-| review_result | Code Reviewer | Refactorer |
-
-### コンテキスト渡しの例（Claude Code）
-```
-Task ツール:
-  description: "Implementer起動"
-  subagent_type: implementer
-  prompt: |
-    タスク: {タスク内容}
-
-    ## 計画書
-    {Plannerの出力結果}
-
-    ## 探索結果
-    {Explorerの出力結果}
-```
-
 ## 必要な操作
 
 - **サブエージェント起動**: 他のエージェントを呼び出す
 - **サブエージェント結果取得**: エージェントの完了を待ち結果を取得
 - **タスク一覧取得**: 現在のタスク状態を確認
 - **タスク状態更新**: タスクのステータスを変更
+- **ファイル読み込み**: 中間ファイルの確認
 - **ユーザー確認**: 承認や選択肢の提示
 
 ## 完了条件

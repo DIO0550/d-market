@@ -1,6 +1,6 @@
 ---
-name: create-orchestrator-agent
-description: "オーケストレーターフロー用のエージェント定義ファイルを作成。Claude Code、GitHub Copilot、OpenAI Codex の各フォーマットに対応。13種類のエージェントテンプレートから必要なものだけを選択して作成可能。ツール非依存の汎用的な指示形式。「エージェント作成」「オーケストレーターにエージェント追加」などのリクエスト時に使用。"
+name: create-orchestrator-agent-file-based
+description: "オーケストレーターフロー用のエージェント定義ファイルを作成（ファイルベース出力版）。エージェント間の結果受け渡しに .orchestrator/ ディレクトリへのファイル出力を使用。Claude Code、GitHub Copilot、OpenAI Codex の各フォーマットに対応。13種類のエージェントテンプレートから必要なものだけを選択して作成可能。ツール非依存の汎用的な指示形式。「エージェント作成」「オーケストレーターにエージェント追加」などのリクエスト時に使用。"
 ---
 
 # Create Orchestrator Agent
@@ -98,18 +98,18 @@ description: "オーケストレーターフロー用のエージェント定義
 | Copilot | `.github/agents/{name}.agent.md` |
 | Codex | `{name}/AGENTS.md` または ルート追記 |
 
-## エージェント間の結果受け渡し
+## 出力ディレクトリ構造
 
-エージェントは結果を標準出力（return value）で返す。Orchestrator がサブエージェントの出力を受け取り、後続エージェントのプロンプトにコンテキストとして渡す。
+エージェント間で共有する標準ディレクトリ:
 
 ```
-Orchestrator
-  ├── Explorer起動 → 探索結果を受け取り
-  ├── Planner起動（探索結果をプロンプトに含める） → 計画を受け取り
-  ├── Implementer起動（計画をプロンプトに含める） → 実装ログを受け取り
-  ├── Test Runner起動 → テスト結果を受け取り
-  ├── Committer起動（実装ログをプロンプトに含める）
-  └── PR Creator起動（計画+実装ログをプロンプトに含める）
+.orchestrator/
+├── plans/           # Planner
+├── exploration/     # Explorer
+├── reviews/         # Plan Reviewer, Code Reviewer
+├── logs/            # Implementer, Refactorer
+├── results/         # Test Runner, Linter, Security Scanner
+└── debug/           # Debugger
 ```
 
 ## 生成後チェックリスト
@@ -119,4 +119,4 @@ Orchestrator
 - [ ] **model が適切に設定されている**（🧠/⚡/💨）
 - [ ] 操作がツール固有の形式に変換されている
 - [ ] サブエージェント呼び出しが正しい形式
-- [ ] 入出力フォーマットが一貫している
+- [ ] 入出力パスが一貫している

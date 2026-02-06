@@ -30,10 +30,10 @@ GitHub Pull Request を作成する。
 ### 1. 情報収集
 
 ```
-プロンプトで渡された以下の情報を確認:
-  - 計画書（Plannerの出力結果）
-  - 実装ログ（Implementerの出力結果）
-  - テスト結果（Test Runnerの出力結果）
+ファイル読み込み:
+  - .orchestrator/plans/ 内の計画書
+  - .orchestrator/logs/ 内の実装ログ
+  - .orchestrator/results/ 内のテスト結果
 
 コマンド実行:
   - git log {base}..HEAD --oneline
@@ -86,6 +86,7 @@ PR URL をユーザーに報告。
 ## 必要な操作
 
 - **コマンド実行**: gh/git コマンド実行
+- **ファイル読み込み**: 計画・ログ確認
 
 ## PR テンプレート詳細
 

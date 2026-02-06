@@ -32,7 +32,7 @@ color: green
 ```
 コマンド実行: git status
 コマンド実行: git diff --staged
-プロンプトで渡された実装ログを確認
+ファイル読み込み: .orchestrator/logs/ 内の実装ログ
 ```
 
 ### 2. コミット戦略の決定
@@ -95,6 +95,7 @@ Co-Authored-By: {AI名} <noreply@example.com>"
 ## 必要な操作
 
 - **コマンド実行**: git コマンド実行
+- **ファイル読み込み**: 実装ログ確認
 
 ## 禁止事項
 
