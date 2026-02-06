@@ -48,6 +48,11 @@
       "name": "orchestrator-plugin",
       "source": "./plugins/orchestrator-plugin",
       "description": "オーケストレータープラグイン（サブエージェント並列起動・タスク分散実行）"
+    },
+    {
+      "name": "statusline-plugin",
+      "source": "./plugins/statusline-plugin",
+      "description": "Powerlineスタイルのステータスラインセットアップ"
     }
   ]
 }
