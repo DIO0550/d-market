@@ -40,17 +40,33 @@ spec-driven-dev:review-criteria
 ```
 1. ユーザーが目的を伝える
    ↓
-2. AskUserQuestion形式でヒアリング
+2. specsフォルダ作成 + PLANNINGファイル配置
    ↓
-3. システム図を生成（状態マシン図 + データフロー図）
+3. AskUserQuestion形式でヒアリング
    ↓
-4. implementation-plan.md の本文生成（図を含めて書き出す）
+4. システム図を生成（状態マシン図 + データフロー図）
    ↓
-5. Codexレビュー → 修正ループ（自動）
+5. implementation-plan.md の本文生成（図を含めて書き出す）
    ↓
-6. tasks.md 生成
+6. Codexレビュー → 修正ループ（自動）
    ↓
-7. ユーザーに提示
+7. tasks.md 生成
+   ↓
+8. ユーザーに提示
+   ↓
+9. 実装開始許可後、PLANNINGファイル削除
+```
+
+## ⚠️ PLANNINGファイルによる計画フェーズ管理
+
+- ヒアリング開始前に `.specs/{nnn}-{feature-name}/PLANNING` ファイルを作成する
+- **PLANNINGファイルが存在する間は計画フェーズであり、コードの実装は禁止**
+- ユーザーから実装開始の許可を得たら `rm .specs/{nnn}-{feature-name}/PLANNING` で削除して実装フェーズに移行
+
+```bash
+# specsフォルダ + PLANNINGファイル作成
+next_num=$(printf "%03d" $(( $(ls -1d .specs/[0-9][0-9][0-9]-* .specs/archive/[0-9][0-9][0-9]-* 2>/dev/null | sed 's|.*/\([0-9]\{3\}\)-.*|\1|' | sort -rn | head -1 | sed 's/^0*//; s/^$/0/') + 1 )))
+mkdir -p .specs/${next_num}-{feature-name} && touch .specs/${next_num}-{feature-name}/PLANNING
 ```
 
 ## ヒアリング項目

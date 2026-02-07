@@ -10,6 +10,17 @@
 
 以下のタスクを実行してください：
 
+0. **PLANNINGファイル配置**（ヒアリング開始前に必ず実行）
+
+   - specsフォルダと PLANNINGファイルを作成する
+   - `.specs/{nnn}-{feature-name}/PLANNING` ファイルが存在する間は**計画フェーズ**
+   - **PLANNINGファイルがある限り、絶対にコードを実装しない**
+
+   ```bash
+   next_num=$(printf "%03d" $(( $(ls -1d .specs/[0-9][0-9][0-9]-* .specs/archive/[0-9][0-9][0-9]-* 2>/dev/null | sed 's|.*/\([0-9]\{3\}\)-.*|\1|' | sort -rn | head -1 | sed 's/^0*//; s/^$/0/') + 1 )))
+   mkdir -p .specs/${next_num}-{feature-name} && touch .specs/${next_num}-{feature-name}/PLANNING
+   ```
+
 1. **ヒアリング実施**
 
    **Batch 1: スコープ確認**
@@ -45,6 +56,15 @@
    - implementation-plan.md のサマリー提示
    - tasks.md のタスク一覧提示
    - 修正要求があればStep 2に戻る
+
+5. **PLANNINGファイル削除**（実装開始許可後）
+
+   - ユーザーから実装開始の許可を得たら PLANNINGファイルを削除
+   - **PLANNINGファイル削除前に実装コードを書いてはならない**
+
+   ```bash
+   rm .specs/{nnn}-{feature-name}/PLANNING
+   ```
 
 ## Notes
 
