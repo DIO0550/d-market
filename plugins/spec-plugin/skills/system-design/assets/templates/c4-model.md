@@ -1,171 +1,171 @@
-# {System Name} - C4 Model
+# {システム名} - C4モデル
 
-> **Version**: 1.0
-> **Created**: {YYYY-MM-DD}
-> **Author**: {Author}
-> **Status**: Draft | Review | Approved
+> **バージョン**: 1.0
+> **作成日**: {YYYY-MM-DD}
+> **作成者**: {作成者}
+> **ステータス**: 下書き | レビュー中 | 承認済み
 
-## Overview
+## 概要
 
-{Brief description of the system and what this C4 model documents}
+{システムの概要と、このC4モデルが何をドキュメント化するか}
 
 ---
 
-## Level 1: System Context Diagram
+## レベル1: システムコンテキスト図
 
-Shows the system in scope and its relationships with users and external systems.
+対象システムとユーザー・外部システムとの関係を示す。
 
 ```mermaid
 C4Context
-    title System Context Diagram - {System Name}
+    title システムコンテキスト図 - {システム名}
 
-    Person(user, "User", "Description of user role")
-    Person(admin, "Admin", "Description of admin role")
+    Person(user, "ユーザー", "ユーザーの役割の説明")
+    Person(admin, "管理者", "管理者の役割の説明")
 
-    System(system, "Target System", "Description of what the system does")
+    System(system, "対象システム", "システムの説明")
 
-    System_Ext(extA, "External System A", "Description")
-    System_Ext(extB, "External System B", "Description")
+    System_Ext(extA, "外部システムA", "説明")
+    System_Ext(extB, "外部システムB", "説明")
 
-    Rel(user, system, "Uses", "HTTPS")
-    Rel(admin, system, "Manages", "HTTPS")
-    Rel(system, extA, "Sends data to", "REST API")
-    Rel(system, extB, "Fetches data from", "gRPC")
+    Rel(user, system, "利用する", "HTTPS")
+    Rel(admin, system, "管理する", "HTTPS")
+    Rel(system, extA, "データを送信", "REST API")
+    Rel(system, extB, "データを取得", "gRPC")
 ```
 
-### Context Summary
+### コンテキストサマリー
 
-| Element | Type | Description |
-|:--------|:-----|:-----------|
-| {name} | Person / System / External | {description} |
+| 要素 | 種別 | 説明 |
+|:-----|:-----|:-----|
+| {名前} | ユーザー / システム / 外部 | {説明} |
 
-### Key Relationships
+### 主要な関係
 
-| From | To | Description | Protocol |
-|:-----|:---|:-----------|:---------|
-| {from} | {to} | {what data/action} | {protocol} |
+| 送信元 | 送信先 | 説明 | プロトコル |
+|:-------|:-------|:-----|:----------|
+| {送信元} | {送信先} | {データ/アクション} | {プロトコル} |
 
 ---
 
-## Level 2: Container Diagram
+## レベル2: コンテナ図
 
-Shows the containers (applications, data stores, etc.) within the system.
+システム内のコンテナ（アプリケーション、データストアなど）を示す。
 
 ```mermaid
 C4Container
-    title Container Diagram - {System Name}
+    title コンテナ図 - {システム名}
 
-    Person(user, "User", "")
+    Person(user, "ユーザー", "")
 
-    System_Boundary(system, "Target System") {
-        Container(web, "Web App", "React", "Serves the SPA to users")
-        Container(api, "API Server", "Node.js", "Handles business logic and API")
-        ContainerDb(db, "Database", "PostgreSQL", "Stores application data")
-        Container(cache, "Cache", "Redis", "Caches frequently accessed data")
-        Container(queue, "Message Queue", "RabbitMQ", "Async task processing")
-        Container(worker, "Worker", "Node.js", "Processes background tasks")
+    System_Boundary(system, "対象システム") {
+        Container(web, "Webアプリ", "React", "ユーザーにSPAを提供")
+        Container(api, "APIサーバー", "Node.js", "ビジネスロジックとAPIを処理")
+        ContainerDb(db, "データベース", "PostgreSQL", "アプリケーションデータを保存")
+        Container(cache, "キャッシュ", "Redis", "頻繁にアクセスされるデータをキャッシュ")
+        Container(queue, "メッセージキュー", "RabbitMQ", "非同期タスク処理")
+        Container(worker, "ワーカー", "Node.js", "バックグラウンドタスクを処理")
     }
 
-    System_Ext(extA, "External System A", "")
+    System_Ext(extA, "外部システムA", "")
 
-    Rel(user, web, "Uses", "HTTPS")
-    Rel(web, api, "API calls", "HTTPS/JSON")
-    Rel(api, db, "Reads/Writes", "TCP")
-    Rel(api, cache, "Reads/Writes", "TCP")
-    Rel(api, queue, "Publishes", "AMQP")
-    Rel(queue, worker, "Consumes", "AMQP")
-    Rel(api, extA, "Calls", "REST API")
+    Rel(user, web, "利用する", "HTTPS")
+    Rel(web, api, "API呼び出し", "HTTPS/JSON")
+    Rel(api, db, "読み書き", "TCP")
+    Rel(api, cache, "読み書き", "TCP")
+    Rel(api, queue, "メッセージ発行", "AMQP")
+    Rel(queue, worker, "メッセージ消費", "AMQP")
+    Rel(api, extA, "呼び出し", "REST API")
 ```
 
-### Container Summary
+### コンテナサマリー
 
-| Container | Technology | Responsibility |
-|:----------|:-----------|:-------------|
-| {name} | {technology} | {what it does} |
+| コンテナ | 技術 | 責務 |
+|:---------|:-----|:-----|
+| {名前} | {技術} | {何をするか} |
 
-### Communication Protocols
+### 通信プロトコル
 
-| From | To | Protocol | Sync/Async | Notes |
-|:-----|:---|:---------|:-----------|:------|
-| {from} | {to} | {protocol} | Sync/Async | {notes} |
+| 送信元 | 送信先 | プロトコル | 同期/非同期 | 備考 |
+|:-------|:-------|:----------|:-----------|:-----|
+| {送信元} | {送信先} | {プロトコル} | 同期/非同期 | {備考} |
 
 ---
 
-## Level 3: Component Diagram
+## レベル3: コンポーネント図
 
-Shows the internal components of a specific container.
+特定のコンテナ内部のコンポーネントを示す。
 
-### {Container Name} - Components
+### {コンテナ名} - コンポーネント
 
 ```mermaid
 C4Component
-    title Component Diagram - {Container Name}
+    title コンポーネント図 - {コンテナ名}
 
-    Container_Boundary(api, "API Server") {
-        Component(controller, "Controller", "Express Router", "Handles HTTP requests")
-        Component(service, "Service Layer", "TypeScript", "Business logic")
-        Component(repo, "Repository", "TypeScript", "Data access abstraction")
-        Component(auth, "Auth Module", "Passport.js", "Authentication & authorization")
+    Container_Boundary(api, "APIサーバー") {
+        Component(controller, "コントローラー", "Express Router", "HTTPリクエストを処理")
+        Component(service, "サービスレイヤー", "TypeScript", "ビジネスロジック")
+        Component(repo, "リポジトリ", "TypeScript", "データアクセスの抽象化")
+        Component(auth, "認証モジュール", "Passport.js", "認証・認可")
     }
 
-    ContainerDb(db, "Database", "PostgreSQL", "")
-    Container(cache, "Cache", "Redis", "")
+    ContainerDb(db, "データベース", "PostgreSQL", "")
+    Container(cache, "キャッシュ", "Redis", "")
 
-    Rel(controller, auth, "Validates tokens")
-    Rel(controller, service, "Calls")
-    Rel(service, repo, "Uses")
-    Rel(repo, db, "Queries", "SQL")
-    Rel(service, cache, "Gets/Sets", "TCP")
+    Rel(controller, auth, "トークン検証")
+    Rel(controller, service, "呼び出し")
+    Rel(service, repo, "利用する")
+    Rel(repo, db, "クエリ", "SQL")
+    Rel(service, cache, "取得/設定", "TCP")
 ```
 
-### Component Summary
+### コンポーネントサマリー
 
-| Component | Technology | Responsibility | Interface |
-|:----------|:-----------|:-------------|:----------|
-| {name} | {technology} | {what it does} | {how others call it} |
+| コンポーネント | 技術 | 責務 | インターフェース |
+|:-------------|:-----|:-----|:---------------|
+| {名前} | {技術} | {何をするか} | {他からの利用方法} |
 
-### Dependencies
+### 依存関係
 
-| Component | Depends On | Reason |
-|:----------|:----------|:-------|
-| {component} | {dependency} | {why} |
+| コンポーネント | 依存先 | 理由 |
+|:-------------|:-------|:-----|
+| {コンポーネント} | {依存先} | {理由} |
 
 ---
 
-## Cross-Cutting Concerns
+## 横断的関心事
 
-### Authentication & Authorization
+### 認証・認可
 
-| Aspect | Approach |
-|:-------|:---------|
-| Method | {e.g., JWT Bearer tokens} |
-| Authorization model | {e.g., RBAC} |
-| Token lifecycle | {e.g., 1h access + 7d refresh} |
+| 観点 | アプローチ |
+|:-----|:---------|
+| 方式 | {例: JWT Bearerトークン} |
+| 認可モデル | {例: RBAC} |
+| トークンライフサイクル | {例: アクセス1時間 + リフレッシュ7日} |
 
-### Observability
+### オブザーバビリティ
 
-| Aspect | Tool | Details |
-|:-------|:-----|:--------|
-| Logging | {tool} | {approach} |
-| Metrics | {tool} | {key metrics} |
-| Tracing | {tool} | {approach} |
+| 観点 | ツール | 詳細 |
+|:-----|:-------|:-----|
+| ログ | {ツール} | {アプローチ} |
+| メトリクス | {ツール} | {主要な指標} |
+| トレーシング | {ツール} | {アプローチ} |
 
-### Error Handling
+### エラーハンドリング
 
-| Layer | Strategy |
-|:------|:---------|
-| {layer} | {how errors are handled} |
+| レイヤー | 戦略 |
+|:--------|:-----|
+| {レイヤー} | {エラーの処理方法} |
 
-## Appendix
+## 付録
 
-### Glossary
+### 用語集
 
-| Term | Definition |
-|:-----|:----------|
-| {term} | {definition} |
+| 用語 | 定義 |
+|:-----|:-----|
+| {用語} | {定義} |
 
-### Change History
+### 変更履歴
 
-| Version | Date | Changes | Author |
-|:--------|:-----|:--------|:-------|
-| 1.0 | {YYYY-MM-DD} | Initial draft | {author} |
+| バージョン | 日付 | 変更内容 | 変更者 |
+|:-----------|:-----|:---------|:-------|
+| 1.0 | {YYYY-MM-DD} | 初版作成 | {作成者} |

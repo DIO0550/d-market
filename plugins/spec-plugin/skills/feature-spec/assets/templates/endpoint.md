@@ -1,50 +1,50 @@
-# {Method} {Path}
+# {メソッド} {パス}
 
-> **Feature**: [{Feature Name}](../overview.md)
-> **Status**: Draft | Review | Approved
+> **機能**: [{機能名}](../overview.md)
+> **ステータス**: 下書き | レビュー中 | 承認済み
 
-## 1. Purpose
+## 1. 目的
 
-{What this endpoint does, in 1 sentence}
+{このエンドポイントが何をするか（1文）}
 
-## 2. Request
+## 2. リクエスト
 
-### 2.1 Headers
+### 2.1 ヘッダー
 
-| Header | Required | Description |
-|:-------|:---------|:-----------|
-| Authorization | Yes/No | {description} |
+| ヘッダー | 必須 | 説明 |
+|:---------|:-----|:-----|
+| Authorization | はい/いいえ | {説明} |
 
-### 2.2 Path Parameters
+### 2.2 パスパラメータ
 
-| Parameter | Type | Description | Example |
-|:----------|:-----|:-----------|:--------|
-| {param} | {type} | {description} | {example} |
+| パラメータ | 型 | 説明 | 例 |
+|:----------|:---|:-----|:---|
+| {パラメータ} | {型} | {説明} | {例} |
 
-### 2.3 Query Parameters
+### 2.3 クエリパラメータ
 
-| Parameter | Type | Required | Default | Description |
-|:----------|:-----|:---------|:--------|:-----------|
-| {param} | {type} | Yes/No | {default} | {description} |
+| パラメータ | 型 | 必須 | デフォルト | 説明 |
+|:----------|:---|:-----|:----------|:-----|
+| {パラメータ} | {型} | はい/いいえ | {デフォルト} | {説明} |
 
-### 2.4 Request Body
+### 2.4 リクエストボディ
 
 ```json
 {
-  "field": "type (required/optional) - description"
+  "field": "型 (必須/任意) - 説明"
 }
 ```
 
-**Validation Rules**:
-| Field | Rule | Error Code |
-|:------|:-----|:-----------|
-| {field} | {rule} | {code} |
+**バリデーションルール**:
+| フィールド | ルール | エラーコード |
+|:----------|:------|:-----------|
+| {フィールド} | {ルール} | {コード} |
 
-## 3. Response
+## 3. レスポンス
 
-### 3.1 Success
+### 3.1 成功
 
-**Status**: `{200/201/204}`
+**ステータス**: `{200/201/204}`
 
 ```json
 {
@@ -52,29 +52,29 @@
 }
 ```
 
-### 3.2 Error Responses
+### 3.2 エラーレスポンス
 
-| Status | Code | Condition |
-|:-------|:-----|:----------|
-| 400 | {code} | {condition} |
-| 401 | UNAUTHORIZED | {condition} |
-| 404 | NOT_FOUND | {condition} |
+| ステータス | コード | 発生条件 |
+|:----------|:-------|:---------|
+| 400 | {コード} | {条件} |
+| 401 | UNAUTHORIZED | {条件} |
+| 404 | NOT_FOUND | {条件} |
 
-## 4. Business Logic
+## 4. ビジネスロジック
 
-{Key processing steps or rules applied by this endpoint}
+{このエンドポイントが適用する主な処理ステップやルール}
 
-1. {Step 1}
-2. {Step 2}
+1. {ステップ 1}
+2. {ステップ 2}
 
-## 5. Side Effects
+## 5. 副作用
 
-| Side Effect | Description |
-|:-----------|:-----------|
-| {e.g., send email} | {when and what} |
-| {e.g., update cache} | {what gets invalidated} |
+| 副作用 | 説明 |
+|:-------|:-----|
+| {例: メール送信} | {いつ・何を} |
+| {例: キャッシュ更新} | {何が無効化されるか} |
 
-## 6. Related
+## 6. 関連
 
-- Page: [{page name}](../pages/{page-name}.md)
-- Table: [{table name}](../tables/{table-name}.md)
+- ページ: [{ページ名}](../pages/{page-name}.md)
+- テーブル: [{テーブル名}](../tables/{table-name}.md)

@@ -1,28 +1,28 @@
-# {API Name} - GraphQL Schema Definition
+# {API名} - GraphQLスキーマ定義
 
-> **Version**: 1.0
-> **Created**: {YYYY-MM-DD}
-> **Author**: {Author}
-> **Status**: Draft | Review | Approved
-> **Endpoint**: `{graphql_endpoint}`
+> **バージョン**: 1.0
+> **作成日**: {YYYY-MM-DD}
+> **作成者**: {作成者}
+> **ステータス**: 下書き | レビュー中 | 承認済み
+> **エンドポイント**: `{graphql_endpoint}`
 
-## 1. Overview
+## 1. 概要
 
-{What this GraphQL API provides and its role in the system}
+{このGraphQL APIが提供するものとシステム内での役割}
 
-## 2. Schema
+## 2. スキーマ
 
-### 2.1 Custom Scalars
+### 2.1 カスタムスカラー
 
 ```graphql
-"""ISO 8601 date-time string"""
+"""ISO 8601形式の日時文字列"""
 scalar DateTime
 
-"""Universally unique identifier"""
+"""汎用一意識別子"""
 scalar UUID
 ```
 
-### 2.2 Enums
+### 2.2 Enum
 
 ```graphql
 enum SortOrder {
@@ -37,17 +37,17 @@ enum ResourceStatus {
 }
 ```
 
-### 2.3 Types
+### 2.3 型定義
 
 ```graphql
-"""A resource entity"""
+"""リソースエンティティ"""
 type Resource {
   id: UUID!
   name: String!
   status: ResourceStatus!
   createdAt: DateTime!
   updatedAt: DateTime!
-  """Related sub-resources"""
+  """関連するサブリソース"""
   subResources(first: Int, after: String): SubResourceConnection!
 }
 
@@ -58,7 +58,7 @@ type SubResource {
 }
 ```
 
-### 2.4 Connections (Pagination)
+### 2.4 コネクション（ページネーション）
 
 ```graphql
 type ResourceConnection {
@@ -80,7 +80,7 @@ type PageInfo {
 }
 ```
 
-### 2.5 Input Types
+### 2.5 入力型
 
 ```graphql
 input CreateResourceInput {
@@ -99,16 +99,16 @@ input ResourceFilterInput {
 }
 ```
 
-## 3. Operations
+## 3. オペレーション
 
-### 3.1 Queries
+### 3.1 クエリ
 
 ```graphql
 type Query {
-  """Get a single resource by ID"""
+  """IDでリソースを取得"""
   resource(id: UUID!): Resource
 
-  """List resources with filtering and pagination"""
+  """フィルタリングとページネーション付きでリソース一覧を取得"""
   resources(
     filter: ResourceFilterInput
     first: Int = 20
@@ -118,17 +118,17 @@ type Query {
 }
 ```
 
-### 3.2 Mutations
+### 3.2 ミューテーション
 
 ```graphql
 type Mutation {
-  """Create a new resource"""
+  """リソースを新規作成"""
   createResource(input: CreateResourceInput!): CreateResourcePayload!
 
-  """Update an existing resource"""
+  """既存リソースを更新"""
   updateResource(id: UUID!, input: UpdateResourceInput!): UpdateResourcePayload!
 
-  """Delete a resource"""
+  """リソースを削除"""
   deleteResource(id: UUID!): DeleteResourcePayload!
 }
 
@@ -145,11 +145,11 @@ type DeleteResourcePayload {
 }
 ```
 
-### 3.3 Subscriptions
+### 3.3 サブスクリプション
 
 ```graphql
 type Subscription {
-  """Subscribe to resource changes"""
+  """リソースの変更を購読"""
   resourceChanged(id: UUID): ResourceChangedPayload!
 }
 
@@ -165,15 +165,15 @@ enum ChangeEvent {
 }
 ```
 
-## 4. Error Handling
+## 4. エラーハンドリング
 
 ```graphql
-"""Application-level error in extensions"""
-# Errors follow the GraphQL spec error format:
+"""アプリケーションレベルのエラー（extensionsに格納）"""
+# エラーはGraphQL仕様のエラー形式に従う:
 # {
 #   "errors": [
 #     {
-#       "message": "Human-readable message",
+#       "message": "人が読めるメッセージ",
 #       "extensions": {
 #         "code": "ERROR_CODE",
 #         "details": {}
@@ -183,60 +183,60 @@ enum ChangeEvent {
 # }
 ```
 
-| Error Code | Description | Example |
-|:-----------|:-----------|:--------|
-| NOT_FOUND | Resource does not exist | `resource(id: "...")` with invalid ID |
-| VALIDATION_ERROR | Input validation failed | Missing required field |
-| UNAUTHORIZED | Authentication required | Missing or invalid token |
-| FORBIDDEN | Insufficient permissions | Accessing restricted resource |
+| エラーコード | 説明 | 例 |
+|:-----------|:-----|:---|
+| NOT_FOUND | リソースが存在しない | 無効なIDで `resource(id: "...")` |
+| VALIDATION_ERROR | 入力バリデーション失敗 | 必須フィールドの欠落 |
+| UNAUTHORIZED | 認証が必要 | トークンが未指定または無効 |
+| FORBIDDEN | 権限不足 | 制限されたリソースへのアクセス |
 
-## 5. Authentication
+## 5. 認証
 
-{Authentication method and how to pass credentials}
+{認証方式と認証情報の渡し方}
 
-| Method | Header | Example |
-|:-------|:-------|:--------|
-| {method} | Authorization | `Bearer {token}` |
+| 方式 | ヘッダー | 例 |
+|:-----|:---------|:---|
+| {方式} | Authorization | `Bearer {token}` |
 
-## 6. Data Flow
+## 6. データフロー
 
 ```mermaid
 sequenceDiagram
-    participant C as Client
-    participant G as GraphQL Server
-    participant R as Resolver
+    participant C as クライアント
+    participant G as GraphQLサーバー
+    participant R as リゾルバー
     participant D as DataLoader
-    participant DB as Database
+    participant DB as データベース
 
-    C->>G: Query/Mutation
-    G->>R: Execute resolver
-    R->>D: Batch request
-    D->>DB: Batched query
-    DB-->>D: Results
-    D-->>R: Resolved data
-    R-->>G: Response
-    G-->>C: JSON response
+    C->>G: クエリ/ミューテーション
+    G->>R: リゾルバー実行
+    R->>D: バッチリクエスト
+    D->>DB: バッチクエリ
+    DB-->>D: 結果
+    D-->>R: 解決済みデータ
+    R-->>G: レスポンス
+    G-->>C: JSONレスポンス
 ```
 
-## 7. Resolver Notes
+## 7. リゾルバーノート
 
-| Resolver | Data Source | Notes |
-|:---------|:-----------|:------|
-| Query.resource | Database | Direct lookup by ID |
-| Query.resources | Database | Cursor-based pagination |
-| Resource.subResources | DataLoader | Batched to avoid N+1 |
-| Mutation.createResource | Database | Validates input, returns created entity |
+| リゾルバー | データソース | 備考 |
+|:----------|:-----------|:-----|
+| Query.resource | データベース | IDで直接取得 |
+| Query.resources | データベース | カーソルベースのページネーション |
+| Resource.subResources | DataLoader | N+1問題回避のためバッチ処理 |
+| Mutation.createResource | データベース | 入力バリデーション後、作成済みエンティティを返す |
 
-## Appendix
+## 付録
 
-### Glossary
+### 用語集
 
-| Term | Definition |
-|:-----|:----------|
-| {term} | {definition} |
+| 用語 | 定義 |
+|:-----|:-----|
+| {用語} | {定義} |
 
-### Change History
+### 変更履歴
 
-| Version | Date | Changes | Author |
-|:--------|:-----|:--------|:-------|
-| 1.0 | {YYYY-MM-DD} | Initial draft | {author} |
+| バージョン | 日付 | 変更内容 | 変更者 |
+|:-----------|:-----|:---------|:-------|
+| 1.0 | {YYYY-MM-DD} | 初版作成 | {作成者} |

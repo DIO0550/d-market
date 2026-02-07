@@ -1,41 +1,41 @@
-# {table_name}
+# {テーブル名}
 
-> **Feature**: [{Feature Name}](../overview.md)
-> **Status**: Draft | Review | Approved
+> **機能**: [{機能名}](../overview.md)
+> **ステータス**: 下書き | レビュー中 | 承認済み
 
-## 1. Purpose
+## 1. 目的
 
-{What this table stores and why, in 1 sentence}
+{このテーブルが何を保持し、なぜ必要か（1文）}
 
-## 2. Schema
+## 2. スキーマ
 
-| Column | Type | Nullable | Default | Description |
-|:-------|:-----|:---------|:--------|:-----------|
-| id | UUID / BIGINT | NO | auto | Primary key |
-| {column} | {type} | YES/NO | {default} | {description} |
-| created_at | TIMESTAMP | NO | NOW() | Creation time |
-| updated_at | TIMESTAMP | NO | NOW() | Last update time |
+| カラム | 型 | NULL許可 | デフォルト | 説明 |
+|:-------|:---|:---------|:----------|:-----|
+| id | UUID / BIGINT | NO | 自動生成 | 主キー |
+| {カラム} | {型} | YES/NO | {デフォルト} | {説明} |
+| created_at | TIMESTAMP | NO | NOW() | 作成日時 |
+| updated_at | TIMESTAMP | NO | NOW() | 更新日時 |
 
-## 3. Constraints
+## 3. 制約
 
-| Constraint | Type | Columns | Description |
-|:-----------|:-----|:--------|:-----------|
-| pk_{table} | PRIMARY KEY | id | |
-| uq_{table}_{col} | UNIQUE | {columns} | {description} |
-| fk_{table}_{ref} | FOREIGN KEY | {column} → {ref_table}.{ref_col} | {description} |
-| ck_{table}_{rule} | CHECK | {column} | {rule} |
+| 制約名 | 種別 | 対象カラム | 説明 |
+|:-------|:-----|:----------|:-----|
+| pk_{テーブル} | PRIMARY KEY | id | |
+| uq_{テーブル}_{カラム} | UNIQUE | {カラム} | {説明} |
+| fk_{テーブル}_{参照先} | FOREIGN KEY | {カラム} → {参照テーブル}.{参照カラム} | {説明} |
+| ck_{テーブル}_{ルール} | CHECK | {カラム} | {ルール} |
 
-## 4. Indexes
+## 4. インデックス
 
-| Index | Columns | Type | Purpose |
-|:------|:--------|:-----|:--------|
-| idx_{table}_{col} | {columns} | BTREE/GIN/... | {what queries it supports} |
+| インデックス名 | 対象カラム | 種別 | 用途 |
+|:-------------|:----------|:-----|:-----|
+| idx_{テーブル}_{カラム} | {カラム} | BTREE/GIN/... | {どのクエリをサポートするか} |
 
-## 5. Relationships
+## 5. リレーションシップ
 
 ```mermaid
 erDiagram
-    this_table ||--o{ related_table : "relationship"
+    this_table ||--o{ related_table : "リレーション"
     this_table {
         uuid id PK
     }
@@ -45,25 +45,25 @@ erDiagram
     }
 ```
 
-| Relation | Table | Type | On Delete |
-|:---------|:------|:-----|:----------|
-| {relation name} | {related table} | 1:N / N:1 / N:M | CASCADE/SET NULL/RESTRICT |
+| リレーション | テーブル | 種別 | 削除時の動作 |
+|:------------|:--------|:-----|:------------|
+| {リレーション名} | {関連テーブル} | 1:N / N:1 / N:M | CASCADE/SET NULL/RESTRICT |
 
-## 6. Data Lifecycle
+## 6. データライフサイクル
 
-| Event | Trigger | Behavior |
-|:------|:--------|:---------|
-| Create | {when created} | {any defaults or side effects} |
-| Update | {when updated} | {what can be updated, restrictions} |
-| Delete | {soft/hard delete} | {cascade behavior, retention} |
+| イベント | トリガー | 動作 |
+|:--------|:--------|:-----|
+| 作成 | {いつ作成されるか} | {デフォルト値や副作用} |
+| 更新 | {いつ更新されるか} | {更新可能な項目、制約} |
+| 削除 | {論理削除/物理削除} | {カスケード動作、保持期間} |
 
-## 7. Seed / Initial Data (if applicable)
+## 7. 初期データ（該当する場合）
 
-| {key columns...} | Description |
-|:-----------------|:-----------|
-| {values} | {description} |
+| {主要カラム...} | 説明 |
+|:---------------|:-----|
+| {値} | {説明} |
 
-## 8. Related
+## 8. 関連
 
-- Endpoint: [{endpoint}](../endpoints/{endpoint-name}.md)
-- Page: [{page}](../pages/{page-name}.md)
+- エンドポイント: [{エンドポイント}](../endpoints/{endpoint-name}.md)
+- ページ: [{ページ}](../pages/{page-name}.md)

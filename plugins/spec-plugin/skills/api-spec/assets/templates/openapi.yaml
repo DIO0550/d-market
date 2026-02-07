@@ -1,17 +1,17 @@
 openapi: "3.1.0"
 info:
-  title: "{API Name}"
-  description: "{API description}"
+  title: "{API名}"
+  description: "{APIの説明}"
   version: "1.0.0"
   contact:
-    name: "{Author}"
+    name: "{作成者}"
 
 servers:
   - url: "{base_url}"
-    description: "{environment name}"
+    description: "{環境名}"
 
 # ============================================================
-# Security Schemes
+# セキュリティスキーム
 # ============================================================
 components:
   securitySchemes:
@@ -21,10 +21,10 @@ components:
       bearerFormat: JWT
 
   # ==========================================================
-  # Reusable Schemas
+  # 再利用可能なスキーマ
   # ==========================================================
   schemas:
-    # --- Resource ---
+    # --- リソース ---
     Resource:
       type: object
       required:
@@ -34,16 +34,16 @@ components:
         id:
           type: string
           format: uuid
-          description: "Unique identifier"
+          description: "一意な識別子"
         name:
           type: string
           minLength: 1
           maxLength: 100
-          description: "Resource name"
+          description: "リソース名"
         created_at:
           type: string
           format: date-time
-          description: "Creation timestamp"
+          description: "作成日時"
 
     ResourceCreate:
       type: object
@@ -63,7 +63,7 @@ components:
           minLength: 1
           maxLength: 100
 
-    # --- Common ---
+    # --- 共通 ---
     Error:
       type: object
       required:
@@ -97,7 +97,7 @@ components:
           type: integer
 
   # ==========================================================
-  # Reusable Parameters
+  # 再利用可能なパラメータ
   # ==========================================================
   parameters:
     PageParam:
@@ -117,18 +117,18 @@ components:
         maximum: 100
 
 # ============================================================
-# Global Security
+# グローバルセキュリティ
 # ============================================================
 security:
   - BearerAuth: []
 
 # ============================================================
-# Paths
+# パス
 # ============================================================
 paths:
   /resources:
     get:
-      summary: "List resources"
+      summary: "リソース一覧取得"
       operationId: listResources
       tags:
         - Resources
@@ -137,7 +137,7 @@ paths:
         - $ref: "#/components/parameters/PerPageParam"
       responses:
         "200":
-          description: "Success"
+          description: "成功"
           content:
             application/json:
               schema:
@@ -150,14 +150,14 @@ paths:
                   pagination:
                     $ref: "#/components/schemas/Pagination"
         "401":
-          description: "Unauthorized"
+          description: "認証エラー"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
 
     post:
-      summary: "Create resource"
+      summary: "リソース作成"
       operationId: createResource
       tags:
         - Resources
@@ -169,7 +169,7 @@ paths:
               $ref: "#/components/schemas/ResourceCreate"
       responses:
         "201":
-          description: "Created"
+          description: "作成成功"
           content:
             application/json:
               schema:
@@ -178,13 +178,13 @@ paths:
                   data:
                     $ref: "#/components/schemas/Resource"
         "400":
-          description: "Bad request"
+          description: "リクエスト不正"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
         "401":
-          description: "Unauthorized"
+          description: "認証エラー"
           content:
             application/json:
               schema:
@@ -200,13 +200,13 @@ paths:
           format: uuid
 
     get:
-      summary: "Get resource"
+      summary: "リソース詳細取得"
       operationId: getResource
       tags:
         - Resources
       responses:
         "200":
-          description: "Success"
+          description: "成功"
           content:
             application/json:
               schema:
@@ -215,14 +215,14 @@ paths:
                   data:
                     $ref: "#/components/schemas/Resource"
         "404":
-          description: "Not found"
+          description: "リソースが見つからない"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
 
     put:
-      summary: "Update resource"
+      summary: "リソース更新"
       operationId: updateResource
       tags:
         - Resources
@@ -234,7 +234,7 @@ paths:
               $ref: "#/components/schemas/ResourceUpdate"
       responses:
         "200":
-          description: "Success"
+          description: "成功"
           content:
             application/json:
               schema:
@@ -243,22 +243,22 @@ paths:
                   data:
                     $ref: "#/components/schemas/Resource"
         "404":
-          description: "Not found"
+          description: "リソースが見つからない"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
 
     delete:
-      summary: "Delete resource"
+      summary: "リソース削除"
       operationId: deleteResource
       tags:
         - Resources
       responses:
         "204":
-          description: "No content"
+          description: "削除成功"
         "404":
-          description: "Not found"
+          description: "リソースが見つからない"
           content:
             application/json:
               schema:

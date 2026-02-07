@@ -3,14 +3,14 @@ name: feature-spec
 description: 機能仕様書・PRD作成スキル。1機能をページ単位・エンドポイント単位・テーブル単位に分割したMarkdown仕様書群を対話的に生成する。「機能仕様書を書きたい」「ページの仕様を作りたい」「PRDを作りたい」「画面仕様をまとめたい」「ユーザーストーリーを整理したい」「機能の要件定義をしたい」などのリクエスト時に使用。
 ---
 
-# Feature Spec - Feature Specification & PRD Generator
+# 機能仕様書 / PRD ジェネレーター
 
 機能仕様書またはPRDをMarkdownで対話的に作成するスキル。
 機能仕様書は**ページ・エンドポイント・テーブル単位に分割**して管理しやすいサイズに保つ。
 
-## Document Formats
+## ドキュメント形式
 
-### Feature Spec (分割構成)
+### 機能仕様書（分割構成）
 
 1機能 = 1フォルダ。概要ドキュメント + 各単位の個別仕様書で構成。
 
@@ -28,101 +28,101 @@ docs/{feature-name}/
     └── ...
 ```
 
-Templates:
-| Template | Path | Granularity |
-|:---------|:-----|:-----------|
-| Overview | `assets/templates/overview.md` | 1 per feature |
-| Page | `assets/templates/page.md` | 1 per page |
-| Endpoint | `assets/templates/endpoint.md` | 1 per endpoint |
-| Table | `assets/templates/table.md` | 1 per table |
+テンプレート:
+| テンプレート | パス | 粒度 |
+|:------------|:-----|:-----|
+| 概要 | `assets/templates/overview.md` | 機能ごとに1つ |
+| ページ | `assets/templates/page.md` | ページごとに1つ |
+| エンドポイント | `assets/templates/endpoint.md` | エンドポイントごとに1つ |
+| テーブル | `assets/templates/table.md` | テーブルごとに1つ |
 
 ### PRD
 
 単一ファイル構成のプロダクト要件定義書。
 
-Template: `assets/templates/prd.md`
+テンプレート: `assets/templates/prd.md`
 
-## Workflow
+## ワークフロー
 
 ```
-1. Determine document format (Feature Spec or PRD)
+1. ドキュメント形式を判定（機能仕様書 or PRD）
    ↓
-2. Hearing: basics + scope
+2. ヒアリング: 基本情報 + スコープ
    ↓
-3. [Feature Spec] Hearing: pages, endpoints, tables to spec
+3. [機能仕様書] ヒアリング: ページ、エンドポイント、テーブルの洗い出し
    ↓
-4. Generate overview.md first
+4. overview.md を最初に生成
    ↓
-5. Generate individual specs (pages → endpoints → tables)
+5. 個別仕様書を生成（ページ → エンドポイント → テーブル）
    ↓
-6. Present to user for review
+6. ユーザーに提示してレビュー
    ↓
-7. Revise if requested → Write final documents
+7. 修正があれば反映 → 最終版を書き出し
 ```
 
-## Step 1: Determine Format
+## Step 1: 形式の判定
 
-- "機能仕様書" / "feature spec" / "画面仕様" → **Feature Spec**
-- "PRD" / "プロダクト要件" / "要件定義書" → **PRD** (single file, see `assets/templates/prd.md`)
-- Ambiguous → Ask with AskUserQuestion
+- 「機能仕様書」「画面仕様」「実装仕様」 → **機能仕様書**
+- 「PRD」「プロダクト要件」「要件定義書」 → **PRD**（単一ファイル、`assets/templates/prd.md` を使用）
+- 曖昧な場合 → AskUserQuestion で確認
 
-For PRD: follow the simple single-file flow (hear → generate → review → write).
-The rest of this document focuses on the **Feature Spec** multi-file flow.
+PRDの場合は単純なフロー（ヒアリング → 生成 → レビュー → 書き出し）に従う。
+以降は**機能仕様書**のマルチファイルフローについて記述。
 
-## Step 2: Hearing
+## Step 2: ヒアリング
 
-Read `references/hearing-patterns.md` and follow the batched hearing flow.
+`references/hearing-patterns.md` を読み、バッチ形式のヒアリングフローに従う。
 
-Rules:
-- 1-4 questions per batch using AskUserQuestion
-- Skip questions the user already answered
-- Match the user's language
+ルール:
+- 1回のバッチで1〜4問を AskUserQuestion で質問
+- ユーザーが既に回答済みの質問はスキップ
+- ユーザーの言語に合わせる
 
-## Step 3: Generate Documents
+## Step 3: ドキュメント生成
 
-### 3.1 Overview first
+### 3.1 概要を最初に生成
 
-1. Read `assets/templates/overview.md`
-2. Fill in purpose, background, scope, user stories
-3. Create the screen flow diagram (Mermaid flowchart)
-4. List all pages, endpoints, tables with links to their spec files
-5. Write to `docs/{feature-name}/overview.md`
+1. `assets/templates/overview.md` を読む
+2. 目的、背景、スコープ、ユーザーストーリーを記入
+3. 画面遷移図を作成（Mermaid flowchart）
+4. 全ページ・エンドポイント・テーブルを一覧としてリンク付きで記載
+5. `docs/{feature-name}/overview.md` に書き出し
 
-### 3.2 Individual specs
+### 3.2 個別仕様書
 
-For each page/endpoint/table identified in the hearing:
+ヒアリングで特定した各ページ/エンドポイント/テーブルごとに:
 
-1. Read the corresponding template
-2. Fill in sections based on hearing results
-3. Cross-link to related specs (page ↔ endpoint ↔ table)
-4. Write to the appropriate subdirectory
+1. 対応するテンプレートを読む
+2. ヒアリング結果に基づいてセクションを記入
+3. 関連する仕様書への相互リンクを設定（ページ ↔ エンドポイント ↔ テーブル）
+4. 適切なサブディレクトリに書き出し
 
-**Adaptation rules** (see `references/hearing-patterns.md`):
-- Page has no form → skip Forms section
-- Endpoint has no side effects → skip Side Effects section
-- Table has no seed data → skip Seed Data section
-- Skip any section that is not relevant
+**セクション適応ルール**（`references/hearing-patterns.md` 参照）:
+- ページにフォームがない → フォームセクションをスキップ
+- エンドポイントに副作用がない → 副作用セクションをスキップ
+- テーブルにシードデータがない → シードデータセクションをスキップ
+- 不要なセクションはスキップ
 
-### 3.3 Generation order
+### 3.3 生成順序
 
-1. `overview.md` → establish structure and names
-2. `pages/*.md` → one file per page
-3. `endpoints/*.md` → one file per endpoint
-4. `tables/*.md` → one file per table
+1. `overview.md` → 構成とファイル名を確定
+2. `pages/*.md` → ページごとに1ファイル
+3. `endpoints/*.md` → エンドポイントごとに1ファイル
+4. `tables/*.md` → テーブルごとに1ファイル
 
-Present each generated file briefly to the user as it's created.
+各ファイル生成後、簡潔にユーザーに提示する。
 
-## Step 4: Present & Revise
+## Step 4: 提示とレビュー
 
-After all files are generated:
-1. Show a summary: file count, file list
-2. Ask if revisions are needed for any specific file
-3. Apply changes if requested
-4. Show final directory structure
+全ファイル生成後:
+1. サマリーを表示: ファイル数、ファイル一覧
+2. 特定ファイルの修正が必要か確認
+3. 修正があれば反映
+4. 最終的なディレクトリ構成を表示
 
-## Output
+## 出力先
 
-**Default output directory**: `docs/`
-**Custom output**: If user specifies a path, use that instead.
+**デフォルト出力先**: `docs/`
+**カスタム出力**: ユーザーが指定した場合はそのパスを使用。
 
 PRD: `docs/prd-{name}.md`

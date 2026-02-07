@@ -1,84 +1,84 @@
-# Hearing Patterns - Feature Spec & PRD
+# ヒアリングパターン - 機能仕様書 / PRD
 
-## Feature Spec Hearing
+## 機能仕様書のヒアリング
 
-### Batch 1: Basics
+### バッチ 1: 基本情報
 
-- What is the feature name?
-- What problem does it solve? (1-2 sentences)
-- Who are the target users?
-- What is in scope / out of scope?
+- 機能名は？
+- どんな課題を解決する？（1〜2文）
+- 対象ユーザーは？
+- スコープは？（対象範囲 / 対象外）
 
-### Batch 2: Pages
+### バッチ 2: ページ
 
-- What pages are needed for this feature? (list page names)
-- What is the navigation flow between pages? (screen transitions)
-- For each page: what is its main purpose?
-- Are there any shared layouts or components across pages?
+- この機能に必要なページは？（ページ名を列挙）
+- ページ間の遷移フローは？（画面遷移）
+- 各ページの主な目的は？
+- ページ間で共有するレイアウトやコンポーネントはある？
 
-### Batch 3: Endpoints
+### バッチ 3: エンドポイント
 
-- What API endpoints does this feature need?
-- For each endpoint: method, path, brief description
-- What authentication/authorization is required?
-- Are there any batch operations or async processes?
+- この機能に必要なAPIエンドポイントは？
+- 各エンドポイント: メソッド、パス、概要
+- 認証・認可の要件は？
+- バッチ処理や非同期処理はある？
 
-### Batch 4: Tables
+### バッチ 4: テーブル
 
-- What database tables does this feature need? (new or modified)
-- For each table: what are the key columns?
-- What are the relationships between tables?
-- Any data migration from existing tables?
+- この機能に必要なデータベーステーブルは？（新規 or 既存の変更）
+- 各テーブルの主要カラムは？
+- テーブル間のリレーションシップは？
+- 既存テーブルからのデータ移行はある？
 
-### Batch 5: Quality (ask only if not already covered)
+### バッチ 5: 品質（未回答の場合のみ）
 
-- Error handling requirements?
-- Performance requirements?
-- Accessibility requirements?
+- エラーハンドリングの要件は？
+- パフォーマンスの要件は？
+- アクセシビリティの要件は？
 
-## PRD Hearing
+## PRDのヒアリング
 
-### Batch 1: Context
+### バッチ 1: 背景
 
-- What is the product / feature name?
-- What problem does it solve? (quantify if possible)
-- Who are the target users?
-- What is in scope / out of scope?
+- プロダクト / 機能名は？
+- どんな課題を解決する？（可能なら定量的に）
+- 対象ユーザーは？
+- スコープは？（対象範囲 / 対象外）
 
-### Batch 2: Product Goals
+### バッチ 2: プロダクト目標
 
-- What does success look like? (metrics / KPIs)
-- What are the user personas and their key needs?
-- Any competitive context or constraints?
+- 成功の定義は？（指標 / KPI）
+- ユーザーペルソナとその主要ニーズは？
+- 競合状況や制約は？
 
-### Batch 3: Solution & Scope
+### バッチ 3: ソリューションとスコープ
 
-- What is the proposed solution at a high level?
-- Are there phases or MVP vs. full scope?
-- What are the risks and open questions?
-- Any timeline or launch constraints?
+- 提案するソリューションの概要は？
+- フェーズ分けやMVPの範囲は？
+- リスクや未解決の質問は？
+- タイムラインやリリース制約は？
 
-## Section Adaptation Rules
+## セクション適応ルール
 
-### Page spec
-- No form → skip Forms section
-- No complex state → simplify State Diagram
-- Static page → skip State Management entirely
-- No accessibility requirements specified → skip Accessibility section
+### ページ仕様書
+- フォームがない → フォームセクションをスキップ
+- 複雑な状態がない → 状態図を簡略化
+- 静的ページ → 状態管理セクション自体をスキップ
+- アクセシビリティ要件の指定がない → アクセシビリティセクションをスキップ
 
-### Endpoint spec
-- No path/query params → skip those sections
-- No request body (GET/DELETE) → skip Request Body
-- No side effects → skip Side Effects section
-- No business logic beyond CRUD → simplify Business Logic
+### エンドポイント仕様書
+- パス/クエリパラメータがない → 該当セクションをスキップ
+- リクエストボディがない（GET/DELETE） → リクエストボディをスキップ
+- 副作用がない → 副作用セクションをスキップ
+- CRUD以上のビジネスロジックがない → ビジネスロジックを簡略化
 
-### Table spec
-- No foreign keys → skip Relationships diagram
-- No seed data → skip Seed Data section
-- No special indexes → skip Indexes section
-- Simple lifecycle → skip Data Lifecycle section
+### テーブル仕様書
+- 外部キーがない → リレーションシップ図をスキップ
+- シードデータがない → シードデータセクションをスキップ
+- 特殊なインデックスがない → インデックスセクションをスキップ
+- 単純なライフサイクル → データライフサイクルセクションをスキップ
 
-### General
-- Skip any section where the user explicitly said "not needed"
-- If only pages are needed (no backend) → skip endpoints/ and tables/ directories
-- If only endpoints are needed → skip pages/ and tables/ directories
+### 共通
+- ユーザーが「不要」と明示したセクションはスキップ
+- ページのみ（バックエンドなし）→ endpoints/ と tables/ ディレクトリをスキップ
+- エンドポイントのみ → pages/ と tables/ ディレクトリをスキップ

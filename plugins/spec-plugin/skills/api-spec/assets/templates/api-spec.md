@@ -1,52 +1,52 @@
-# {API Name} - API Specification
+# {API名} - API仕様書
 
-> **Version**: 1.0
-> **Created**: {YYYY-MM-DD}
-> **Author**: {Author}
-> **Status**: Draft | Review | Approved
-> **Base URL**: `{base_url}`
+> **バージョン**: 1.0
+> **作成日**: {YYYY-MM-DD}
+> **作成者**: {作成者}
+> **ステータス**: 下書き | レビュー中 | 承認済み
+> **ベースURL**: `{base_url}`
 
-## 1. Overview
+## 1. 概要
 
-### 1.1 Purpose
+### 1.1 目的
 
-{What this API provides and its role in the system}
+{このAPIが提供するものとシステム内での役割}
 
-### 1.2 Target Consumers
+### 1.2 利用者
 
-| Consumer | Use Case |
-|:---------|:---------|
-| {client/service} | {how they use this API} |
+| 利用者 | 利用用途 |
+|:-------|:---------|
+| {クライアント/サービス} | {どのように利用するか} |
 
-### 1.3 Scope
+### 1.3 スコープ
 
-**In scope**:
-- {What is included}
+**対象範囲**:
+- {含まれるもの}
 
-**Out of scope**:
-- {What is explicitly excluded}
+**対象外**:
+- {明示的に除外するもの}
 
-## 2. Authentication & Authorization
+## 2. 認証・認可
 
-| Method | Description |
-|:-------|:-----------|
-| {e.g., Bearer Token / API Key / OAuth 2.0} | {details} |
+| 方式 | 説明 |
+|:-----|:-----|
+| {例: Bearer Token / APIキー / OAuth 2.0} | {詳細} |
 
-**Authorization Model**:
-| Role | Permissions |
-|:-----|:-----------|
-| {role} | {allowed operations} |
+**認可モデル**:
+| ロール | 権限 |
+|:-------|:-----|
+| {ロール} | {許可される操作} |
 
-## 3. Common Specifications
+## 3. 共通仕様
 
-### 3.1 Request Headers
+### 3.1 リクエストヘッダー
 
-| Header | Required | Description | Example |
-|:-------|:---------|:-----------|:--------|
-| Content-Type | Yes | Request format | `application/json` |
-| Authorization | Yes | Auth token | `Bearer {token}` |
+| ヘッダー | 必須 | 説明 | 例 |
+|:---------|:-----|:-----|:---|
+| Content-Type | はい | リクエスト形式 | `application/json` |
+| Authorization | はい | 認証トークン | `Bearer {token}` |
 
-### 3.2 Response Format
+### 3.2 レスポンス形式
 
 ```json
 {
@@ -58,37 +58,37 @@
 }
 ```
 
-### 3.3 Error Response Format
+### 3.3 エラーレスポンス形式
 
 ```json
 {
   "error": {
     "code": "ERROR_CODE",
-    "message": "Human-readable message",
+    "message": "人が読めるメッセージ",
     "details": []
   }
 }
 ```
 
-### 3.4 Common Error Codes
+### 3.4 共通エラーコード
 
-| HTTP Status | Error Code | Description |
-|:------------|:-----------|:-----------|
-| 400 | BAD_REQUEST | Invalid request parameters |
-| 401 | UNAUTHORIZED | Authentication required |
-| 403 | FORBIDDEN | Insufficient permissions |
-| 404 | NOT_FOUND | Resource not found |
-| 429 | RATE_LIMITED | Too many requests |
-| 500 | INTERNAL_ERROR | Server error |
+| HTTPステータス | エラーコード | 説明 |
+|:-------------|:-----------|:-----|
+| 400 | BAD_REQUEST | リクエストパラメータが不正 |
+| 401 | UNAUTHORIZED | 認証が必要 |
+| 403 | FORBIDDEN | 権限不足 |
+| 404 | NOT_FOUND | リソースが見つからない |
+| 429 | RATE_LIMITED | リクエスト数超過 |
+| 500 | INTERNAL_ERROR | サーバーエラー |
 
-### 3.5 Pagination
+### 3.5 ページネーション
 
-| Parameter | Type | Default | Description |
-|:----------|:-----|:--------|:-----------|
-| page | integer | 1 | Page number |
-| per_page | integer | 20 | Items per page (max: 100) |
+| パラメータ | 型 | デフォルト | 説明 |
+|:----------|:---|:----------|:-----|
+| page | integer | 1 | ページ番号 |
+| per_page | integer | 20 | ページあたりの件数（最大: 100） |
 
-**Pagination Response**:
+**ページネーションレスポンス**:
 ```json
 {
   "data": [],
@@ -101,32 +101,32 @@
 }
 ```
 
-## 4. Endpoints
+## 4. エンドポイント
 
-### 4.1 Endpoint Summary
+### 4.1 エンドポイント一覧
 
-| Method | Path | Description | Auth |
-|:-------|:-----|:-----------|:-----|
-| GET | /resources | List resources | Required |
-| POST | /resources | Create resource | Required |
-| GET | /resources/:id | Get resource | Required |
-| PUT | /resources/:id | Update resource | Required |
-| DELETE | /resources/:id | Delete resource | Required |
+| メソッド | パス | 説明 | 認証 |
+|:---------|:-----|:-----|:-----|
+| GET | /resources | リソース一覧取得 | 必要 |
+| POST | /resources | リソース作成 | 必要 |
+| GET | /resources/:id | リソース詳細取得 | 必要 |
+| PUT | /resources/:id | リソース更新 | 必要 |
+| DELETE | /resources/:id | リソース削除 | 必要 |
 
-### 4.2 Endpoint Details
+### 4.2 エンドポイント詳細
 
 ---
 
 #### `GET /resources`
 
-**Description**: {description}
+**説明**: {説明}
 
-**Query Parameters**:
-| Parameter | Type | Required | Description | Example |
-|:----------|:-----|:---------|:-----------|:--------|
-| {param} | {type} | Yes/No | {description} | {example} |
+**クエリパラメータ**:
+| パラメータ | 型 | 必須 | 説明 | 例 |
+|:----------|:---|:-----|:-----|:---|
+| {パラメータ} | {型} | はい/いいえ | {説明} | {例} |
 
-**Response** (`200 OK`):
+**レスポンス** (`200 OK`):
 ```json
 {
   "data": [
@@ -140,31 +140,31 @@
 }
 ```
 
-**Error Responses**:
-| Status | Code | Condition |
-|:-------|:-----|:----------|
-| 401 | UNAUTHORIZED | Missing or invalid token |
+**エラーレスポンス**:
+| ステータス | コード | 発生条件 |
+|:----------|:-------|:---------|
+| 401 | UNAUTHORIZED | トークンが未指定または無効 |
 
 ---
 
 #### `POST /resources`
 
-**Description**: {description}
+**説明**: {説明}
 
-**Request Body**:
+**リクエストボディ**:
 ```json
 {
-  "name": "string (required)",
-  "description": "string (optional)"
+  "name": "string (必須)",
+  "description": "string (任意)"
 }
 ```
 
-**Validation Rules**:
-| Field | Rule | Error Code |
-|:------|:-----|:-----------|
-| name | Required, 1-100 chars | VALIDATION_ERROR |
+**バリデーションルール**:
+| フィールド | ルール | エラーコード |
+|:----------|:------|:-----------|
+| name | 必須、1〜100文字 | VALIDATION_ERROR |
 
-**Response** (`201 Created`):
+**レスポンス** (`201 Created`):
 ```json
 {
   "data": {
@@ -177,13 +177,13 @@
 
 ---
 
-## 5. Data Models
+## 5. データモデル
 
-### 5.1 Entity Relationship
+### 5.1 エンティティ関連図
 
 ```mermaid
 erDiagram
-    Resource ||--o{ SubResource : "has"
+    Resource ||--o{ SubResource : "持つ"
     Resource {
         string id PK
         string name
@@ -192,66 +192,66 @@ erDiagram
     }
 ```
 
-### 5.2 Schema Definitions
+### 5.2 スキーマ定義
 
 #### Resource
 
-| Field | Type | Required | Description | Constraints |
-|:------|:-----|:---------|:-----------|:-----------|
-| id | string (UUID) | Yes | Unique identifier | Auto-generated |
-| name | string | Yes | Resource name | 1-100 chars |
-| created_at | datetime | Yes | Creation timestamp | ISO 8601 |
+| フィールド | 型 | 必須 | 説明 | 制約 |
+|:----------|:---|:-----|:-----|:-----|
+| id | string (UUID) | はい | 一意な識別子 | 自動生成 |
+| name | string | はい | リソース名 | 1〜100文字 |
+| created_at | datetime | はい | 作成日時 | ISO 8601 |
 
-## 6. Data Flow
+## 6. データフロー
 
 ```mermaid
 sequenceDiagram
-    participant C as Client
-    participant G as API Gateway
-    participant S as Service
-    participant D as Database
+    participant C as クライアント
+    participant G as APIゲートウェイ
+    participant S as サービス
+    participant D as データベース
 
-    C->>G: Request
-    G->>G: Auth check
-    G->>S: Forward request
-    S->>D: Query
-    D-->>S: Result
-    S-->>G: Response
-    G-->>C: Response
+    C->>G: リクエスト
+    G->>G: 認証チェック
+    G->>S: リクエスト転送
+    S->>D: クエリ
+    D-->>S: 結果
+    S-->>G: レスポンス
+    G-->>C: レスポンス
 ```
 
-## 7. Rate Limiting
+## 7. レートリミット
 
-| Tier | Limit | Window |
-|:-----|:------|:-------|
-| Default | {N} requests | per minute |
-| Authenticated | {N} requests | per minute |
+| ティア | 制限 | ウィンドウ |
+|:-------|:-----|:---------|
+| デフォルト | {N}リクエスト | 1分あたり |
+| 認証済み | {N}リクエスト | 1分あたり |
 
-**Rate Limit Headers**:
-| Header | Description |
-|:-------|:-----------|
-| X-RateLimit-Limit | Max requests per window |
-| X-RateLimit-Remaining | Remaining requests |
-| X-RateLimit-Reset | Reset timestamp (Unix) |
+**レートリミットヘッダー**:
+| ヘッダー | 説明 |
+|:---------|:-----|
+| X-RateLimit-Limit | ウィンドウあたりの最大リクエスト数 |
+| X-RateLimit-Remaining | 残りリクエスト数 |
+| X-RateLimit-Reset | リセット日時（Unixタイムスタンプ） |
 
-## 8. Versioning Strategy
+## 8. バージョニング戦略
 
-| Item | Value |
-|:-----|:------|
-| Strategy | {URL path / Header / Query param} |
-| Current version | v1 |
-| Deprecation policy | {policy} |
+| 項目 | 値 |
+|:-----|:---|
+| 戦略 | {URLパス / ヘッダー / クエリパラメータ} |
+| 現行バージョン | v1 |
+| 非推奨化ポリシー | {ポリシー} |
 
-## Appendix
+## 付録
 
-### Glossary
+### 用語集
 
-| Term | Definition |
-|:-----|:----------|
-| {term} | {definition} |
+| 用語 | 定義 |
+|:-----|:-----|
+| {用語} | {定義} |
 
-### Change History
+### 変更履歴
 
-| Version | Date | Changes | Author |
-|:--------|:-----|:--------|:-------|
-| 1.0 | {YYYY-MM-DD} | Initial draft | {author} |
+| バージョン | 日付 | 変更内容 | 変更者 |
+|:-----------|:-----|:---------|:-------|
+| 1.0 | {YYYY-MM-DD} | 初版作成 | {作成者} |

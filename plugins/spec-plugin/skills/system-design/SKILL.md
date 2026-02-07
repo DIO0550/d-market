@@ -3,74 +3,74 @@ name: system-design
 description: システム設計書作成スキル。アーキテクチャ設計書、ADR（Architecture Decision Record）、C4モデル図を含む設計ドキュメントをMarkdown形式で対話的に生成する。「システム設計書を書きたい」「アーキテクチャを文書化したい」「ADRを書きたい」「C4モデルで設計を整理したい」「インフラ構成をまとめたい」「コンポーネント設計を記録したい」「技術的な意思決定を記録したい」などのリクエスト時に使用。
 ---
 
-# System Design - System Design Document Generator
+# システム設計書ジェネレーター
 
 システム設計ドキュメントを対話的に作成するスキル。3つのドキュメント形式に対応。
 
-## Document Formats
+## ドキュメント形式
 
-| Format | Template | Use Case |
-|:-------|:---------|:---------|
-| System Design | `assets/templates/system-design.md` | Full architecture: components, data, infra, NFR |
-| ADR | `assets/templates/adr.md` | Record a single architectural decision with context and consequences |
-| C4 Model | `assets/templates/c4-model.md` | Layered architecture views: Context → Container → Component → Code |
+| 形式 | テンプレート | 用途 |
+|:-----|:------------|:-----|
+| システム設計書 | `assets/templates/system-design.md` | アーキテクチャ全体: コンポーネント、データ、インフラ、非機能要件 |
+| ADR | `assets/templates/adr.md` | 1つのアーキテクチャ判断を背景・結果とともに記録 |
+| C4モデル | `assets/templates/c4-model.md` | 階層的なアーキテクチャビュー: コンテキスト → コンテナ → コンポーネント → コード |
 
-## Workflow
+## ワークフロー
 
 ```
-1. Determine document format
+1. ドキュメント形式を判定
    ↓
-2. Hearing (batched questions via AskUserQuestion)
+2. ヒアリング（AskUserQuestionでバッチ質問）
    ↓
-3. Generate document from template
+3. テンプレートからドキュメントを生成
    ↓
-4. Present to user for review
+4. ユーザーに提示してレビュー
    ↓
-5. Revise if requested → Write final document
+5. 修正があれば反映 → 最終版を書き出し
 ```
 
-## Step 1: Determine Format
+## Step 1: 形式の判定
 
-Detect from user's request:
-- "システム設計" / "アーキテクチャ設計" / "インフラ構成" → **System Design**
-- "ADR" / "意思決定記録" / "技術選定の記録" / "decision record" → **ADR**
-- "C4" / "C4モデル" / "コンテキスト図" / "コンテナ図" → **C4 Model**
-- Ambiguous → Ask with AskUserQuestion
+ユーザーのリクエストから検出:
+- 「システム設計」「アーキテクチャ設計」「インフラ構成」 → **システム設計書**
+- 「ADR」「意思決定記録」「技術選定の記録」 → **ADR**
+- 「C4」「C4モデル」「コンテキスト図」「コンテナ図」 → **C4モデル**
+- 曖昧な場合 → AskUserQuestion で確認
 
-## Step 2: Hearing
+## Step 2: ヒアリング
 
-Read `references/hearing-patterns.md` and follow the batched hearing flow.
+`references/hearing-patterns.md` を読み、バッチ形式のヒアリングフローに従う。
 
-Rules:
-- 1-4 questions per batch using AskUserQuestion
-- Skip questions the user already answered
-- Match the user's language
-- ADR: Focus on the decision context, options considered, and trade-offs
-- C4: Focus on system boundaries, containers, and component responsibilities
+ルール:
+- 1回のバッチで1〜4問を AskUserQuestion で質問
+- ユーザーが既に回答済みの質問はスキップ
+- ユーザーの言語に合わせる
+- ADR: 判断の背景、検討した選択肢、トレードオフを重視
+- C4: システム境界、コンテナ、コンポーネントの責務を重視
 
-## Step 3: Generate Document
+## Step 3: ドキュメント生成
 
-1. Read the template from `assets/templates/`
-2. Fill in sections based on hearing results
-3. Adapt sections (see `references/hearing-patterns.md` Section Adaptation Rules)
-4. Format-specific rules:
-   - **System Design**: Mermaid diagrams for architecture, sequence, state, ER
-   - **ADR**: Concise and focused on one decision; link to related ADRs
-   - **C4 Model**: Mermaid C4 diagrams at each level; only drill down to levels relevant to the discussion
+1. `assets/templates/` からテンプレートを読む
+2. ヒアリング結果に基づいてセクションを記入
+3. セクション適応（`references/hearing-patterns.md` 参照）
+4. 形式別のルール:
+   - **システム設計書**: アーキテクチャ図、シーケンス図、状態図、ER図（Mermaid）
+   - **ADR**: 簡潔に1つの判断に集中。関連ADRへのリンク
+   - **C4モデル**: 各レベルのMermaid C4図。議論に関連するレベルのみ掘り下げる
 
-## Step 4: Present & Revise
+## Step 4: 提示とレビュー
 
-1. Show brief summary of generated document
-2. Ask if revisions are needed
-3. Apply changes if requested → present again
-4. If approved → write to file
+1. 生成したドキュメントのサマリーを表示
+2. 修正が必要か確認
+3. 修正があれば反映 → 再提示
+4. 承認されたらファイルに書き出し
 
-## Step 5: Write Output
+## 出力先
 
-**Default output directory**: `docs/`
-**Custom output**: If user specifies a path, use that instead.
+**デフォルト出力先**: `docs/`
+**カスタム出力**: ユーザーが指定した場合はそのパスを使用。
 
-File naming:
+ファイル名:
 - `docs/system-design-{name}.md`
-- `docs/adr-{NNN}-{name}.md` (NNN = sequential number)
+- `docs/adr-{NNN}-{name}.md`（NNN = 連番）
 - `docs/c4-model-{name}.md`

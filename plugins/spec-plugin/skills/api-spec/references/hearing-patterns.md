@@ -1,60 +1,60 @@
-# Hearing Patterns - API Spec
+# ヒアリングパターン - API仕様書
 
-## Common (All Formats)
+## 共通（全フォーマット）
 
-**Batch 1: Basics**
-- What is the API name / service name?
-- What is the purpose of this API?
-- Who are the consumers? (frontend, mobile, external, other services)
-- What is the base URL or service boundary?
+**バッチ 1: 基本情報**
+- API名 / サービス名は？
+- このAPIの目的は？
+- 利用者は？（フロントエンド、モバイル、外部、他サービス）
+- ベースURLまたはサービス境界は？
 
-**Batch 2: Authentication & Common Behavior**
-- What is the authentication method? (Bearer, API Key, OAuth 2.0, none)
-- What is the response format? (JSON, XML)
-- Are there rate limiting requirements?
-- What error handling pattern should be used?
+**バッチ 2: 認証と共通仕様**
+- 認証方式は？（Bearer、APIキー、OAuth 2.0、なし）
+- レスポンスフォーマットは？（JSON、XML）
+- レートリミットの要件は？
+- エラーハンドリングのパターンは？
 
-## Markdown API Hearing
+## Markdown API のヒアリング
 
-**Batch 3: Endpoints**
-- What resources / entities does this API manage?
-- What operations are needed per resource? (list, get, create, update, delete, custom)
-- What are the query parameters for list operations? (filtering, sorting, pagination)
-- Are there any webhook or async operations?
+**バッチ 3: エンドポイント**
+- このAPIが管理するリソース / エンティティは？
+- リソースごとに必要な操作は？（一覧、取得、作成、更新、削除、カスタム）
+- 一覧操作のクエリパラメータは？（フィルタリング、ソート、ページネーション）
+- Webhookや非同期操作はある？
 
-## OpenAPI Hearing
+## OpenAPI のヒアリング
 
-**Batch 3: Schema Details**
-- What are the main resource schemas? (fields, types, required/optional)
-- What are the request body schemas per operation?
-- What are the response schemas per status code?
-- Are there reusable components? (common headers, error schemas, pagination)
+**バッチ 3: スキーマ詳細**
+- 主要なリソーススキーマは？（フィールド、型、必須/任意）
+- 操作ごとのリクエストボディスキーマは？
+- ステータスコードごとのレスポンススキーマは？
+- 再利用可能なコンポーネントはある？（共通ヘッダー、エラースキーマ、ページネーション）
 
-**Batch 4: Operations**
-- What are the exact endpoint paths and HTTP methods?
-- What path/query parameters does each endpoint accept?
-- What are the security scopes per operation?
-- API versioning strategy? (URL path, header, query)
+**バッチ 4: 操作**
+- 正確なエンドポイントパスとHTTPメソッドは？
+- 各エンドポイントのパス/クエリパラメータは？
+- 操作ごとのセキュリティスコープは？
+- APIバージョニング戦略は？（URLパス、ヘッダー、クエリ）
 
-## GraphQL Hearing
+## GraphQL のヒアリング
 
-**Batch 3: Type System**
-- What are the main types? (fields, relationships, nullability)
-- What are the enum types?
-- What are the input types for mutations?
-- Are there interfaces or union types?
+**バッチ 3: 型システム**
+- 主要な型は？（フィールド、リレーション、NULL許可）
+- Enum型は？
+- ミューテーション用のInput型は？
+- インターフェースやユニオン型はある？
 
-**Batch 4: Operations**
-- What queries are needed? (arguments, return types)
-- What mutations are needed? (input, return types)
-- Are there subscriptions? (events, payload)
-- Custom scalars? (Date, JSON, etc.)
+**バッチ 4: 操作**
+- 必要なクエリは？（引数、戻り値の型）
+- 必要なミューテーションは？（入力、戻り値の型）
+- サブスクリプションはある？（イベント、ペイロード）
+- カスタムスカラーは？（Date、JSONなど）
 
-## Section Adaptation Rules
+## セクション適応ルール
 
-- No auth → skip Authentication section
-- No pagination → skip Pagination section
-- No rate limiting → skip Rate Limiting section
-- No webhooks → skip Webhook section
-- GraphQL: No subscriptions → skip Subscription section
-- OpenAPI: If simple CRUD → generate from resource schemas automatically
+- 認証なし → 認証セクションをスキップ
+- ページネーションなし → ページネーションセクションをスキップ
+- レートリミットなし → レートリミットセクションをスキップ
+- Webhookなし → Webhookセクションをスキップ
+- GraphQL: サブスクリプションなし → サブスクリプションセクションをスキップ
+- OpenAPI: 単純なCRUD → リソーススキーマから自動生成

@@ -1,83 +1,83 @@
-# {Feature Name} - Overview
+# {機能名} - 概要
 
-> **Version**: 1.0
-> **Created**: {YYYY-MM-DD}
-> **Author**: {Author}
-> **Status**: Draft | Review | Approved
+> **バージョン**: 1.0
+> **作成日**: {YYYY-MM-DD}
+> **作成者**: {作成者}
+> **ステータス**: 下書き | レビュー中 | 承認済み
 
-## 1. Purpose
+## 1. 目的
 
-{What this feature achieves and why, in 2-3 sentences}
+{この機能が何を実現し、なぜ必要か（2〜3文）}
 
-## 2. Background
+## 2. 背景
 
-{Current problems or business context}
+{現状の課題やビジネスコンテキスト}
 
-## 3. Scope
+## 3. スコープ
 
-**In scope**:
-- {included}
+**対象範囲**:
+- {含まれるもの}
 
-**Out of scope**:
-- {excluded}
+**対象外**:
+- {明示的に除外するもの}
 
-## 4. User Stories
+## 4. ユーザーストーリー
 
-| ID | As a... | I want to... | So that... | Priority |
-|:---|:--------|:-------------|:-----------|:---------|
-| US-001 | {role} | {action} | {benefit} | High/Medium/Low |
+| ID | ～として | ～したい | ～のために | 優先度 |
+|:---|:---------|:---------|:-----------|:-------|
+| US-001 | {役割} | {行動} | {理由} | 高/中/低 |
 
-## 5. Screen Flow
+## 5. 画面遷移図
 
 ```mermaid
 flowchart TD
-    A[Page A] -->|action| B[Page B]
-    B -->|action| C[Page C]
-    B -->|back| A
+    A[ページA] -->|アクション| B[ページB]
+    B -->|アクション| C[ページC]
+    B -->|戻る| A
 ```
 
-## 6. Pages
+## 6. ページ一覧
 
-| Page | Spec File | Description |
-|:-----|:----------|:-----------|
-| {page name} | [pages/{page-name}.md](pages/{page-name}.md) | {brief description} |
+| ページ | 仕様書 | 説明 |
+|:-------|:-------|:-----|
+| {ページ名} | [pages/{page-name}.md](pages/{page-name}.md) | {概要} |
 
-## 7. Endpoints
+## 7. エンドポイント一覧
 
-| Method | Path | Spec File | Description |
-|:-------|:-----|:----------|:-----------|
-| {method} | {path} | [endpoints/{endpoint-name}.md](endpoints/{endpoint-name}.md) | {brief description} |
+| メソッド | パス | 仕様書 | 説明 |
+|:---------|:-----|:-------|:-----|
+| {メソッド} | {パス} | [endpoints/{endpoint-name}.md](endpoints/{endpoint-name}.md) | {概要} |
 
-## 8. Tables
+## 8. テーブル一覧
 
-| Table | Spec File | Description |
-|:------|:----------|:-----------|
-| {table name} | [tables/{table-name}.md](tables/{table-name}.md) | {brief description} |
+| テーブル | 仕様書 | 説明 |
+|:---------|:-------|:-----|
+| {テーブル名} | [tables/{table-name}.md](tables/{table-name}.md) | {概要} |
 
-## 9. Non-Functional Requirements
+## 9. 非機能要件
 
-| Category | Requirement | Target |
-|:---------|:-----------|:-------|
-| Performance | {requirement} | {target} |
-| Accessibility | {requirement} | {target} |
-| Compatibility | {requirement} | {target} |
+| カテゴリ | 要件 | 目標値 |
+|:---------|:-----|:-------|
+| パフォーマンス | {要件} | {目標値} |
+| アクセシビリティ | {要件} | {目標値} |
+| ブラウザ互換性 | {要件} | {対象} |
 
-## 10. Dependencies
+## 10. 依存関係
 
-| Dependency | Type | Impact |
-|:-----------|:-----|:-------|
-| {service/module} | Internal/External | {impact if unavailable} |
+| 依存先 | 種別 | 影響 |
+|:-------|:-----|:-----|
+| {サービス/モジュール} | 内部/外部 | {利用不可時の影響} |
 
-## Appendix
+## 付録
 
-### Glossary
+### 用語集
 
-| Term | Definition |
-|:-----|:----------|
-| {term} | {definition} |
+| 用語 | 定義 |
+|:-----|:-----|
+| {用語} | {定義} |
 
-### Change History
+### 変更履歴
 
-| Version | Date | Changes | Author |
-|:--------|:-----|:--------|:-------|
-| 1.0 | {YYYY-MM-DD} | Initial draft | {author} |
+| バージョン | 日付 | 変更内容 | 変更者 |
+|:-----------|:-----|:---------|:-------|
+| 1.0 | {YYYY-MM-DD} | 初版作成 | {作成者} |

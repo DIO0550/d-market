@@ -1,63 +1,63 @@
-# Hearing Patterns - System Design
+# ヒアリングパターン - システム設計書
 
-## System Design Hearing
+## システム設計書のヒアリング
 
-**Batch 1: Basics**
-- What is the system name?
-- What is the purpose of this system? (1-2 sentences)
-- What are the goals and non-goals?
-- Who are the stakeholders?
+**バッチ 1: 基本情報**
+- システム名は？
+- このシステムの目的は？（1〜2文）
+- 目標と非目標は？
+- ステークホルダーは？
 
-**Batch 2: Architecture**
-- What are the main components?
-- What external systems does it integrate with?
-- What is the technology stack? (or constraints)
-- What is the data model?
+**バッチ 2: アーキテクチャ**
+- 主要なコンポーネントは？
+- 連携する外部システムは？
+- 技術スタックは？（または制約）
+- データモデルは？
 
-**Batch 3: Non-Functional & Operations**
-- Performance targets? (latency, throughput)
-- Availability target? (SLA)
-- Scalability requirements?
-- Security requirements?
-- Deployment strategy?
+**バッチ 3: 非機能要件と運用**
+- パフォーマンス目標は？（レイテンシ、スループット）
+- 可用性目標は？（SLA）
+- スケーラビリティ要件は？
+- セキュリティ要件は？
+- デプロイ戦略は？
 
-## ADR Hearing
+## ADRのヒアリング
 
-**Batch 1: Context**
-- What decision needs to be recorded?
-- What is the context / background? (why is this decision needed now)
-- What are the constraints or forces at play?
+**バッチ 1: 背景**
+- 記録すべき判断は何か？
+- 背景・コンテキストは？（なぜこの判断が今必要か）
+- 制約や考慮すべき力学は？
 
-**Batch 2: Options**
-- What options were considered? (at least 2)
-- What are the pros and cons of each?
-- What was the chosen option and why?
-- What are the consequences of this decision?
+**バッチ 2: 選択肢**
+- 検討した選択肢は？（最低2つ）
+- 各選択肢のメリット・デメリットは？
+- どの選択肢を選び、その理由は？
+- この判断による影響は？
 
-## C4 Model Hearing
+## C4モデルのヒアリング
 
-**Batch 1: System Context (Level 1)**
-- What is the system being designed?
-- Who are the users / actors?
-- What external systems does it interact with?
+**バッチ 1: システムコンテキスト（レベル1）**
+- 設計対象のシステムは？
+- ユーザー / アクターは？
+- 連携する外部システムは？
 
-**Batch 2: Containers (Level 2)**
-- What are the main containers? (apps, services, databases, message queues)
-- What technology does each container use?
-- How do containers communicate? (HTTP, gRPC, messaging, etc.)
+**バッチ 2: コンテナ（レベル2）**
+- 主要なコンテナは？（アプリ、サービス、データベース、メッセージキュー）
+- 各コンテナの技術は？
+- コンテナ間の通信方式は？（HTTP、gRPC、メッセージングなど）
 
-**Batch 3: Components (Level 3) - if needed**
-- Which container should be decomposed into components?
-- What are the main components within that container?
-- What are the responsibilities and interfaces of each component?
+**バッチ 3: コンポーネント（レベル3）- 必要な場合のみ**
+- どのコンテナをコンポーネントに分解するか？
+- そのコンテナ内の主要コンポーネントは？
+- 各コンポーネントの責務とインターフェースは？
 
-Note: Level 4 (Code) is typically not documented in C4 model specs. Only drill down to Level 3 if relevant.
+注: レベル4（コード）はC4モデル仕様書では通常ドキュメント化しない。レベル3は関連する場合のみ掘り下げる。
 
-## Section Adaptation Rules
+## セクション適応ルール
 
-- Simple system → skip Scalability / Infrastructure sections
-- No external integrations → skip External APIs section
-- ADR: Always keep concise; one decision per document
-- C4: Only generate levels that are relevant (e.g., if only Context + Container needed, skip Component level)
-- No data persistence → skip Data Migration section
-- No async processing → skip Message Queue / Event sections
+- シンプルなシステム → スケーラビリティ / インフラセクションをスキップ
+- 外部連携なし → 外部APIセクションをスキップ
+- ADR: 常に簡潔に。1ドキュメント1判断
+- C4: 関連するレベルのみ生成（例: コンテキスト + コンテナのみ必要ならコンポーネントレベルはスキップ）
+- データ永続化なし → データ移行セクションをスキップ
+- 非同期処理なし → メッセージキュー / イベントセクションをスキップ

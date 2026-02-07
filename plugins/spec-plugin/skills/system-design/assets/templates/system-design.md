@@ -1,56 +1,56 @@
-# {System Name} - System Design Specification
+# {システム名} - システム設計書
 
-> **Version**: 1.0
-> **Created**: {YYYY-MM-DD}
-> **Author**: {Author}
-> **Status**: Draft | Review | Approved
+> **バージョン**: 1.0
+> **作成日**: {YYYY-MM-DD}
+> **作成者**: {作成者}
+> **ステータス**: 下書き | レビュー中 | 承認済み
 
-## 1. Overview
+## 1. 概要
 
-### 1.1 Purpose
+### 1.1 目的
 
-{What this system does and why it exists, in 2-3 sentences}
+{このシステムが何をし、なぜ存在するか（2〜3文）}
 
-### 1.2 Goals & Non-Goals
+### 1.2 目標と非目標
 
-**Goals**:
-- {What this system aims to achieve}
+**目標**:
+- {このシステムが達成しようとすること}
 
-**Non-Goals**:
-- {What this system explicitly does NOT aim to achieve}
+**非目標**:
+- {このシステムが明示的に目指さないこと}
 
-### 1.3 Key Stakeholders
+### 1.3 主要ステークホルダー
 
-| Role | Name | Responsibility |
-|:-----|:-----|:--------------|
-| {role} | {name} | {responsibility} |
+| 役割 | 名前 | 責務 |
+|:-----|:-----|:-----|
+| {役割} | {名前} | {責務} |
 
-## 2. Architecture Overview
+## 2. アーキテクチャ概要
 
-### 2.1 System Context
+### 2.1 システムコンテキスト
 
 ```mermaid
 graph TB
-    User[User] --> System[Target System]
-    System --> ExtA[External System A]
-    System --> ExtB[External System B]
+    User[ユーザー] --> System[対象システム]
+    System --> ExtA[外部システムA]
+    System --> ExtB[外部システムB]
 ```
 
-### 2.2 High-Level Architecture
+### 2.2 全体アーキテクチャ
 
 ```mermaid
 graph TB
-    subgraph Frontend
-        UI[UI Layer]
+    subgraph フロントエンド
+        UI[UIレイヤー]
     end
-    subgraph Backend
-        API[API Layer]
-        BL[Business Logic]
-        DAL[Data Access Layer]
+    subgraph バックエンド
+        API[APIレイヤー]
+        BL[ビジネスロジック]
+        DAL[データアクセスレイヤー]
     end
-    subgraph Data
-        DB[(Database)]
-        Cache[(Cache)]
+    subgraph データ
+        DB[(データベース)]
+        Cache[(キャッシュ)]
     end
 
     UI --> API
@@ -60,47 +60,47 @@ graph TB
     DAL --> Cache
 ```
 
-### 2.3 Technology Stack
+### 2.3 技術スタック
 
-| Layer | Technology | Rationale |
-|:------|:-----------|:----------|
-| Frontend | {technology} | {why chosen} |
-| Backend | {technology} | {why chosen} |
-| Database | {technology} | {why chosen} |
-| Infrastructure | {technology} | {why chosen} |
+| レイヤー | 技術 | 選定理由 |
+|:---------|:-----|:---------|
+| フロントエンド | {技術} | {理由} |
+| バックエンド | {技術} | {理由} |
+| データベース | {技術} | {理由} |
+| インフラ | {技術} | {理由} |
 
-## 3. Component Design
+## 3. コンポーネント設計
 
-### 3.1 Component List
+### 3.1 コンポーネント一覧
 
-| Component | Responsibility | Interface |
-|:----------|:-------------|:----------|
-| {name} | {what it does} | {how others interact} |
+| コンポーネント | 責務 | インターフェース |
+|:-------------|:-----|:---------------|
+| {名前} | {何をするか} | {他からの利用方法} |
 
-### 3.2 Component Details
+### 3.2 コンポーネント詳細
 
-#### {Component Name}
+#### {コンポーネント名}
 
-**Responsibility**: {what it does}
+**責務**: {何をするか}
 
-**Interface**:
-| Method/Endpoint | Input | Output | Description |
-|:---------------|:------|:-------|:-----------|
-| {method} | {input} | {output} | {description} |
+**インターフェース**:
+| メソッド/エンドポイント | 入力 | 出力 | 説明 |
+|:---------------------|:-----|:-----|:-----|
+| {メソッド} | {入力} | {出力} | {説明} |
 
-**Internal Logic**:
-{Key algorithms or business rules}
+**内部ロジック**:
+{主要なアルゴリズムやビジネスルール}
 
-**Dependencies**:
-- {dependency and why}
+**依存関係**:
+- {依存先とその理由}
 
-## 4. Data Design
+## 4. データ設計
 
-### 4.1 Data Model
+### 4.1 データモデル
 
 ```mermaid
 erDiagram
-    EntityA ||--o{ EntityB : "relationship"
+    EntityA ||--o{ EntityB : "リレーション"
     EntityA {
         string id PK
         string name
@@ -113,113 +113,113 @@ erDiagram
     }
 ```
 
-### 4.2 Data Dictionary
+### 4.2 データ辞書
 
-| Entity | Field | Type | Description | Constraints |
-|:-------|:------|:-----|:-----------|:-----------|
-| {entity} | {field} | {type} | {description} | {constraints} |
+| エンティティ | フィールド | 型 | 説明 | 制約 |
+|:-----------|:---------|:---|:-----|:-----|
+| {エンティティ} | {フィールド} | {型} | {説明} | {制約} |
 
-### 4.3 Data Flow
+### 4.3 データフロー
 
 ```mermaid
 sequenceDiagram
-    participant A as Component A
-    participant B as Component B
-    participant DB as Database
+    participant A as コンポーネントA
+    participant B as コンポーネントB
+    participant DB as データベース
 
-    A->>B: Request
-    B->>DB: Query
-    DB-->>B: Result
-    B-->>A: Response
+    A->>B: リクエスト
+    B->>DB: クエリ
+    DB-->>B: 結果
+    B-->>A: レスポンス
 ```
 
-### 4.4 Data Migration
+### 4.4 データ移行
 
-| Source | Target | Strategy | Rollback |
-|:-------|:-------|:---------|:---------|
-| {source} | {target} | {approach} | {rollback plan} |
+| 移行元 | 移行先 | 戦略 | ロールバック |
+|:-------|:-------|:-----|:-----------|
+| {移行元} | {移行先} | {アプローチ} | {ロールバック方法} |
 
-## 5. State Management
+## 5. 状態管理
 
-### 5.1 State Diagram
+### 5.1 状態遷移図
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Initial
-    Initial --> Processing: trigger event
-    Processing --> Success: completed
-    Processing --> Error: failed
-    Error --> Processing: retry
-    Success --> [*]
+    [*] --> 初期状態
+    初期状態 --> 処理中: トリガーイベント
+    処理中 --> 成功: 完了
+    処理中 --> エラー: 失敗
+    エラー --> 処理中: リトライ
+    成功 --> [*]
 ```
 
-### 5.2 State Transitions
+### 5.2 状態遷移
 
-| From | To | Trigger | Condition | Side Effects |
-|:-----|:---|:--------|:----------|:------------|
-| {from} | {to} | {trigger} | {guard condition} | {side effects} |
+| 遷移元 | 遷移先 | トリガー | 条件 | 副作用 |
+|:-------|:-------|:--------|:-----|:-------|
+| {遷移元} | {遷移先} | {トリガー} | {ガード条件} | {副作用} |
 
-## 6. API Design
+## 6. API設計
 
-### 6.1 Internal APIs
+### 6.1 内部API
 
-| Method | Path | Description | Consumer |
-|:-------|:-----|:-----------|:---------|
-| {method} | {path} | {description} | {who calls it} |
+| メソッド | パス | 説明 | 利用者 |
+|:---------|:-----|:-----|:-------|
+| {メソッド} | {パス} | {説明} | {誰が呼ぶか} |
 
-### 6.2 External APIs (consumed)
+### 6.2 外部API（利用するもの）
 
-| API | Purpose | SLA | Fallback |
-|:----|:--------|:----|:---------|
-| {api} | {why used} | {expected SLA} | {what happens if down} |
+| API | 目的 | SLA | フォールバック |
+|:----|:-----|:----|:-------------|
+| {API} | {利用目的} | {期待するSLA} | {ダウン時の対応} |
 
-## 7. Non-Functional Requirements
+## 7. 非機能要件
 
-### 7.1 Performance
+### 7.1 パフォーマンス
 
-| Metric | Target | Measurement |
-|:-------|:-------|:-----------|
-| Response time (P50) | {value} | {how measured} |
-| Response time (P99) | {value} | {how measured} |
-| Throughput | {value} | {how measured} |
+| 指標 | 目標値 | 計測方法 |
+|:-----|:-------|:---------|
+| レスポンスタイム (P50) | {値} | {計測方法} |
+| レスポンスタイム (P99) | {値} | {計測方法} |
+| スループット | {値} | {計測方法} |
 
-### 7.2 Scalability
+### 7.2 スケーラビリティ
 
-| Dimension | Current | Target | Strategy |
-|:----------|:--------|:-------|:---------|
-| {e.g., Users} | {current} | {target} | {how to scale} |
+| 軸 | 現状 | 目標 | 戦略 |
+|:---|:-----|:-----|:-----|
+| {例: ユーザー数} | {現状} | {目標} | {スケール方法} |
 
-### 7.3 Reliability
+### 7.3 信頼性
 
-| Metric | Target | Strategy |
-|:-------|:-------|:---------|
-| Availability | {e.g., 99.9%} | {approach} |
-| Recovery Time (RTO) | {value} | {approach} |
-| Recovery Point (RPO) | {value} | {approach} |
+| 指標 | 目標 | 戦略 |
+|:-----|:-----|:-----|
+| 可用性 | {例: 99.9%} | {アプローチ} |
+| 復旧時間 (RTO) | {値} | {アプローチ} |
+| 復旧ポイント (RPO) | {値} | {アプローチ} |
 
-### 7.4 Security
+### 7.4 セキュリティ
 
-| Concern | Mitigation |
-|:--------|:----------|
-| Authentication | {approach} |
-| Authorization | {approach} |
-| Data encryption | {approach} |
-| Input validation | {approach} |
+| 観点 | 対策 |
+|:-----|:-----|
+| 認証 | {アプローチ} |
+| 認可 | {アプローチ} |
+| データ暗号化 | {アプローチ} |
+| 入力バリデーション | {アプローチ} |
 
-## 8. Infrastructure & Deployment
+## 8. インフラ・デプロイ
 
-### 8.1 Infrastructure Diagram
+### 8.1 インフラ構成図
 
 ```mermaid
 graph TB
-    LB[Load Balancer]
-    subgraph App Tier
-        A1[App Server 1]
-        A2[App Server 2]
+    LB[ロードバランサー]
+    subgraph アプリ層
+        A1[アプリサーバー1]
+        A2[アプリサーバー2]
     end
-    subgraph Data Tier
-        DB[(Primary DB)]
-        DBR[(Replica DB)]
+    subgraph データ層
+        DB[(プライマリDB)]
+        DBR[(レプリカDB)]
     end
 
     LB --> A1
@@ -229,46 +229,46 @@ graph TB
     DB --> DBR
 ```
 
-### 8.2 Deployment Strategy
+### 8.2 デプロイ戦略
 
-| Item | Value |
-|:-----|:------|
-| Strategy | {Blue-Green / Canary / Rolling} |
-| Rollback plan | {approach} |
-| Health check | {endpoint and criteria} |
+| 項目 | 値 |
+|:-----|:---|
+| 戦略 | {Blue-Green / カナリア / ローリング} |
+| ロールバック方法 | {アプローチ} |
+| ヘルスチェック | {エンドポイントと判定基準} |
 
-### 8.3 Monitoring & Alerting
+### 8.3 モニタリング・アラート
 
-| Metric | Threshold | Alert Channel |
-|:-------|:----------|:-------------|
-| {metric} | {threshold} | {channel} |
+| 指標 | 閾値 | 通知先 |
+|:-----|:-----|:-------|
+| {指標} | {閾値} | {通知先} |
 
-## 9. Risk Analysis
+## 9. リスク分析
 
-| Risk | Impact | Probability | Mitigation |
-|:-----|:-------|:-----------|:-----------|
-| {risk} | High/Medium/Low | High/Medium/Low | {mitigation} |
+| リスク | 影響度 | 発生確率 | 対策 |
+|:-------|:-------|:---------|:-----|
+| {リスク} | 高/中/低 | 高/中/低 | {対策} |
 
-## 10. Alternatives Considered
+## 10. 検討した代替案
 
-| Alternative | Pros | Cons | Decision |
-|:-----------|:-----|:-----|:---------|
-| {option} | {pros} | {cons} | Chosen / Rejected |
+| 代替案 | メリット | デメリット | 判断 |
+|:-------|:---------|:----------|:-----|
+| {選択肢} | {メリット} | {デメリット} | 採用 / 不採用 |
 
-## Appendix
+## 付録
 
-### Glossary
+### 用語集
 
-| Term | Definition |
-|:-----|:----------|
-| {term} | {definition} |
+| 用語 | 定義 |
+|:-----|:-----|
+| {用語} | {定義} |
 
-### References
+### 参考資料
 
-- {Related documents or resources}
+- {関連ドキュメントやリソース}
 
-### Change History
+### 変更履歴
 
-| Version | Date | Changes | Author |
-|:--------|:-----|:--------|:-------|
-| 1.0 | {YYYY-MM-DD} | Initial draft | {author} |
+| バージョン | 日付 | 変更内容 | 変更者 |
+|:-----------|:-----|:---------|:-------|
+| 1.0 | {YYYY-MM-DD} | 初版作成 | {作成者} |

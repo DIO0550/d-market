@@ -1,98 +1,98 @@
-# {Page Name}
+# {ページ名}
 
-> **Feature**: [{Feature Name}](../overview.md)
+> **機能**: [{機能名}](../overview.md)
 > **URL**: `{/path/to/page}`
-> **Status**: Draft | Review | Approved
+> **ステータス**: 下書き | レビュー中 | 承認済み
 
-## 1. Purpose
+## 1. 目的
 
-{What this page does, in 1-2 sentences}
+{このページが何をするか（1〜2文）}
 
-## 2. Layout
+## 2. レイアウト
 
-{Description or ASCII wireframe of the page layout}
+{ページレイアウトの説明またはASCIIワイヤーフレーム}
 
 ```
 ┌─────────────────────────────┐
-│         Header              │
+│         ヘッダー              │
 ├──────────┬──────────────────┤
-│ Sidebar  │                  │
-│          │   Main Content   │
+│ サイドバー │                  │
+│          │   メインコンテンツ  │
 │          │                  │
 ├──────────┴──────────────────┤
-│         Footer              │
+│         フッター              │
 └─────────────────────────────┘
 ```
 
-## 3. Components
+## 3. コンポーネント
 
-| Component | Type | Description | Behavior |
-|:----------|:-----|:-----------|:---------|
-| {name} | Button/Input/List/Modal/... | {what it shows} | {what happens on interaction} |
+| コンポーネント | 種別 | 説明 | 振る舞い |
+|:-------------|:-----|:-----|:---------|
+| {名前} | ボタン/入力欄/リスト/モーダル/... | {表示内容} | {操作時の動作} |
 
-## 4. State Management
+## 4. 状態管理
 
-### 4.1 Page State
+### 4.1 ページの状態
 
-| State | Type | Initial Value | Description |
-|:------|:-----|:-------------|:-----------|
-| {state name} | {type} | {initial} | {what it represents} |
+| 状態名 | 型 | 初期値 | 説明 |
+|:-------|:---|:-------|:-----|
+| {状態名} | {型} | {初期値} | {何を表すか} |
 
-### 4.2 State Diagram
+### 4.2 状態遷移図
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Loading
-    Loading --> Loaded: fetch success
-    Loading --> Error: fetch failed
-    Error --> Loading: retry
-    Loaded --> [*]
+    [*] --> 読み込み中
+    読み込み中 --> 表示完了: 取得成功
+    読み込み中 --> エラー: 取得失敗
+    エラー --> 読み込み中: リトライ
+    表示完了 --> [*]
 ```
 
-## 5. Data
+## 5. データ
 
-### 5.1 Data Sources
+### 5.1 データソース
 
-| Data | Source | Timing |
-|:-----|:-------|:-------|
-| {data name} | [endpoint](../endpoints/{endpoint-name}.md) | On mount / On action / Polling |
+| データ | 取得元 | タイミング |
+|:-------|:-------|:-----------|
+| {データ名} | [エンドポイント](../endpoints/{endpoint-name}.md) | マウント時 / アクション時 / ポーリング |
 
-### 5.2 Displayed Data
+### 5.2 表示データ
 
-| Field | Source | Format | Fallback |
-|:------|:-------|:-------|:---------|
-| {field} | {data.field} | {format rule} | {when empty/null} |
+| フィールド | ソース | フォーマット | フォールバック |
+|:----------|:-------|:------------|:-------------|
+| {フィールド} | {data.field} | {表示ルール} | {空/null時の表示} |
 
-## 6. Forms (if applicable)
+## 6. フォーム（該当する場合）
 
-### 6.1 Fields
+### 6.1 フィールド
 
-| Field | Type | Required | Validation | Error Message |
-|:------|:-----|:---------|:-----------|:-------------|
-| {field} | text/select/checkbox/... | Yes/No | {rule} | {message} |
+| フィールド | 種別 | 必須 | バリデーション | エラーメッセージ |
+|:----------|:-----|:-----|:-------------|:---------------|
+| {フィールド} | テキスト/セレクト/チェックボックス/... | はい/いいえ | {ルール} | {メッセージ} |
 
-### 6.2 Submit Behavior
+### 6.2 送信時の動作
 
-| Action | Endpoint | On Success | On Failure |
-|:-------|:---------|:-----------|:-----------|
-| {action} | [endpoint](../endpoints/{endpoint-name}.md) | {behavior} | {behavior} |
+| アクション | エンドポイント | 成功時 | 失敗時 |
+|:----------|:-------------|:-------|:-------|
+| {アクション} | [エンドポイント](../endpoints/{endpoint-name}.md) | {動作} | {動作} |
 
-## 7. User Actions
+## 7. ユーザーアクション
 
-| Action | Trigger | Behavior | Navigation |
-|:-------|:--------|:---------|:-----------|
-| {action} | {click/submit/scroll/...} | {what happens} | {where to go, if any} |
+| アクション | トリガー | 動作 | 遷移先 |
+|:----------|:--------|:-----|:-------|
+| {アクション} | {クリック/送信/スクロール/...} | {何が起きるか} | {遷移先（あれば）} |
 
-## 8. Error Handling
+## 8. エラーハンドリング
 
-| Error Case | Trigger | Display | Recovery |
-|:-----------|:--------|:--------|:---------|
-| {case} | {condition} | {what user sees} | {how to recover} |
+| エラーケース | 発生条件 | 表示内容 | 復旧方法 |
+|:------------|:---------|:---------|:---------|
+| {ケース} | {条件} | {ユーザーに見えるもの} | {復旧手順} |
 
-## 9. Accessibility
+## 9. アクセシビリティ
 
-| Concern | Approach |
-|:--------|:---------|
-| Keyboard navigation | {approach} |
-| Screen reader | {approach} |
-| Color contrast | {approach} |
+| 観点 | 対応方針 |
+|:-----|:---------|
+| キーボード操作 | {方針} |
+| スクリーンリーダー | {方針} |
+| カラーコントラスト | {方針} |

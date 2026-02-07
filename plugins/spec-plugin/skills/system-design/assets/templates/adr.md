@@ -1,86 +1,86 @@
-# ADR-{NNN}: {Decision Title}
+# ADR-{NNN}: {判断タイトル}
 
-> **Status**: Proposed | Accepted | Deprecated | Superseded
-> **Date**: {YYYY-MM-DD}
-> **Decision Makers**: {names}
-> **Related ADRs**: {ADR-XXX, ADR-YYY or none}
+> **ステータス**: 提案 | 承認済み | 非推奨 | 置き換え済み
+> **日付**: {YYYY-MM-DD}
+> **意思決定者**: {名前}
+> **関連ADR**: {ADR-XXX, ADR-YYY または なし}
 
-## Context
+## 背景
 
-{What is the issue that we're seeing that motivates this decision?
-What are the forces at play (technical, business, organizational)?
-Keep this section factual and neutral.}
+{この判断を促す課題は何か？
+どのような力学（技術的、ビジネス的、組織的）が影響しているか？
+このセクションは事実に基づき、中立的に記述する。}
 
-## Decision Drivers
+## 判断の動機
 
-- {Driver 1: e.g., "Need to reduce deployment time"}
-- {Driver 2: e.g., "Must maintain backward compatibility"}
-- {Driver 3: e.g., "Team expertise in technology X"}
+- {動機1: 例「デプロイ時間を短縮する必要がある」}
+- {動機2: 例「後方互換性を維持する必要がある」}
+- {動機3: 例「チームが技術Xに精通している」}
 
-## Options Considered
+## 検討した選択肢
 
-### Option 1: {Name}
+### 選択肢 1: {名前}
 
-{Description of the approach}
+{アプローチの説明}
 
-| Aspect | Evaluation |
-|:-------|:----------|
-| Pros | {advantages} |
-| Cons | {disadvantages} |
-| Effort | {Low / Medium / High} |
-| Risk | {Low / Medium / High} |
+| 観点 | 評価 |
+|:-----|:-----|
+| メリット | {利点} |
+| デメリット | {欠点} |
+| 工数 | 低 / 中 / 高 |
+| リスク | 低 / 中 / 高 |
 
-### Option 2: {Name}
+### 選択肢 2: {名前}
 
-{Description of the approach}
+{アプローチの説明}
 
-| Aspect | Evaluation |
-|:-------|:----------|
-| Pros | {advantages} |
-| Cons | {disadvantages} |
-| Effort | {Low / Medium / High} |
-| Risk | {Low / Medium / High} |
+| 観点 | 評価 |
+|:-----|:-----|
+| メリット | {利点} |
+| デメリット | {欠点} |
+| 工数 | 低 / 中 / 高 |
+| リスク | 低 / 中 / 高 |
 
-### Option 3: {Name}
+### 選択肢 3: {名前}
 
-{Description of the approach}
+{アプローチの説明}
 
-| Aspect | Evaluation |
-|:-------|:----------|
-| Pros | {advantages} |
-| Cons | {disadvantages} |
-| Effort | {Low / Medium / High} |
-| Risk | {Low / Medium / High} |
+| 観点 | 評価 |
+|:-----|:-----|
+| メリット | {利点} |
+| デメリット | {欠点} |
+| 工数 | 低 / 中 / 高 |
+| リスク | 低 / 中 / 高 |
 
-## Decision
+## 判断
 
-**Chosen option**: {Option N: Name}
+**選択した案**: {選択肢N: 名前}
 
-{Why this option was chosen. Reference the decision drivers.}
+{なぜこの選択肢を選んだか。判断の動機を参照。}
 
-## Consequences
+## 結果
 
-### Positive
+### ポジティブな影響
 
-- {Positive consequence 1}
-- {Positive consequence 2}
+- {ポジティブな結果1}
+- {ポジティブな結果2}
 
-### Negative
+### ネガティブな影響
 
-- {Negative consequence 1}
-- {Accepted trade-off}
+- {ネガティブな結果1}
+- {受け入れたトレードオフ}
 
-### Neutral
+### その他
 
-- {Neutral observation, e.g., "Requires team training on technology X"}
+- {中立的な所見。例「チームに技術Xの研修が必要」}
 
-## Compliance
+## 準拠の確保
 
-{How will we ensure this decision is followed?}
+{この判断がどのように遵守されるか？}
 
-- {e.g., "Linting rules enforce the pattern"}
-- {e.g., "Code review checklist updated"}
+- {例「Lintルールでパターンを強制」}
+- {例「コードレビューのチェックリストを更新」}
 
-## Notes
+## 補足
 
-{Any additional context, links, or references.}
+{追加のコンテキスト、リンク、参考資料}

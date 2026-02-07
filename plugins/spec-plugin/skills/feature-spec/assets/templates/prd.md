@@ -1,163 +1,163 @@
-# {Product/Feature Name} - Product Requirements Document
+# {プロダクト/機能名} - プロダクト要件定義書（PRD）
 
-> **Version**: 1.0
-> **Created**: {YYYY-MM-DD}
-> **Author**: {Author}
-> **Status**: Draft | Review | Approved
+> **バージョン**: 1.0
+> **作成日**: {YYYY-MM-DD}
+> **作成者**: {作成者}
+> **ステータス**: 下書き | レビュー中 | 承認済み
 
-## 1. Problem Statement
+## 1. 課題
 
-### 1.1 Background
+### 1.1 背景
 
-{Current situation and context}
+{現状の状況とコンテキスト}
 
-### 1.2 Problem
+### 1.2 課題内容
 
-{Specific problem to solve, quantified where possible}
+{解決すべき具体的な課題。可能であれば定量的に}
 
-### 1.3 Impact
+### 1.3 影響
 
-{Business impact if problem is not solved}
+{課題が未解決の場合のビジネスへの影響}
 
-## 2. Goals & Success Metrics
+## 2. 目標と成功指標
 
-### 2.1 Goals
+### 2.1 目標
 
-| Goal | Description |
-|:-----|:-----------|
-| Primary | {main goal} |
-| Secondary | {secondary goal} |
+| 目標 | 説明 |
+|:-----|:-----|
+| 主目標 | {メインの目標} |
+| 副目標 | {サブの目標} |
 
-### 2.2 Success Metrics (KPIs)
+### 2.2 成功指標（KPI）
 
-| Metric | Current | Target | Measurement Method |
-|:-------|:--------|:-------|:------------------|
-| {metric} | {baseline} | {target} | {how to measure} |
+| 指標 | 現状 | 目標値 | 計測方法 |
+|:-----|:-----|:-------|:---------|
+| {指標} | {ベースライン} | {目標値} | {計測方法} |
 
-### 2.3 Non-Goals
+### 2.3 非目標
 
-- {What this project explicitly does NOT aim to achieve}
+- {このプロジェクトで明示的に目指さないこと}
 
-## 3. User Personas & Journeys
+## 3. ユーザーペルソナとジャーニー
 
-### 3.1 Personas
+### 3.1 ペルソナ
 
-| Persona | Description | Key Need | Pain Point |
-|:--------|:-----------|:---------|:-----------|
-| {name} | {who they are} | {what they need} | {frustration} |
+| ペルソナ | 説明 | 主要ニーズ | ペインポイント |
+|:---------|:-----|:----------|:-------------|
+| {名前} | {どんな人か} | {何を求めているか} | {何に困っているか} |
 
-### 3.2 User Journey
+### 3.2 ユーザージャーニー
 
 ```mermaid
 journey
-    title {Persona} - {Journey Name}
-    section Discovery
-      Step 1: 3: Persona
-    section Engagement
-      Step 2: 4: Persona
-    section Outcome
-      Step 3: 5: Persona
+    title {ペルソナ} - {ジャーニー名}
+    section 発見
+      ステップ1: 3: ペルソナ
+    section 利用
+      ステップ2: 4: ペルソナ
+    section 成果
+      ステップ3: 5: ペルソナ
 ```
 
-## 4. Scope
+## 4. スコープ
 
-### 4.1 In Scope
+### 4.1 対象範囲
 
-| ID | Feature | Priority | Description |
-|:---|:--------|:---------|:-----------|
-| F-001 | {feature} | P0/P1/P2 | {description} |
+| ID | 機能 | 優先度 | 説明 |
+|:---|:-----|:-------|:-----|
+| F-001 | {機能} | P0/P1/P2 | {説明} |
 
-### 4.2 Out of Scope
+### 4.2 対象外
 
-- {What is explicitly excluded and why}
+- {明示的に除外するものとその理由}
 
-### 4.3 Phasing (if applicable)
+### 4.3 フェーズ分け（該当する場合）
 
-| Phase | Features | Timeline |
-|:------|:---------|:---------|
-| MVP | {features} | {timeline} |
-| V2 | {features} | {timeline} |
+| フェーズ | 機能 | タイムライン |
+|:---------|:-----|:-----------|
+| MVP | {機能} | {タイムライン} |
+| V2 | {機能} | {タイムライン} |
 
-## 5. Proposed Solution
+## 5. 提案するソリューション
 
-### 5.1 Solution Overview
+### 5.1 ソリューション概要
 
-{High-level description of the proposed approach}
+{提案するアプローチの概要}
 
-### 5.2 Key User Flows
+### 5.2 主要ユーザーフロー
 
 ```mermaid
 flowchart TD
-    A[Start] --> B{Decision}
-    B -->|Option 1| C[Action]
-    B -->|Option 2| D[Action]
-    C --> E[End]
+    A[開始] --> B{判断}
+    B -->|選択肢1| C[アクション]
+    B -->|選択肢2| D[アクション]
+    C --> E[終了]
     D --> E
 ```
 
-### 5.3 Key Design Decisions
+### 5.3 主要な設計判断
 
-| Decision | Options Considered | Chosen | Rationale |
-|:---------|:------------------|:-------|:----------|
-| {decision} | {options} | {chosen} | {why} |
+| 判断事項 | 検討した選択肢 | 選択 | 理由 |
+|:---------|:-------------|:-----|:-----|
+| {判断事項} | {選択肢} | {選択した案} | {理由} |
 
-## 6. Functional Requirements
+## 6. 機能要件
 
-| ID | Requirement | Priority | Acceptance Criteria |
-|:---|:-----------|:---------|:-------------------|
-| FR-001 | {description} | P0/P1/P2 | {criteria} |
+| ID | 要件 | 優先度 | 受け入れ基準 |
+|:---|:-----|:-------|:-----------|
+| FR-001 | {説明} | P0/P1/P2 | {基準} |
 
-## 7. Non-Functional Requirements
+## 7. 非機能要件
 
-| Category | Requirement | Target |
-|:---------|:-----------|:-------|
-| Performance | {requirement} | {target} |
-| Security | {requirement} | {target} |
-| Accessibility | {requirement} | {target} |
+| カテゴリ | 要件 | 目標値 |
+|:---------|:-----|:-------|
+| パフォーマンス | {要件} | {目標値} |
+| セキュリティ | {要件} | {目標値} |
+| アクセシビリティ | {要件} | {目標値} |
 
-## 8. Dependencies & Risks
+## 8. 依存関係とリスク
 
-### 8.1 Dependencies
+### 8.1 依存関係
 
-| Dependency | Owner | Impact if Delayed |
-|:-----------|:------|:-----------------|
-| {dependency} | {team/person} | {impact} |
+| 依存先 | 担当 | 遅延時の影響 |
+|:-------|:-----|:-----------|
+| {依存先} | {チーム/担当者} | {影響} |
 
-### 8.2 Risks & Mitigations
+### 8.2 リスクと対策
 
-| Risk | Probability | Impact | Mitigation |
-|:-----|:-----------|:-------|:-----------|
-| {risk} | High/Medium/Low | High/Medium/Low | {mitigation} |
+| リスク | 発生確率 | 影響度 | 対策 |
+|:-------|:---------|:-------|:-----|
+| {リスク} | 高/中/低 | 高/中/低 | {対策} |
 
-### 8.3 Open Questions
+### 8.3 未解決の質問
 
-| Question | Owner | Due Date |
-|:---------|:------|:---------|
-| {question} | {who decides} | {when} |
+| 質問 | 担当 | 期限 |
+|:-----|:-----|:-----|
+| {質問} | {誰が決めるか} | {いつまでに} |
 
-## 9. Go-to-Market (if applicable)
+## 9. ローンチ計画（該当する場合）
 
-| Item | Plan |
+| 項目 | 計画 |
 |:-----|:-----|
-| Launch strategy | {approach} |
-| Communication plan | {how to announce} |
-| Documentation | {what needs updating} |
-| Support readiness | {training/FAQ needed} |
+| リリース戦略 | {アプローチ} |
+| コミュニケーション計画 | {告知方法} |
+| ドキュメント | {更新が必要なもの} |
+| サポート体制 | {研修/FAQ対応} |
 
-## Appendix
+## 付録
 
-### Glossary
+### 用語集
 
-| Term | Definition |
-|:-----|:----------|
-| {term} | {definition} |
+| 用語 | 定義 |
+|:-----|:-----|
+| {用語} | {定義} |
 
-### References
+### 参考資料
 
-- {Related documents, research, or resources}
+- {関連ドキュメント、調査資料、リソース}
 
-### Change History
+### 変更履歴
 
-| Version | Date | Changes | Author |
-|:--------|:-----|:--------|:-------|
-| 1.0 | {YYYY-MM-DD} | Initial draft | {author} |
+| バージョン | 日付 | 変更内容 | 変更者 |
+|:-----------|:-----|:---------|:-------|
+| 1.0 | {YYYY-MM-DD} | 初版作成 | {作成者} |
