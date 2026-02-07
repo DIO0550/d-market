@@ -8,7 +8,7 @@
 |-------------|------|-----------|---------------|
 | **planner** | タスク分析・実装計画作成 | Read, Glob, Grep | 最初に起動 |
 | **explorer** | ファイル探索・コード調査 | Glob, Grep, Read | 計画時に並列起動 |
-| **implementer** | コード実装 | Read, Write, Edit | 計画完了後 |
+| **implementer** | コード実装（1タスク=1エージェント） | Read, Write, Edit, Bash | タスクごとに起動 |
 | **test-runner** | テスト実行・結果報告 | Bash | 実装後 |
 | **linter** | Lint実行・修正提案 | Bash | 実装後（テストと並列可） |
 | **committer** | コミット作成 | Bash (git) | テスト・Lint成功後 |
@@ -70,26 +70,36 @@
 ## implementer エージェント
 
 ### 役割
-計画に基づいてコードを実装する。
+Orchestratorから割り当てられた**1つのタスク**を実装する。
+タスクごとに独立したimplementerが起動され、独立タスクは並列実行される。
+
+### 起動方式
+- Orchestrator が TaskList でブロック解除済みタスクを確認
+- 各タスクに対して1つの implementer をバックグラウンド起動
+- blockedBy なしの独立タスクは並列起動される
 
 ### 入力
-- `.orchestrator/plan.md`: 実装計画
-- `.orchestrator/exploration.md`: 探索結果
+- Orchestrator からプロンプトで渡されるタスク情報（ID、件名、説明）
+- `.orchestrator/plan.md`: 実装計画（参照用）
+- `.orchestrator/exploration.md`: 探索結果（参照用）
 
 ### 出力
 - コードファイルの編集/作成
-- `.orchestrator/implementation-log.md` に実装ログを書き出す
+- 標準出力で実装結果を返す（Orchestratorが収集・統合）
 
 ### 実装時の注意点
-1. 既存のコードスタイルに従う
-2. 最小限の変更で目的を達成する
-3. 必要に応じてテストコードも追加
-4. 変更内容を実装ログに記録
+1. 担当タスクの範囲のみ変更する
+2. t-wada式TDD（Red→Green→Refactor）で実装する
+3. CLAUDE.md のプロジェクトルールを順守する
+4. 既存のコードスタイルに従う
 
 ### 使用ツール
 - Read: ファイル読み込み
 - Write: 新規ファイル作成
 - Edit: 既存ファイル編集
+- Bash: テスト実行（TDDサイクル）
+- TaskGet: タスク詳細取得
+- TaskUpdate: タスク状態更新
 
 ---
 

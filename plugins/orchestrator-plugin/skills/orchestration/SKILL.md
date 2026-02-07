@@ -20,13 +20,16 @@
     │
     ▼ (両方完了待ち → 計画をユーザーに提示)
     │
-[Phase 2: 実装（タスク駆動）] ─────────────────────────
+[Phase 2: 実装（タスクごとにimplementer起動）] ──────────
     │
-    ├── TaskList でブロック解除済みタスクを確認
-    ├── implementer (バックグラウンド)
-    │   └── ブロック解除済みタスクを順番に実装
-    │   └── 各タスク完了時に TaskUpdate で completed に更新
-    │   └── 新たにブロック解除されたタスクに着手
+    ├── Orchestrator が TaskList でブロック解除済みタスクを確認
+    ├── ブロック解除済みタスクごとに implementer を起動
+    │   ├── Task-A (blockedBy なし) → implementer-A (バックグラウンド) ─┐
+    │   └── Task-B (blockedBy なし) → implementer-B (バックグラウンド) ─┤ 並列
+    │                                                                │
+    ├── 全 implementer の完了を待つ                                     │
+    ├── 新たにブロック解除されたタスクがあれば再度 implementer を起動
+    │   └── Task-C (blockedBy [A,B]) → implementer-C (バックグラウンド)
     │
     ▼ (全タスク完了 → 結果をユーザーに報告)
     │
@@ -51,7 +54,7 @@
 |---------|------|-------|
 | `.orchestrator/plan.md` | 実装計画 | planner |
 | `.orchestrator/exploration.md` | 探索結果 | explorer |
-| `.orchestrator/implementation-log.md` | 実装ログ | implementer |
+| `.orchestrator/implementation-log.md` | 実装ログ（全タスク統合） | orchestrator |
 | `.orchestrator/test-results.md` | テスト結果 | test-runner |
 | `.orchestrator/lint-results.md` | Lint結果 | linter |
 
@@ -61,6 +64,7 @@
 
 ```
 Phase 1: planner + explorer を同時にバックグラウンド起動
+Phase 2: blockedBy なしのタスクに対する implementer を同時にバックグラウンド起動
 Phase 3: test-runner + linter を同時にバックグラウンド起動
 ```
 
@@ -68,8 +72,21 @@ Phase 3: test-runner + linter を同時にバックグラウンド起動
 
 ```
 Phase 1 → Phase 2: 計画完了後に実装開始
+Phase 2 内: blockedBy のあるタスクは前提タスクの完了を待って起動
 Phase 3 → Phase 4: テスト成功後にコミット
 Phase 4 内: コミット → PR作成
+```
+
+### Phase 2 の実装ループ（Orchestrator が制御）
+
+```
+while (pendingタスクが残っている):
+  1. TaskList でブロック解除済み（blockedBy が空）の pending タスクを取得
+  2. 各タスクに対して implementer を1つずつバックグラウンド起動
+     - 独立タスクは並列起動
+  3. TaskOutput で全 implementer の完了を待つ
+  4. 各 implementer の結果を収集
+  5. 新たにブロック解除されたタスクがあれば 1 に戻る
 ```
 
 ## Task ツールの使い方

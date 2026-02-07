@@ -18,10 +18,11 @@
    - planner と explorer を並列でバックグラウンド起動
    - 両方の完了を待ち、計画をユーザーに提示
 
-2. **Phase 2: 実装（タスク駆動）**
-   - Plannerが登録したタスクの依存関係（blockedBy）に従い、ブロック解除済みタスクから順に実装
-   - implementer がタスクを1つずつ取得→実装→完了更新→次のブロック解除タスクへ
-   - 全タスク完了後、結果をユーザーに報告
+2. **Phase 2: 実装（タスクごとにimplementer起動）**
+   - Orchestrator が TaskList で依存関係（blockedBy）を確認
+   - ブロック解除済みタスクごとに implementer を1つ起動（独立タスクは並列）
+   - 完了後、新たにブロック解除されたタスクに対して再度 implementer を起動
+   - 全タスク完了後、結果を統合してユーザーに報告
    - **ここで自動実行は停止**
 
 ### ユーザー指示フェーズ（Phase 3-4）
@@ -111,53 +112,61 @@ Task tool:
 3. `.orchestrator/plan.md` と `.orchestrator/exploration.md` を読み込む
 4. 計画をユーザーに提示
 
-### Step 4: Phase 2 - タスク駆動の実装
+### Step 4: Phase 2 - タスクごとにimplementerを起動
 
-Plannerがタスク管理ツールにタスクを登録済みの場合、依存関係に従って実装する。
+Orchestrator が依存グラフに基づいてimplementerを起動・管理する。
 
-**implementer エージェント:**
+**実装ループ（Orchestrator が実行）:**
+
 ```
-Task tool:
-  subagent_type: general-purpose
-  run_in_background: true
-  prompt: |
-    あなたはimplementerエージェントです。
+while (pendingタスクが残っている):
 
-    ## タスク
-    タスク管理ツール（TaskList/TaskGet/TaskUpdate）を使用して、
-    ブロック解除済みのタスクを順番に実装してください。
+  1. TaskList でブロック解除済み（blockedByが空）の pending タスクを取得
 
-    ## 実行ループ
-    1. TaskList でブロック解除済み（blockedByが空）のpendingタスクを確認
-    2. TaskGet でタスク詳細を取得
-    3. TaskUpdate で status を "in_progress" に更新
-    4. t-wada式TDD（Red→Green→Refactor）で実装
-    5. TaskUpdate で status を "completed" に更新
-    6. TaskList で新たにブロック解除されたタスクを確認
-    7. pendingタスクがあれば 2 に戻る、なければ終了
+  2. 各タスクに対して implementer をバックグラウンド起動
+     ※ 独立したタスクは並列起動する
 
-    ## 参照ファイル
-    - 計画: `.orchestrator/plan.md`
-    - 探索結果: `.orchestrator/exploration.md`
+     Task tool:
+       description: "implementer: {タスク件名}"
+       subagent_type: general-purpose
+       run_in_background: true
+       prompt: |
+         あなたはimplementerエージェントです。
+         以下の **1つのタスクのみ** を実装してください。
 
-    ## 出力
-    - コードを直接編集/作成
-    - 実装ログを `.orchestrator/implementation-log.md` に書き出す
+         ## 担当タスク
+         - タスクID: {taskId}
+         - 件名: {subject}
+         - 説明: {description}
 
-    ## 注意事項
-    - blockedBy に未完了タスクがあるタスクには着手しない
-    - CLAUDE.md のプロジェクトルールを順守する
-    - 既存のコードスタイルに従う
-    - 最小限の変更で目的を達成する
+         ## 参照ファイル
+         - 計画: `.orchestrator/plan.md`
+         - 探索結果: `.orchestrator/exploration.md`
+
+         ## 実装方法
+         - CLAUDE.md のプロジェクトルールを順守する
+         - t-wada式TDD（Red→Green→Refactor）で実装する
+         - 既存のコードスタイルに従う
+         - 担当タスクの範囲のみ変更する
+
+         ## 完了時
+         - TaskUpdate で status を "completed" に更新
+         - 実装結果を標準出力で返す
+
+  3. TaskOutput で全 implementer の完了を待つ
+
+  4. 各 implementer の結果を収集・記録
+
+  5. TaskList で新たにブロック解除されたタスクを確認
+     → pending タスクがあれば 1 に戻る
 ```
 
 ### Step 5: Phase 2 完了・報告
 
-1. TaskOutput で implementer の結果を取得
-2. TaskList で全タスクが completed であることを確認
-3. `.orchestrator/implementation-log.md` を読み込む
-4. 実装結果をユーザーに報告
-5. **ここで自動実行を停止**
+1. TaskList で全タスクが completed であることを確認
+2. 各 implementer の結果を統合して `.orchestrator/implementation-log.md` に書き出す
+3. 実装結果をユーザーに報告
+4. **ここで自動実行を停止**
 
 ### Step 6: 次のステップの案内
 
