@@ -18,9 +18,10 @@
    - planner と explorer を並列でバックグラウンド起動
    - 両方の完了を待ち、計画をユーザーに提示
 
-2. **Phase 2: 実装**
-   - implementer をバックグラウンド起動
-   - 完了後、結果をユーザーに報告
+2. **Phase 2: 実装（タスク駆動）**
+   - Plannerが登録したタスクの依存関係（blockedBy）に従い、ブロック解除済みタスクから順に実装
+   - implementer がタスクを1つずつ取得→実装→完了更新→次のブロック解除タスクへ
+   - 全タスク完了後、結果をユーザーに報告
    - **ここで自動実行は停止**
 
 ### ユーザー指示フェーズ（Phase 3-4）
@@ -64,10 +65,19 @@ Task tool:
     4. 実装ステップ（具体的に）
     5. 注意点・リスク
 
+    ## タスク分割（重要）
+    タスク管理ツール（TaskCreate/TaskUpdate）が利用可能な場合は、
+    実装ステップをタスクとして登録し、依存関係（blockedBy）を設定すること。
+    - 1タスク = 1つの明確な成果物（1-2ファイル程度）
+    - blockedBy で前提タスクを指定
+    - 並列可能なタスクは依存関係なし
+
     ## 利用可能なツール
     - Read: ファイル読み込み
     - Glob: ファイル検索
     - Grep: コード検索
+    - TaskCreate: タスク登録（利用可能な場合）
+    - TaskUpdate: 依存関係設定（利用可能な場合）
 ```
 
 **explorer エージェント:**
@@ -101,7 +111,9 @@ Task tool:
 3. `.orchestrator/plan.md` と `.orchestrator/exploration.md` を読み込む
 4. 計画をユーザーに提示
 
-### Step 4: Phase 2 - 実装
+### Step 4: Phase 2 - タスク駆動の実装
+
+Plannerがタスク管理ツールにタスクを登録済みの場合、依存関係に従って実装する。
 
 **implementer エージェント:**
 ```
@@ -112,7 +124,17 @@ Task tool:
     あなたはimplementerエージェントです。
 
     ## タスク
-    計画に基づいてコードを実装してください。
+    タスク管理ツール（TaskList/TaskGet/TaskUpdate）を使用して、
+    ブロック解除済みのタスクを順番に実装してください。
+
+    ## 実行ループ
+    1. TaskList でブロック解除済み（blockedByが空）のpendingタスクを確認
+    2. TaskGet でタスク詳細を取得
+    3. TaskUpdate で status を "in_progress" に更新
+    4. t-wada式TDD（Red→Green→Refactor）で実装
+    5. TaskUpdate で status を "completed" に更新
+    6. TaskList で新たにブロック解除されたタスクを確認
+    7. pendingタスクがあれば 2 に戻る、なければ終了
 
     ## 参照ファイル
     - 計画: `.orchestrator/plan.md`
@@ -123,17 +145,19 @@ Task tool:
     - 実装ログを `.orchestrator/implementation-log.md` に書き出す
 
     ## 注意事項
+    - blockedBy に未完了タスクがあるタスクには着手しない
+    - CLAUDE.md のプロジェクトルールを順守する
     - 既存のコードスタイルに従う
     - 最小限の変更で目的を達成する
-    - テストコードも必要に応じて追加
 ```
 
 ### Step 5: Phase 2 完了・報告
 
 1. TaskOutput で implementer の結果を取得
-2. `.orchestrator/implementation-log.md` を読み込む
-3. 実装結果をユーザーに報告
-4. **ここで自動実行を停止**
+2. TaskList で全タスクが completed であることを確認
+3. `.orchestrator/implementation-log.md` を読み込む
+4. 実装結果をユーザーに報告
+5. **ここで自動実行を停止**
 
 ### Step 6: 次のステップの案内
 
