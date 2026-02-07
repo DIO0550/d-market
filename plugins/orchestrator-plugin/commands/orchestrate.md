@@ -18,11 +18,12 @@
    - planner と explorer を並列でバックグラウンド起動
    - 両方の完了を待ち、計画をユーザーに提示
 
-2. **Phase 2: 実装（タスクごとにimplementer起動）**
+2. **Phase 2: 実装（タスクごとにimplementer + task-manager）**
    - Orchestrator が TaskList で依存関係（blockedBy）を確認
    - ブロック解除済みタスクごとに implementer を1つ起動（独立タスクは並列）
-   - 完了後、新たにブロック解除されたタスクに対して再度 implementer を起動
-   - 全タスク完了後、結果を統合してユーザーに報告
+   - implementer 完了後、task-manager で完了判定（completed / rejected）
+   - rejected されたタスクは差し戻し理由付きで implementer を再起動
+   - 全タスク completed 後、結果を統合してユーザーに報告
    - **ここで自動実行は停止**
 
 ### ユーザー指示フェーズ（Phase 3-4）
@@ -155,16 +156,42 @@ while (pendingタスクが残っている):
 
   3. TaskOutput で全 implementer の完了を待つ
 
-  4. 各 implementer の結果を収集・記録
+  4. 各 implementer の結果に対して task-manager を起動（完了判定）
 
-  5. TaskList で新たにブロック解除されたタスクを確認
+     Task tool:
+       description: "task-manager: {タスク件名}"
+       subagent_type: general-purpose
+       model: haiku
+       run_in_background: true
+       prompt: |
+         あなたはtask-managerエージェントです。
+         Implementerの実装結果を完了条件と照合し、判定してください。
+
+         ## 担当タスク
+         - タスクID: {taskId}
+         - 完了条件: {completionCriteria}
+
+         ## Implementerの実装結果
+         {implementerの標準出力}
+
+         ## 判定
+         - 完了条件を満たしていれば TaskUpdate で completed に更新
+         - 不十分であれば TaskUpdate で pending に戻し、差し戻し理由を記載
+
+  5. TaskOutput で全 task-manager の完了を待つ
+
+  6. rejected されたタスクがあれば:
+     - 差し戻し理由を含めて implementer を再起動
+     → 3 に戻る
+
+  7. TaskList で新たにブロック解除されたタスクを確認
      → pending タスクがあれば 1 に戻る
 ```
 
 ### Step 5: Phase 2 完了・報告
 
 1. TaskList で全タスクが completed であることを確認
-2. 各 implementer の結果を統合して `.orchestrator/implementation-log.md` に書き出す
+2. 各 implementer + task-manager の結果を統合して `.orchestrator/implementation-log.md` に書き出す
 3. 実装結果をユーザーに報告
 4. **ここで自動実行を停止**
 

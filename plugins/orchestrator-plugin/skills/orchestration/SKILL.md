@@ -24,14 +24,18 @@
     │
     ├── Orchestrator が TaskList でブロック解除済みタスクを確認
     ├── ブロック解除済みタスクごとに implementer を起動
-    │   ├── Task-A (blockedBy なし) → implementer-A (バックグラウンド) ─┐
-    │   └── Task-B (blockedBy なし) → implementer-B (バックグラウンド) ─┤ 並列
-    │                                                                │
-    ├── 全 implementer の完了を待つ                                     │
-    ├── 新たにブロック解除されたタスクがあれば再度 implementer を起動
-    │   └── Task-C (blockedBy [A,B]) → implementer-C (バックグラウンド)
+    │   ├── Task-A (blockedBy なし) → implementer-A ─┐
+    │   └── Task-B (blockedBy なし) → implementer-B ─┤ 並列
+    │                                                │
+    ├── 全 implementer の完了を待つ
+    ├── 各結果に対して task-manager を起動（完了判定）
+    │   ├── task-manager-A → Task-A: completed ✅
+    │   └── task-manager-B → Task-B: rejected ❌ → 再実装へ
     │
-    ▼ (全タスク完了 → 結果をユーザーに報告)
+    ├── 新たにブロック解除されたタスクがあれば再度 implementer を起動
+    │   └── Task-C (blockedBy [A,B]) → implementer-C
+    │
+    ▼ (全タスク completed → 結果をユーザーに報告)
     │
     ★ 自動実行停止
     │
@@ -85,8 +89,11 @@ while (pendingタスクが残っている):
   2. 各タスクに対して implementer を1つずつバックグラウンド起動
      - 独立タスクは並列起動
   3. TaskOutput で全 implementer の完了を待つ
-  4. 各 implementer の結果を収集
-  5. 新たにブロック解除されたタスクがあれば 1 に戻る
+  4. 各 implementer の結果に対して task-manager をバックグラウンド起動
+     - 完了条件との照合 → completed or rejected（pending に戻す）
+  5. TaskOutput で全 task-manager の完了を待つ
+  6. rejected されたタスクがあれば、差し戻し理由付きで implementer を再起動
+  7. 新たにブロック解除されたタスクがあれば 1 に戻る
 ```
 
 ## Task ツールの使い方

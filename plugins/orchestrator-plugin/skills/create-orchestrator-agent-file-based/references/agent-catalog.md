@@ -24,7 +24,8 @@
 
 | エージェント | 必須度 | 推奨モデル | 役割 | テンプレート |
 |-------------|-------|----------|------|-------------|
-| **Implementer** | 必須（変更時） | ⚡ 中程度 | 計画に基づくコード実装 | [implementer.md](agents/implementer.md) |
+| **Implementer** | 必須（変更時） | ⚡ 中程度 | 計画に基づくコード実装（1タスク=1エージェント） | [implementer.md](agents/implementer.md) |
+| **Task Manager** | 推奨 | 💨 軽量 | タスク完了判定（completed/rejected） | [task-manager.md](agents/task-manager.md) |
 
 ### 検証フェーズ
 
@@ -94,6 +95,7 @@
 
 | エージェント | 理由 |
 |-------------|------|
+| Task Manager | 完了条件との照合（判定のみ） |
 | Test Runner | コマンド実行、出力解析（定型的） |
 | Linter | コマンド実行、出力解析（定型的） |
 | Committer | コミットメッセージ生成（テンプレートベース） |
@@ -118,8 +120,13 @@
         └────────┬────────┘
                  ▼
          ┌─────────────┐
-         │ Implementer │ ⚡
+         │ Implementer │ ⚡  ← 1タスク=1エージェント
          └──────┬──────┘
+                │
+                ▼
+        ┌──────────────┐
+        │ Task Manager │ 💨  ← completed/rejected 判定
+        └──────┬───────┘
                 │
      ┌──────────┼──────────┬──────────┐
      │          │          │          │
@@ -164,13 +171,14 @@
 - Explorer ⚡
 - Planner 🧠
 - Implementer ⚡
+- Task Manager 💨
 - Test Runner 💨
 - Linter 💨
 - Committer 💨
 
 ### Full（フル構成）
 全エージェント使用
-- 全13種類（🧠×5, ⚡×4, 💨×4）
+- 全14種類（🧠×5, ⚡×4, 💨×5）
 
 ### Review-Heavy（レビュー重視）
 品質重視のフロー（高性能モデル多め）
@@ -179,6 +187,7 @@
 - Planner 🧠
 - Plan Reviewer 🧠
 - Implementer ⚡
+- Task Manager 💨
 - Code Reviewer 🧠
 - Test Runner 💨
 - Linter 💨
@@ -192,6 +201,7 @@
 - Explorer ⚡
 - Debugger 🧠
 - Implementer ⚡
+- Task Manager 💨
 - Test Runner 💨
 - Committer 💨
 
@@ -232,6 +242,6 @@
 | 成熟度 | 推奨構成 | コスト |
 |-------|---------|-------|
 | MVP/プロトタイプ | Minimal | 低（🧠×2, ⚡×1） |
-| 開発中 | Standard | 中（🧠×2, ⚡×2, 💨×3） |
-| 本番運用中 | Review-Heavy | 高（🧠×4, ⚡×3, 💨×4） |
-| レガシー改善 | Debug-Focused | 中（🧠×2, ⚡×2, 💨×2） |
+| 開発中 | Standard | 中（🧠×2, ⚡×2, 💨×4） |
+| 本番運用中 | Review-Heavy | 高（🧠×4, ⚡×3, 💨×5） |
+| レガシー改善 | Debug-Focused | 中（🧠×2, ⚡×2, 💨×3） |

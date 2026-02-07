@@ -42,7 +42,7 @@ description: "オーケストレーターフロー用のエージェント定義
 |-----------|-------------|------|
 | **Minimal** | Orchestrator, Planner, Implementer | 最小限 |
 | **Standard** | + Explorer, Test Runner, Linter, Committer | 一般的 |
-| **Full** | 全13種類 | フル機能 |
+| **Full** | 全14種類 | フル機能 |
 
 ### 個別選択
 
@@ -50,7 +50,7 @@ description: "オーケストレーターフロー用のエージェント定義
 
 **計画**: [Explorer](references/agents/explorer.md), [Planner](references/agents/planner.md), [Plan Reviewer](references/agents/plan-reviewer.md)
 
-**実装**: [Implementer](references/agents/implementer.md)
+**実装**: [Implementer](references/agents/implementer.md), [Task Manager](references/agents/task-manager.md)
 
 **検証**: [Code Reviewer](references/agents/code-reviewer.md), [Test Runner](references/agents/test-runner.md), [Linter](references/agents/linter.md), [Security Scanner](references/agents/security-scanner.md)
 
