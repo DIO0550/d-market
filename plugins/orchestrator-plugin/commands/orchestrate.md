@@ -18,11 +18,10 @@
    - planner と explorer を並列でバックグラウンド起動
    - 両方の完了を待ち、計画をユーザーに提示
 
-2. **Phase 2: 実装（タスクごとにimplementer + task-manager）**
+2. **Phase 2: 実装（タスクごとにtask-managerを起動）**
    - Orchestrator が TaskList で依存関係（blockedBy）を確認
-   - ブロック解除済みタスクごとに implementer を1つ起動（独立タスクは並列）
-   - implementer 完了後、task-manager で完了判定（completed / rejected）
-   - rejected されたタスクは差し戻し理由付きで implementer を再起動
+   - ブロック解除済みタスクごとに task-manager を1つ起動（独立タスクは並列）
+   - task-manager が内部で implementer 起動 → code-reviewer 起動 → 完了判定を管理
    - 全タスク completed 後、結果を統合してユーザーに報告
    - **ここで自動実行は停止**
 
@@ -113,9 +112,10 @@ Task tool:
 3. `.orchestrator/plan.md` と `.orchestrator/exploration.md` を読み込む
 4. 計画をユーザーに提示
 
-### Step 4: Phase 2 - タスクごとにimplementerを起動
+### Step 4: Phase 2 - タスクごとにtask-managerを起動
 
-Orchestrator が依存グラフに基づいてimplementerを起動・管理する。
+Orchestrator が依存グラフに基づいてtask-managerを起動する。
+task-manager が内部で Implementer → Code Reviewer → 完了判定を管理する。
 
 **実装ループ（Orchestrator が実行）:**
 
@@ -124,74 +124,43 @@ while (pendingタスクが残っている):
 
   1. TaskList でブロック解除済み（blockedByが空）の pending タスクを取得
 
-  2. 各タスクに対して implementer をバックグラウンド起動
+  2. 各タスクに対して task-manager をバックグラウンド起動
      ※ 独立したタスクは並列起動する
 
      Task tool:
-       description: "implementer: {タスク件名}"
+       description: "task-manager: {タスク件名}"
        subagent_type: general-purpose
+       model: sonnet
        run_in_background: true
        prompt: |
-         あなたはimplementerエージェントです。
-         以下の **1つのタスクのみ** を実装してください。
+         あなたはtask-managerエージェントです。
+         以下のタスクのライフサイクルを管理してください。
 
          ## 担当タスク
          - タスクID: {taskId}
          - 件名: {subject}
          - 説明: {description}
-
-         ## 参照ファイル
-         - 計画: `.orchestrator/plan.md`
-         - 探索結果: `.orchestrator/exploration.md`
-
-         ## 実装方法
-         - CLAUDE.md のプロジェクトルールを順守する
-         - t-wada式TDD（Red→Green→Refactor）で実装する
-         - 既存のコードスタイルに従う
-         - 担当タスクの範囲のみ変更する
-
-         ## 完了時
-         - TaskUpdate で status を "completed" に更新
-         - 実装結果を標準出力で返す
-
-  3. TaskOutput で全 implementer の完了を待つ
-
-  4. 各 implementer の結果に対して task-manager を起動（完了判定）
-
-     Task tool:
-       description: "task-manager: {タスク件名}"
-       subagent_type: general-purpose
-       model: haiku
-       run_in_background: true
-       prompt: |
-         あなたはtask-managerエージェントです。
-         Implementerの実装結果を完了条件と照合し、判定してください。
-
-         ## 担当タスク
-         - タスクID: {taskId}
          - 完了条件: {completionCriteria}
 
-         ## Implementerの実装結果
-         {implementerの標準出力}
+         ## コードレビュー
+         {有効 / 無効}
 
-         ## 判定
-         - 完了条件を満たしていれば TaskUpdate で completed に更新
-         - 不十分であれば TaskUpdate で pending に戻し、差し戻し理由を記載
+         ## 手順
+         1. Implementer をサブエージェントとして起動し、実装を委譲
+         2. コードレビューが有効なら Code Reviewer を起動
+         3. 結果を基に completed / rejected を判定
+         4. rejected の場合は Implementer を再起動（最大2回）
 
-  5. TaskOutput で全 task-manager の完了を待つ
+  3. TaskOutput で全 task-manager の完了を待つ
 
-  6. rejected されたタスクがあれば:
-     - 差し戻し理由を含めて implementer を再起動
-     → 3 に戻る
-
-  7. TaskList で新たにブロック解除されたタスクを確認
+  4. TaskList で新たにブロック解除されたタスクを確認
      → pending タスクがあれば 1 に戻る
 ```
 
 ### Step 5: Phase 2 完了・報告
 
 1. TaskList で全タスクが completed であることを確認
-2. 各 implementer + task-manager の結果を統合して `.orchestrator/implementation-log.md` に書き出す
+2. 各 task-manager の結果を統合して `.orchestrator/implementation-log.md` に書き出す
 3. 実装結果をユーザーに報告
 4. **ここで自動実行を停止**
 

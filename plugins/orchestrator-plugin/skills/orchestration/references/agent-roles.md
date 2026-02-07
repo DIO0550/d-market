@@ -8,8 +8,8 @@
 |-------------|------|-----------|---------------|
 | **planner** | タスク分析・実装計画作成 | Read, Glob, Grep | 最初に起動 |
 | **explorer** | ファイル探索・コード調査 | Glob, Grep, Read | 計画時に並列起動 |
-| **implementer** | コード実装（1タスク=1エージェント） | Read, Write, Edit, Bash | タスクごとに起動 |
-| **task-manager** | タスク完了判定（completed/rejected） | TaskGet, TaskUpdate, Read | implementer完了後 |
+| **task-manager** | タスクライフサイクル管理（実装→レビュー→判定） | Task, TaskOutput, TaskGet, TaskUpdate | タスクごとに起動 |
+| **implementer** | コード実装（1タスク=1エージェント） | Read, Write, Edit, Bash | task-managerから起動 |
 | **test-runner** | テスト実行・結果報告 | Bash | 実装後 |
 | **linter** | Lint実行・修正提案 | Bash | 実装後（テストと並列可） |
 | **committer** | コミット作成 | Bash (git) | テスト・Lint成功後 |
@@ -68,25 +68,57 @@
 
 ---
 
-## implementer エージェント
+## task-manager エージェント
 
 ### 役割
-Orchestratorから割り当てられた**1つのタスク**を実装する。
-タスクごとに独立したimplementerが起動され、独立タスクは並列実行される。
+タスクのライフサイクルを管理するミニオーケストレーター。
+Implementer起動 → Code Reviewer起動 → 完了判定を一貫して行う。
 
 ### 起動方式
 - Orchestrator が TaskList でブロック解除済みタスクを確認
-- 各タスクに対して1つの implementer をバックグラウンド起動
+- 各タスクに対して1つの task-manager をバックグラウンド起動
 - blockedBy なしの独立タスクは並列起動される
 
 ### 入力
-- Orchestrator からプロンプトで渡されるタスク情報（ID、件名、説明）
+- Orchestrator からプロンプトで渡されるタスク情報（ID、件名、説明、完了条件）
+- コードレビューの要否
+
+### 出力
+- サブエージェント（Implementer、Code Reviewer）を起動・管理
+- TaskUpdate で completed または pending（差し戻し）に更新
+- 標準出力でライフサイクル結果を返す
+
+### 内部フロー
+1. Implementer をサブエージェントとして起動 → 完了待ち
+2. Code Reviewer をサブエージェントとして起動（指示時）→ 完了待ち
+3. 結果を基に completed / rejected を判定
+4. rejected の場合は Implementer を再起動（最大2回リトライ）
+
+### 使用ツール
+- Task: サブエージェント起動（Implementer、Code Reviewer）
+- TaskOutput: サブエージェント完了待ち
+- TaskGet: タスク詳細取得
+- TaskUpdate: タスク状態更新
+- Read: ファイル確認（必要に応じて）
+
+---
+
+## implementer エージェント
+
+### 役割
+Task Managerから割り当てられた**1つのタスク**を実装する。
+
+### 起動方式
+- Task Manager がサブエージェントとして起動
+
+### 入力
+- Task Manager からプロンプトで渡されるタスク情報（ID、件名、説明）
 - `.orchestrator/plan.md`: 実装計画（参照用）
 - `.orchestrator/exploration.md`: 探索結果（参照用）
 
 ### 出力
 - コードファイルの編集/作成
-- 標準出力で実装結果を返す（Orchestratorが収集・統合）
+- 標準出力で実装結果を返す（Task Managerが受け取る）
 
 ### 実装時の注意点
 1. 担当タスクの範囲のみ変更する
@@ -100,36 +132,7 @@ Orchestratorから割り当てられた**1つのタスク**を実装する。
 - Edit: 既存ファイル編集
 - Bash: テスト実行（TDDサイクル）
 - TaskGet: タスク詳細取得
-- TaskUpdate: タスク状態更新
-
----
-
-## task-manager エージェント
-
-### 役割
-Implementerの実装結果を検証し、タスクの完了判定を行う。
-
-### 起動方式
-- Orchestrator が implementer 完了後に起動
-- 各タスクに対して1つの task-manager をバックグラウンド起動
-
-### 入力
-- Orchestrator からプロンプトで渡されるタスク情報（ID、完了条件）
-- Implementer の実装結果（標準出力）
-
-### 出力
-- TaskUpdate で completed または pending（差し戻し）に更新
-- 標準出力で判定結果を返す
-
-### 判定基準
-1. タスクの完了条件が満たされているか
-2. 指定されたファイルが変更されているか
-3. 担当タスクの範囲外の変更がないか
-
-### 使用ツール
-- TaskGet: タスク詳細取得
-- TaskUpdate: タスク状態更新
-- Read: ファイル確認（必要に応じて）
+- TaskUpdate: タスク状態更新（in_progressのみ）
 
 ---
 

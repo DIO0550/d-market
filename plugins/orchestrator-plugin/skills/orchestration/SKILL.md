@@ -20,20 +20,24 @@
     │
     ▼ (両方完了待ち → 計画をユーザーに提示)
     │
-[Phase 2: 実装（タスクごとにimplementer起動）] ──────────
+[Phase 2: 実装（タスクごとにtask-manager起動）] ──────────
     │
     ├── Orchestrator が TaskList でブロック解除済みタスクを確認
-    ├── ブロック解除済みタスクごとに implementer を起動
-    │   ├── Task-A (blockedBy なし) → implementer-A ─┐
-    │   └── Task-B (blockedBy なし) → implementer-B ─┤ 並列
-    │                                                │
-    ├── 全 implementer の完了を待つ
-    ├── 各結果に対して task-manager を起動（完了判定）
+    ├── ブロック解除済みタスクごとに task-manager を起動
+    │   ├── Task-A (blockedBy なし) → task-manager-A ─┐
+    │   └── Task-B (blockedBy なし) → task-manager-B ─┤ 並列
+    │   │                                             │
+    │   │ task-manager 内部:                           │
+    │   │   1. implementer 起動 → 実装                │
+    │   │   2. code-reviewer 起動 → レビュー（任意）   │
+    │   │   3. completed/rejected 判定                 │
+    │   │   4. rejected → implementer 再起動（最大2回）│
+    │   │                                             │
     │   ├── task-manager-A → Task-A: completed ✅
-    │   └── task-manager-B → Task-B: rejected ❌ → 再実装へ
+    │   └── task-manager-B → Task-B: completed ✅
     │
-    ├── 新たにブロック解除されたタスクがあれば再度 implementer を起動
-    │   └── Task-C (blockedBy [A,B]) → implementer-C
+    ├── 新たにブロック解除されたタスクがあれば再度 task-manager を起動
+    │   └── Task-C (blockedBy [A,B]) → task-manager-C
     │
     ▼ (全タスク completed → 結果をユーザーに報告)
     │
@@ -68,7 +72,7 @@
 
 ```
 Phase 1: planner + explorer を同時にバックグラウンド起動
-Phase 2: blockedBy なしのタスクに対する implementer を同時にバックグラウンド起動
+Phase 2: blockedBy なしのタスクに対する task-manager を同時にバックグラウンド起動
 Phase 3: test-runner + linter を同時にバックグラウンド起動
 ```
 
@@ -86,14 +90,12 @@ Phase 4 内: コミット → PR作成
 ```
 while (pendingタスクが残っている):
   1. TaskList でブロック解除済み（blockedBy が空）の pending タスクを取得
-  2. 各タスクに対して implementer を1つずつバックグラウンド起動
+  2. 各タスクに対して task-manager を1つずつバックグラウンド起動
      - 独立タスクは並列起動
-  3. TaskOutput で全 implementer の完了を待つ
-  4. 各 implementer の結果に対して task-manager をバックグラウンド起動
-     - 完了条件との照合 → completed or rejected（pending に戻す）
-  5. TaskOutput で全 task-manager の完了を待つ
-  6. rejected されたタスクがあれば、差し戻し理由付きで implementer を再起動
-  7. 新たにブロック解除されたタスクがあれば 1 に戻る
+     - task-manager が内部で implementer → code-reviewer → 判定を管理
+     - rejected 時のリトライも task-manager 内部で処理（最大2回）
+  3. TaskOutput で全 task-manager の完了を待つ
+  4. 新たにブロック解除されたタスクがあれば 1 に戻る
 ```
 
 ## Task ツールの使い方

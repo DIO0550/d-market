@@ -24,8 +24,8 @@
 
 | エージェント | 必須度 | 推奨モデル | 役割 | テンプレート |
 |-------------|-------|----------|------|-------------|
+| **Task Manager** | 推奨 | ⚡ 中程度 | タスクライフサイクル管理（実装→レビュー→判定） | [task-manager.md](agents/task-manager.md) |
 | **Implementer** | 必須（変更時） | ⚡ 中程度 | 計画に基づくコード実装（1タスク=1エージェント） | [implementer.md](agents/implementer.md) |
-| **Task Manager** | 推奨 | 💨 軽量 | タスク完了判定（completed/rejected） | [task-manager.md](agents/task-manager.md) |
 
 ### 検証フェーズ
 
@@ -87,6 +87,7 @@
 | エージェント | 理由 |
 |-------------|------|
 | Explorer | パターン認識、関連ファイルの判断 |
+| Task Manager | サブエージェント管理、判定、リトライ制御 |
 | Implementer | コード生成、既存パターンの踏襲 |
 | Refactorer | コード改善、パターン適用 |
 | Security Scanner | 脆弱性パターンの検出 |
@@ -95,7 +96,6 @@
 
 | エージェント | 理由 |
 |-------------|------|
-| Task Manager | 完了条件との照合（判定のみ） |
 | Test Runner | コマンド実行、出力解析（定型的） |
 | Linter | コマンド実行、出力解析（定型的） |
 | Committer | コミットメッセージ生成（テンプレートベース） |
@@ -119,30 +119,33 @@
         │                 │
         └────────┬────────┘
                  ▼
-         ┌─────────────┐
-         │ Implementer │ ⚡  ← 1タスク=1エージェント
-         └──────┬──────┘
-                │
-                ▼
         ┌──────────────┐
-        │ Task Manager │ 💨  ← completed/rejected 判定
+        │ Task Manager │ ⚡  ← タスクごとに1つ起動
         └──────┬───────┘
-                │
-     ┌──────────┼──────────┬──────────┐
-     │          │          │          │
-     ▼          ▼          ▼          ▼
-┌────────┐┌────────┐┌──────────┐┌─────────────┐
-│  Test  ││ Linter ││ Security ││Code Reviewer│
-│ Runner ││   💨   ││ Scanner  ││     🧠      │
-│   💨   │└────────┘│    ⚡    │└─────────────┘
+               │
+       ┌───────┴───────┐
+       │               │
+       ▼               ▼
+┌─────────────┐ ┌─────────────┐
+│ Implementer │ │Code Reviewer│
+│     ⚡      │ │     🧠      │
+└─────────────┘ └─────────────┘
+               │
+     ┌─────────┼─────────┬──────────┐
+     │         │         │          │
+     ▼         ▼         ▼          ▼
+┌────────┐┌────────┐┌──────────┐┌────────────┐
+│  Test  ││ Linter ││ Security ││ Refactorer │
+│ Runner ││   💨   ││ Scanner  ││     ⚡      │
+│   💨   │└────────┘│    ⚡    │└────────────┘
 └───┬────┘          └────┬─────┘
     │                    │
     └─────────┬──────────┘
               │
               ▼
-        ┌──────────┐                 ┌────────────┐
-        │ Debugger │ 🧠               │ Refactorer │ ⚡
-        └──────────┘                 └────────────┘
+        ┌──────────┐
+        │ Debugger │ 🧠
+        └──────────┘
               │
               ▼
         ┌──────────┐
@@ -171,14 +174,14 @@
 - Explorer ⚡
 - Planner 🧠
 - Implementer ⚡
-- Task Manager 💨
+- Task Manager ⚡
 - Test Runner 💨
 - Linter 💨
 - Committer 💨
 
 ### Full（フル構成）
 全エージェント使用
-- 全14種類（🧠×5, ⚡×4, 💨×5）
+- 全14種類（🧠×5, ⚡×5, 💨×4）
 
 ### Review-Heavy（レビュー重視）
 品質重視のフロー（高性能モデル多め）
@@ -187,7 +190,7 @@
 - Planner 🧠
 - Plan Reviewer 🧠
 - Implementer ⚡
-- Task Manager 💨
+- Task Manager ⚡
 - Code Reviewer 🧠
 - Test Runner 💨
 - Linter 💨
@@ -201,7 +204,7 @@
 - Explorer ⚡
 - Debugger 🧠
 - Implementer ⚡
-- Task Manager 💨
+- Task Manager ⚡
 - Test Runner 💨
 - Committer 💨
 
@@ -217,8 +220,8 @@ Orchestrator がサブエージェントの返り値を受け取り、必要に�
 | Explorer | 探索結果 | Planner, Orchestrator |
 | Planner | 計画書 | Implementer, Plan Reviewer, Orchestrator |
 | Plan Reviewer | レビュー結果 | Orchestrator |
-| Implementer | 実装ログ | Task Manager, Orchestrator |
-| Task Manager | 判定結果（completed/rejected） | Orchestrator |
+| Task Manager | ライフサイクル結果（実装+レビュー+判定） | Orchestrator |
+| Implementer | 実装ログ | Task Manager |
 | Code Reviewer | レビュー結果 | Refactorer, Orchestrator |
 | Test Runner | テスト結果 | Debugger, Orchestrator |
 | Linter | Lint結果 | Debugger, Orchestrator |
@@ -249,6 +252,6 @@ Orchestrator がサブエージェントの返り値を受け取り、必要に�
 | 成熟度 | 推奨構成 | コスト |
 |-------|---------|-------|
 | MVP/プロトタイプ | Minimal | 低（🧠×2, ⚡×1） |
-| 開発中 | Standard | 中（🧠×2, ⚡×2, 💨×4） |
-| 本番運用中 | Review-Heavy | 高（🧠×4, ⚡×3, 💨×5） |
-| レガシー改善 | Debug-Focused | 中（🧠×2, ⚡×2, 💨×3） |
+| 開発中 | Standard | 中（🧠×2, ⚡×3, 💨×3） |
+| 本番運用中 | Review-Heavy | 高（🧠×4, ⚡×4, 💨×4） |
+| レガシー改善 | Debug-Focused | 中（🧠×2, ⚡×3, 💨×2） |
