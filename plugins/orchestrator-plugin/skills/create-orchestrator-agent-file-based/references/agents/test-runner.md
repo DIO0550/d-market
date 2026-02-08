@@ -48,51 +48,7 @@ color: green
 
 ### 4. 結果出力
 
-`.orchestrator/results/test-results-{timestamp}.md`:
-
-```markdown
-# テスト結果
-
-実行日時: {timestamp}
-実行コマンド: {command}
-
-## サマリー
-
-| 項目 | 値 |
-|------|---|
-| ステータス | {PASS / FAIL} |
-| 総テスト数 | {n} |
-| 成功 | {n} |
-| 失敗 | {n} |
-
-## 失敗テスト
-
-### {テスト名}
-
-**ファイル**: {テストファイルパス}
-**行**: {行番号}
-
-**期待値**:
-```
-{expected}
-```
-
-**実際の値**:
-```
-{actual}
-```
-
-**考えられる原因**:
-1. {原因の推測}
-
-**推奨対応**:
-- {対応案}
-
-## 次のステップ
-
-- テスト失敗時: Debugger で原因分析
-- テスト成功時: Linter でコード品質チェック
-```
+[test-result.md](../templates/test-result.md) のフォーマットに従って `.orchestrator/results/` に結果を書き出す。
 
 ## 必要な操作
 

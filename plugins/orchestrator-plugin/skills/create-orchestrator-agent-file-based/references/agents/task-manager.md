@@ -128,32 +128,7 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
 
 ### 8. 結果の出力
 
-結果を `.orchestrator/logs/task-{taskId}-lifecycle.md` に書き出す：
-
-```markdown
-# タスクライフサイクル結果
-
-タスクID: {taskId}
-最終判定: {completed / rejected}
-
-## Implementer 実装結果
-{サマリー}
-
-## Code Reviewer レビュー結果（実施時）
-{サマリー}
-
-## 完了判定
-
-| チェック項目 | 結果 | 備考 |
-|-------------|------|------|
-| 変更対象ファイル | OK/NG | {詳細} |
-| 完了条件の充足 | OK/NG | {詳細} |
-| スコープの逸脱 | OK/NG | {詳細} |
-| レビュー指摘 | OK/NG/N/A | {詳細} |
-
-## リトライ回数
-{0-2回}
-```
+[task-lifecycle-result.md](../templates/task-lifecycle-result.md) のフォーマットに従って `.orchestrator/logs/` に結果を書き出す。
 
 ## 必要な操作
 
