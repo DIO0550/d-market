@@ -67,7 +67,7 @@ L1+="$(_fg $BG1)$(_bg $BG2)${SEP}"
 L1+="$(_fg $FG_LIGHT) ${BRANCH_ICON} ${BRANCH} "
 L1+="$(_fg $BG2)$(_bg $BG3)${SEP}"
 L1+="$(_fg $FG_LIGHT) (+${LINES_ADDED},-${LINES_REMOVED}) "
-L1+="$(_fg $BG3)${SEP}$(_reset)"
+L1+="$(_reset)"
 
 # ── Line 2: [model] ▶ [Block: Xhr Ym] ▶ [Ctx: N.N%] ──
 L2=""
@@ -76,7 +76,7 @@ L2+="$(_fg $BG1)$(_bg $BG2)${SEP}"
 L2+="$(_fg $FG_LIGHT) Block: ${HOURS}hr ${MINUTES}m "
 L2+="$(_fg $BG2)$(_bg $BG3)${SEP}"
 L2+="$(_fg $FG_LIGHT) Ctx: ${CTX_DISPLAY}% "
-L2+="$(_fg $BG3)${SEP}$(_reset)"
+L2+="$(_reset)"
 
 echo "$L1"
 echo "$L2"
