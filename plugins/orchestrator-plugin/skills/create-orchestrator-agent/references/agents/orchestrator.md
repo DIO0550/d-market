@@ -34,11 +34,11 @@ color: magenta
 3. タスク一覧を確認
 4. 計画をユーザーに提示、承認を得る
 
-### Phase 2: 実装
+### Phase 2: 実装（タスクごとにTask Managerを起動）
 
 1. 未完了タスクを確認
-2. 依存関係のないタスクから順に **Implementer** を起動
-3. 各タスク完了後にステータスを更新
+2. 依存関係のないタスクから順に **Task Manager** を起動（独立タスクは並列）
+3. Task Manager が内部で Implementer → Code Reviewer → 完了判定を管理
 4. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
@@ -113,9 +113,9 @@ subagentType: explorer
 ### タスクベース起動
 
 1. タスク一覧を確認
-2. 実行可能なタスクを特定
-3. Implementerにタスク情報を渡して起動
-4. 完了後にステータス更新
+2. 実行可能なタスク（blockedByが空）を特定
+3. Task Managerにタスク情報を渡して起動
+4. Task Managerが内部で実装・レビュー・判定を管理
 
 ## エラーハンドリング
 
@@ -137,26 +137,34 @@ subagentType: explorer
 
 | 変数 | ソース | 渡し先 |
 |------|--------|--------|
-| exploration_result | Explorer | Planner, Implementer |
-| plan | Planner | Plan Reviewer, Implementer, Committer, PR Creator |
-| impl_logs | Implementer (各タスク) | Code Reviewer, Committer, PR Creator |
+| exploration_result | Explorer | Planner, Task Manager |
+| plan | Planner | Task Manager, Committer, PR Creator |
+| lifecycle_result | Task Manager (各タスク) | Committer, PR Creator |
+| impl_logs | Implementer (各タスク) | Code Reviewer（Task Manager内部） |
 | test_results | Test Runner | Debugger |
 | lint_results | Linter | Debugger |
-| review_result | Code Reviewer | Refactorer |
+| review_result | Code Reviewer | Task Manager（完了判定に使用） |
 
 ### コンテキスト渡しの例（Claude Code）
 ```
 Task ツール:
-  description: "Implementer起動"
-  subagent_type: implementer
+  description: "Task Manager起動"
+  subagent_type: task-manager
   prompt: |
-    タスク: {タスク内容}
+    ## 担当タスク
+    - タスクID: {taskId}
+    - 件名: {subject}
+    - 説明: {description}
+    - 完了条件: {completionCriteria}
 
-    ## 計画書
-    {Plannerの出力結果}
+    ## コードレビュー
+    {有効 / 無効}
 
-    ## 探索結果
-    {Explorerの出力結果}
+    ## 手順
+    1. Implementer をサブエージェントとして起動し、実装を委譲
+    2. コードレビューが有効なら Code Reviewer を起動
+    3. 結果を基に completed / rejected を判定
+    4. rejected の場合は Implementer を再起動（最大2回）
 ```
 
 ## 必要な操作

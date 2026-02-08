@@ -34,11 +34,11 @@ color: magenta
 3. タスク一覧を確認
 4. 計画をユーザーに提示、承認を得る
 
-### Phase 2: 実装
+### Phase 2: 実装（タスクごとにTask Managerを起動）
 
 1. 未完了タスクを確認
-2. 依存関係のないタスクから順に **Implementer** を起動
-3. 各タスク完了後にステータスを更新
+2. 依存関係のないタスクから順に **Task Manager** を起動（独立タスクは並列）
+3. Task Manager が内部で Implementer → Code Reviewer → 完了判定を管理
 4. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
@@ -113,9 +113,9 @@ subagentType: explorer
 ### タスクベース起動
 
 1. タスク一覧を確認
-2. 実行可能なタスクを特定
-3. Implementerにタスク情報を渡して起動
-4. 完了後にステータス更新
+2. 実行可能なタスク（blockedByが空）を特定
+3. Task Managerにタスク情報を渡して起動
+4. Task Managerが内部で実装・レビュー・判定を管理
 
 ## エラーハンドリング
 
