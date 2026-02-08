@@ -24,7 +24,7 @@ description: "オーケストレーターフロー用のエージェント定義
 | ツール | 形式 | 配置先 | サブエージェント呼び出し |
 |--------|------|--------|------------------------|
 | Claude Code | YAML + Markdown | `.claude/agents/` | `Task` ツール |
-| GitHub Copilot | YAML + Markdown | `.github/agents/` | `#tool:runSubagent` (subagentType必須) |
+| GitHub Copilot | YAML + Markdown | `.github/agents/` | `#tool:agent/runSubagent` (agentName指定) |
 | OpenAI Codex | 純粋 Markdown | `AGENTS.md` | 別ファイル参照 |
 
 フォーマット詳細:

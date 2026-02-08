@@ -17,7 +17,7 @@
 | タスク一覧取得 | `TaskList` | Issues一覧 | リスト参照 |
 | タスク詳細取得 | `TaskGet` | Issues詳細 | リスト項目参照 |
 | タスク状態更新 | `TaskUpdate` | Issues更新 | リスト更新 |
-| サブエージェント起動 | `Task` | `#tool:runSubagent` (subagentType必須) | 別ファイル参照 |
+| サブエージェント起動 | `Task` | `#tool:agent/runSubagent` (agentName指定) | 別ファイル参照 |
 | サブエージェント結果取得 | `TaskOutput` | 自動取得 | 実行結果参照 |
 | ユーザー確認 | `AskUserQuestion` | チャット | 対話 |
 
@@ -39,24 +39,27 @@ Task ツール:
 
 #### 前提条件
 
-呼び出し側のエージェントの `tools` に `runSubagent`（または `agent`, `custom-agent`, `Task`）を含める:
+呼び出し側のエージェントの `tools` に `agent/runSubagent` を含める:
 
 ```yaml
-tools: ["read", "edit", "search", "runSubagent"]
+tools: ["read", "edit", "search", "agent/runSubagent"]
 ```
 
 #### 呼び出し構文
 
-エージェントの指示本文で `#tool:runSubagent` を使い、`subagentType` でエージェント名を指定:
+エージェントの指示本文で `#tool:agent/runSubagent` を使い、`agentName` でカスタムエージェント名を指定:
 
 ```
-#tool:runSubagent を使用して explorer エージェントを起動してください。
-subagentType: explorer
-タスク: {内容}
+#tool:agent/runSubagent を使って探索処理をサブエージェントで実行してください。
+
+- prompt: {タスクの説明}
+- description: "探索処理実行"
+- agentName: explorer
 ```
 
-- `subagentType` は **必須**。省略するとサブエージェントが実行されない
-- 指示文中で `#tool:runSubagent` と書くことで、Copilot がツール呼び出しとして認識する
+- `agentName` を省略するとアドホックなサブエージェントが生成される（カスタムエージェント定義が使われない）
+- 指示文中で `#tool:agent/runSubagent` と書くことで、Copilot がツール呼び出しとして認識する
+- カスタムエージェントを呼び出すには VS Code 設定 `chat.customAgentInSubagent.enabled: true` が必要
 - 複数のサブエージェントを同時起動可能（並列実行）
 
 ### OpenAI Codex

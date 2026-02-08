@@ -68,12 +68,14 @@ Task ツール:
 **重要**: ツール名を明示的に指定すること。省略するとサブエージェントが起動しない。
 
 ```
-#tool:runSubagent を使用して explorer エージェントを起動。
-subagentType: explorer
-タスク: {ユーザーのタスク}
+#tool:agent/runSubagent を使って探索処理をサブエージェントで実行してください。
+
+- prompt: "タスク: {ユーザーのタスク}"
+- description: "Explorer起動"
+- agentName: explorer
 ```
 
-前提: フロントマターに `tools: ["runSubagent", ...]` が必要。
+前提: フロントマターに `tools: ["agent/runSubagent", ...]` が必要。カスタムエージェントを呼び出すには VS Code 設定 `chat.customAgentInSubagent.enabled: true` も必要。
 
 ### OpenAI Codex の場合
 ```

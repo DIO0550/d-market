@@ -74,7 +74,7 @@ tools: []
 - `read` - ファイル読み取り
 - `edit` - ファイル編集
 - `search` - 検索
-- `runSubagent` / `agent` / `custom-agent` / `Task` - サブエージェント起動
+- `agent/runSubagent` - サブエージェント起動（カスタムエージェント呼び出しには `chat.customAgentInSubagent.enabled: true` が必要）
 - `web` - Web アクセス
 - `todo` - タスク管理
 
@@ -84,22 +84,42 @@ tools: []
 
 ### 前提条件
 
-呼び出し側のエージェントの `tools` に `runSubagent` を含める:
+呼び出し側のエージェントの `tools` に `agent/runSubagent` を含める:
 
 ```yaml
-tools: ["read", "edit", "search", "runSubagent"]
+tools: ["read", "edit", "search", "agent/runSubagent"]
 ```
 
 ### 呼び出し構文
 
-エージェントの指示本文で `#tool:runSubagent` を使用し、`subagentType` でエージェント名を指定:
+エージェントの指示本文で `#tool:agent/runSubagent` を使用し、`agentName` でカスタムエージェント名を指定:
 
 ```markdown
-#tool:runSubagent を使用して explorer エージェントを起動してください。
-subagentType: explorer
+#tool:agent/runSubagent を使って探索処理をサブエージェントで実行してください。
+
+- prompt: {タスクの説明}
+- agentName: explorer
 ```
 
-- `subagentType` は **必須**。省略するとサブエージェントが実行されない
+#### パラメータ
+
+| パラメータ | 必須 | 説明 |
+|-----------|------|------|
+| `prompt` | Yes | サブエージェントへの入力（タスクの詳細説明） |
+| `description` | Yes | UI表示用の3〜5語のサマリー |
+| `agentName` | No | カスタムエージェント名（大文字小文字区別）。省略するとアドホックなサブエージェントが生成される |
+
+### VS Code 設定
+
+カスタムエージェントをサブエージェントから呼び出すには、実験的機能のオプトインが必要:
+
+```json
+{
+  "chat.customAgentInSubagent.enabled": true
+}
+```
+
+- `agentName` を指定しても、この設定が無効だとカスタムエージェント定義がロードされない
 - 複数のサブエージェントを同時起動可能（並列実行）
 
 ### handoffs プロパティ
