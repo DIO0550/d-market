@@ -48,8 +48,8 @@ case "$MODEL_ID" in
 esac
 
 # ── Powerline characters (requires Nerd Font) ──
-SEP=$'\uE0B0'
-BRANCH_ICON=$'\uE0A0'
+SEP=$(printf '\xee\x82\xb0')
+BRANCH_ICON=$(printf '\xee\x82\xa0')
 
 # ── Colors (256-color mode) — Blue + Orange accent ──
 BG1=24; BG2=31; BG3=172
