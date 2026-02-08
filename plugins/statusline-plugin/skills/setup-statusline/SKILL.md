@@ -24,9 +24,23 @@ chmod +x <project_root>/plugins/statusline-plugin/scripts/statusline.sh
 
 `<project_root>` は現在のプロジェクトルートの絶対パスに置き換えてください。
 
-### 2. `.claude/settings.json` を更新
+### 2. 設定ファイルを更新
 
-プロジェクトルートの `.claude/settings.json` を読み込み、`statusLine` フィールドを追加または更新してください。
+Claude Code の設定ファイルには優先度があります。**必ず最優先のファイルに設定してください。**
+
+| ファイル | 優先度 |
+|---------|--------|
+| `.claude/settings.local.json` | **最高**（存在する場合はこちらを更新） |
+| `.claude/settings.json` | 中 |
+| `~/.claude/settings.json` | 低 |
+
+**手順:**
+
+1. まず `.claude/settings.local.json` が存在するか確認する
+2. 存在する場合は `.claude/settings.local.json` を更新する
+3. 存在しない場合は `.claude/settings.json` を更新する
+
+更新対象のファイルを読み込み、`statusLine` フィールドを追加または更新してください。
 
 設定内容:
 
@@ -43,6 +57,8 @@ chmod +x <project_root>/plugins/statusline-plugin/scripts/statusline.sh
 - 既存のフィールドがある場合はそれを保持し、`statusLine` のみ追加/上書き
 - `<project_root>` は絶対パスに置き換え
 
+> **注意:** `settings.local.json` に古い `statusLine` 設定が残っていると、`settings.json` を更新しても反映されません。
+
 ### 3. 完了メッセージ
 
 セットアップ完了後、以下を伝えてください:
@@ -50,6 +66,17 @@ chmod +x <project_root>/plugins/statusline-plugin/scripts/statusline.sh
 - ステータスラインが設定されたこと
 - Claude Code を **再起動** すると反映されること
 - Nerd Font 対応ターミナルが必要なこと
+
+## カラーテーマ
+
+**Blue + Orange accent** を採用（256色モード）。
+
+| セグメント | 256色コード | 色 | 表示内容 |
+|-----------|------------|-----|---------|
+| 1番目 | 24 | 濃いブルー | パス / モデル名 |
+| 2番目 | 31 | 明るいブルー | ブランチ / セッション時間 |
+| 3番目 | 172 | ソフトオレンジ | 変更行数 / コンテキスト使用率 |
+| 文字色 | 255 | 白 | 全セグメント共通 |
 
 ## 表示内容
 

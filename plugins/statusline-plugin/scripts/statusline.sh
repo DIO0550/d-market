@@ -51,9 +51,9 @@ esac
 SEP=$'\uE0B0'
 BRANCH_ICON=$'\uE0A0'
 
-# ── Colors (256-color mode) ──
-BG1=237; BG2=239; BG3=241
-FG_LIGHT=252
+# ── Colors (256-color mode) — Blue + Orange accent ──
+BG1=24; BG2=31; BG3=172
+FG_LIGHT=255
 
 # ANSI helpers
 _bg()    { printf '\033[48;5;%dm' "$1"; }
