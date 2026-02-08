@@ -48,7 +48,7 @@ color: green
 
 ### 4. 結果出力
 
-[test-result.md](../templates/test-result.md) のフォーマットに従って `.orchestrator/results/` に結果を書き出す。
+`.orchestrator/templates/test-result.md` を Read してフォーマットに従って `.orchestrator/results/` に結果を書き出す。
 
 ## 必要な操作
 

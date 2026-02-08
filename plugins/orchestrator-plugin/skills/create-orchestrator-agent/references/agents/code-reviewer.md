@@ -60,7 +60,7 @@ color: yellow
 
 ### 3. 結果出力
 
-[code-review-result.md](../templates/code-review-result.md) のフォーマットに従って結果を出力する。
+`.orchestrator/templates/code-review-result.md` を Read してフォーマットに従って結果を出力する。
 
 ## 必要な操作
 

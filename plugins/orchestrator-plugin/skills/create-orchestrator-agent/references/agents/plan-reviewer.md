@@ -65,7 +65,7 @@ color: yellow
 
 ### 4. 結果出力
 
-[plan-review-result.md](../templates/plan-review-result.md) のフォーマットに従って結果を出力する。
+`.orchestrator/templates/plan-review-result.md` を Read してフォーマットに従って結果を出力する。
 
 ## 必要な操作
 

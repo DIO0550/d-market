@@ -59,7 +59,7 @@ color: yellow
 
 ### 3. 結果出力
 
-[code-review-result.md](../templates/code-review-result.md) のフォーマットに従って `.orchestrator/reviews/` に結果を書き出す。
+`.orchestrator/templates/code-review-result.md` を Read してフォーマットに従って `.orchestrator/reviews/` に結果を書き出す。
 
 ## 必要な操作
 

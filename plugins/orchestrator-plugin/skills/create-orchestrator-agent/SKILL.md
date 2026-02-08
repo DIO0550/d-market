@@ -15,6 +15,7 @@ description: "オーケストレーターフロー用のエージェント定義
 3. テンプレート参照 → 個別ファイルから詳細を確認
 4. ツール別の調整 → 操作名をツール固有の形式に変換
 5. エージェント定義の生成 → 適切なディレクトリに配置
+6. テンプレートの配置 → .orchestrator/templates/ にコピー
 ```
 
 ## Step 1: ターゲットツール確認
@@ -111,6 +112,23 @@ Orchestrator
   ├── Committer起動（実装ログをプロンプトに含める）
   └── PR Creator起動（計画+実装ログをプロンプトに含める）
 ```
+
+## Step 6: テンプレートの配置
+
+`references/templates/` 内の全テンプレートを `.orchestrator/templates/` にコピーする。
+
+```bash
+mkdir -p .orchestrator/templates
+```
+
+以下の7ファイルをコピー:
+- `exploration-result.md`
+- `implementation-plan.md`
+- `code-review-result.md`
+- `test-result.md`
+- `plan-review-result.md`
+- `task-lifecycle-result.md`
+- `tasks.md`
 
 ## 生成後チェックリスト
 

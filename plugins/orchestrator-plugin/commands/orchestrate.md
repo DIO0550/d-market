@@ -38,7 +38,7 @@
 ### Step 1: 作業ディレクトリの準備
 
 ```bash
-mkdir -p .orchestrator
+mkdir -p .orchestrator/templates
 ```
 
 ### Step 2: Phase 1 - 探索（Explorer）

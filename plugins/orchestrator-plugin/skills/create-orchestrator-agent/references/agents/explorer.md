@@ -83,7 +83,7 @@ color: cyan
 
 ### 6. 結果の出力
 
-[exploration-result.md](../templates/exploration-result.md) のフォーマットに従って結果を出力する。
+`.orchestrator/templates/exploration-result.md` を Read してフォーマットに従って結果を出力する。
 
 ## 必要な操作
 

@@ -124,7 +124,7 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
 
 ### 8. 結果の出力
 
-[task-lifecycle-result.md](../templates/task-lifecycle-result.md) のフォーマットに従って結果を標準出力で返す。
+`.orchestrator/templates/task-lifecycle-result.md` を Read してフォーマットに従って結果を標準出力で返す。
 
 ## 必要な操作
 

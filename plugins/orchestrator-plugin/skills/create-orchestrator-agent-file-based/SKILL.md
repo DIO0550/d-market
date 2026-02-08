@@ -15,6 +15,7 @@ description: "オーケストレーターフロー用のエージェント定義
 3. テンプレート参照 → 個別ファイルから詳細を確認
 4. ツール別の調整 → 操作名をツール固有の形式に変換
 5. エージェント定義の生成 → 適切なディレクトリに配置
+6. テンプレートの配置 → .orchestrator/templates/ にコピー
 ```
 
 ## Step 1: ターゲットツール確認
@@ -98,12 +99,30 @@ description: "オーケストレーターフロー用のエージェント定義
 | Copilot | `.github/agents/{name}.agent.md` |
 | Codex | `{name}/AGENTS.md` または ルート追記 |
 
+## Step 6: テンプレートの配置
+
+`references/templates/` 内の全テンプレートを `.orchestrator/templates/` にコピーする。
+
+```bash
+mkdir -p .orchestrator/templates
+```
+
+以下の7ファイルをコピー:
+- `exploration-result.md`
+- `implementation-plan.md`
+- `code-review-result.md`
+- `test-result.md`
+- `plan-review-result.md`
+- `task-lifecycle-result.md`
+- `tasks.md`
+
 ## 出力ディレクトリ構造
 
 エージェント間で共有する標準ディレクトリ:
 
 ```
 .orchestrator/
+├── templates/       # 出力フォーマットテンプレート
 ├── plans/           # Planner
 ├── exploration/     # Explorer
 ├── reviews/         # Plan Reviewer, Code Reviewer
