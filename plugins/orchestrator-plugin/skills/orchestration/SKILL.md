@@ -12,13 +12,15 @@
 ```
 [Phase 1: 探索・計画] ───────────────────────────────
     │
-    ├── planner (バックグラウンド)
-    │   └── タスクを分析し実装計画を作成
+    ├── explorer (バックグラウンド)
+    │   └── 関連ファイルを探索
     │
-    └── explorer (バックグラウンド・並列)
-        └── 関連ファイルを探索
+    ▼ (explorer 完了待ち)
     │
-    ▼ (両方完了待ち → 計画をユーザーに提示)
+    ├── planner (バックグラウンド・探索結果を入力)
+    │   └── 探索結果を基にタスクを分析し実装計画を作成
+    │
+    ▼ (planner 完了待ち → 計画をユーザーに提示)
     │
 [Phase 2: 実装（タスクごとにtask-manager起動）] ──────────
     │
@@ -71,7 +73,7 @@
 ### 並列起動（依存関係なし）
 
 ```
-Phase 1: planner + explorer を同時にバックグラウンド起動
+Phase 1: explorer → planner を直列でバックグラウンド起動（planner は探索結果を入力として受け取る）
 Phase 2: blockedBy なしのタスクに対する task-manager を同時にバックグラウンド起動
 Phase 3: test-runner + linter を同時にバックグラウンド起動
 ```
@@ -79,6 +81,7 @@ Phase 3: test-runner + linter を同時にバックグラウンド起動
 ### 直列起動（依存関係あり）
 
 ```
+Phase 1 内: explorer → planner（探索結果を計画に反映）
 Phase 1 → Phase 2: 計画完了後に実装開始
 Phase 2 内: blockedBy のあるタスクは前提タスクの完了を待って起動
 Phase 3 → Phase 4: テスト成功後にコミット

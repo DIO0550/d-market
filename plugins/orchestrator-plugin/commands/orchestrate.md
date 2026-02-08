@@ -15,8 +15,9 @@
 このコマンドは以下の2フェーズを自動で実行し、実装完了後に停止する：
 
 1. **Phase 1: 探索・計画**
-   - planner と explorer を並列でバックグラウンド起動
-   - 両方の完了を待ち、計画をユーザーに提示
+   - explorer をバックグラウンド起動し、完了を待つ
+   - 探索結果を planner のプロンプトに含めてバックグラウンド起動し、完了を待つ
+   - 計画をユーザーに提示
 
 2. **Phase 2: 実装（タスクごとにtask-managerを起動）**
    - Orchestrator が TaskList で依存関係（blockedBy）を確認
@@ -40,9 +41,47 @@
 mkdir -p .orchestrator
 ```
 
-### Step 2: Phase 1 - 探索・計画の並列実行
+### Step 2: Phase 1 - 探索（Explorer）
 
-以下の2つのエージェントを**バックグラウンドで並列起動**する：
+まず explorer を起動し、タスクに関連するコードベースの情報を収集する。
+
+**explorer エージェント:**
+```
+Task tool:
+  subagent_type: Explore
+  run_in_background: true
+  prompt: |
+    あなたはexplorerエージェントです。
+
+    ## 最初に読むべきドキュメント
+    探索の前に、CLAUDE.md を読んでファイル検索の制約やルールを確認してください。
+
+    ## タスク
+    以下のタスクに関連するファイルを探索してください：
+    「{ユーザーのタスク}」
+
+    {ユーザーが URL を提示した場合は URL も含める}
+
+    ## 出力
+    探索結果を `.orchestrator/exploration.md` に書き出してください。
+
+    ## 探索すべき内容
+    1. 関連する既存コード
+    2. 類似の実装パターン
+    3. 設定ファイル
+    4. テストファイル
+    5. ドキュメント（docs/, specs/ ディレクトリを含む）
+    6. ユーザーが提示した URL の内容（該当する場合）
+```
+
+### Step 3: Explorer 完了待ち → 計画（Planner）
+
+Explorer の完了を待ち、探索結果を Planner に渡す。
+
+```
+1. TaskOutput で explorer の結果を取得
+2. `.orchestrator/exploration.md` を読み込む
+```
 
 **planner エージェント:**
 ```
@@ -58,8 +97,13 @@ Task tool:
     2. README.md（プロジェクト概要）
     3. docs/ ディレクトリ配下のドキュメント（存在する場合）
 
+    ## 探索結果
+    Explorer エージェントの探索結果を参照してください：
+    `.orchestrator/exploration.md`
+    {または探索結果の内容を直接プロンプトに含める}
+
     ## タスク
-    以下のタスクを分析し、プロジェクトガイドラインに従って実装計画を作成してください：
+    以下のタスクを分析し、探索結果を踏まえてプロジェクトガイドラインに従った実装計画を作成してください：
     「{ユーザーのタスク}」
 
     ## 出力
@@ -68,7 +112,7 @@ Task tool:
     ## 計画に含めるべき内容
     1. タスクの理解と目的
     2. 必要な変更の概要
-    3. 変更対象ファイル（推測）
+    3. 変更対象ファイル（探索結果で特定されたファイルを活用）
     4. 実装ステップ（具体的に）
     5. 注意点・リスク
 
@@ -87,41 +131,15 @@ Task tool:
     - TaskUpdate: 依存関係設定（利用可能な場合）
 ```
 
-**explorer エージェント:**
+### Step 4: Planner 完了待ち
+
 ```
-Task tool:
-  subagent_type: Explore
-  run_in_background: true
-  prompt: |
-    あなたはexplorerエージェントです。
-
-    ## 最初に読むべきドキュメント
-    探索の前に、CLAUDE.md を読んでファイル検索の制約やルールを確認してください。
-
-    ## タスク
-    以下のタスクに関連するファイルを探索してください：
-    「{ユーザーのタスク}」
-
-    ## 出力
-    探索結果を `.orchestrator/exploration.md` に書き出してください。
-
-    ## 探索すべき内容
-    1. 関連する既存コード
-    2. 類似の実装パターン
-    3. 設定ファイル
-    4. テストファイル
-    5. ドキュメント（docs/, specs/ ディレクトリを含む）
-```
-
-### Step 3: Phase 1 完了待ち
-
-両方のエージェントの完了を待つ：
 1. TaskOutput で planner の結果を取得
-2. TaskOutput で explorer の結果を取得
-3. `.orchestrator/plan.md` と `.orchestrator/exploration.md` を読み込む
-4. 計画をユーザーに提示
+2. `.orchestrator/plan.md` を読み込む
+3. 計画をユーザーに提示
+```
 
-### Step 4: Phase 2 - タスクごとにtask-managerを起動
+### Step 5: Phase 2 - タスクごとにtask-managerを起動
 
 Orchestrator が依存グラフに基づいてtask-managerを起動する。
 task-manager が内部で Implementer → Code Reviewer → 完了判定を管理する。
@@ -166,14 +184,14 @@ while (pendingタスクが残っている):
      → pending タスクがあれば 1 に戻る
 ```
 
-### Step 5: Phase 2 完了・報告
+### Step 6: Phase 2 完了・報告
 
 1. TaskList で全タスクが completed であることを確認
 2. 各 task-manager の結果を統合して `.orchestrator/implementation-log.md` に書き出す
 3. 実装結果をユーザーに報告
 4. **ここで自動実行を停止**
 
-### Step 6: 次のステップの案内
+### Step 7: 次のステップの案内
 
 ユーザーに以下の選択肢を提示：
 - 「テストとLint実行して」→ Phase 3
