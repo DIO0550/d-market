@@ -69,14 +69,38 @@ tools: ["read", "edit", "search"]
 tools: []
 ```
 
-利用可能なツールエイリアス:
-- `execute` - コマンド実行
-- `read` - ファイル読み取り
-- `edit` - ファイル編集
-- `search` - 検索
-- `agent/runSubagent` - サブエージェント起動（カスタムエージェント呼び出しには `chat.customAgentInSubagent.enabled: true` が必要）
-- `web` - Web アクセス
-- `todo` - タスク管理
+### GitHub.com（Coding Agent）のツールエイリアス
+
+ツール名は大文字小文字を区別しない。
+
+| プライマリ | 互換エイリアス | 用途 |
+|-----------|---------------|------|
+| `execute` | `shell`, `Bash`, `powershell` | コマンド実行 |
+| `read` | `Read`, `NotebookRead` | ファイル読み込み |
+| `edit` | `Edit`, `MultiEdit`, `Write`, `NotebookEdit` | ファイル編集 |
+| `search` | `Grep`, `Glob` | ファイル・テキスト検索 |
+| `agent` | `custom-agent`, `Task` | サブエージェント起動 |
+| `web` | `WebSearch`, `WebFetch` | Web検索・URL取得 |
+| `todo` | `TodoWrite` | タスク管理 |
+
+MCP サーバーツール: `github/*`（GitHub MCP Server）、`playwright/*`（Playwright MCP Server）
+
+### VS Code（IDE）のツール
+
+VS Code ではツール名が異なる。
+
+| ツール名 | 用途 |
+|---------|------|
+| `search` | コード検索 |
+| `codebase` | コードベース分析 |
+| `fetch` | Web コンテンツ取得 |
+| `githubRepo` | GitHub リポジトリアクセス |
+| `usages` | コード利用箇所分析 |
+| `editFiles` | ファイル編集 |
+| `terminalLastCommand` | ターミナル最後のコマンド |
+| `agent` | サブエージェント起動（`agent/runSubagent`） |
+
+拡張機能・MCP サーバー提供のツールも `tools:` で指定可能（`<server-name>/*` 形式）。
 
 ## サブエージェント起動
 
@@ -84,11 +108,13 @@ tools: []
 
 ### 前提条件
 
-呼び出し側のエージェントの `tools` に `agent/runSubagent` を含める:
+呼び出し側のエージェントの `tools` に `agent` を含める:
 
 ```yaml
-tools: ["read", "edit", "search", "agent/runSubagent"]
+tools: ["read", "edit", "search", "agent"]
 ```
+
+**注意**: 親エージェントのツール設定はサブエージェントに継承される。親で制限したツールはサブエージェントも使えなくなるため、Orchestrator のように多くのサブエージェントを起動するエージェントは `tools` を省略（全ツール有効）にすること。
 
 ### 呼び出し構文
 
@@ -158,5 +184,5 @@ Copilot は以下のファイルも認識:
 
 1. **description は詳細に**: 自動選択の判断材料になる
 2. **target の指定**: 特定IDE向けなら指定
-3. **tools の制限**: 最小権限の原則
+3. **tools の制限**: 最小権限の原則。ただし **サブエージェントを起動する親エージェント（Orchestrator 等）は tools を制限しないこと**（省略または `["*"]`）。親エージェントのツール設定がサブエージェントに継承されるため、親で制限するとサブエージェントもそのツールを使えなくなる
 4. **30,000文字制限**: 本文は簡潔に、詳細はリファレンスへ

@@ -17,8 +17,10 @@
 | タスク一覧取得 | `TaskList` | Issues一覧 | リスト参照 |
 | タスク詳細取得 | `TaskGet` | Issues詳細 | リスト項目参照 |
 | タスク状態更新 | `TaskUpdate` | Issues更新 | リスト更新 |
-| サブエージェント起動 | `Task` | `#tool:agent/runSubagent` (agentName指定) | 別ファイル参照 |
+| サブエージェント起動 | `Task` | `#tool:agent/runSubagent` (agentName指定)。`tools:` では `agent` | 別ファイル参照 |
 | サブエージェント結果取得 | `TaskOutput` | 自動取得 | 実行結果参照 |
+| Web検索 | `WebSearch` | `web`（GitHub.com）/ `fetch`（VS Code） | Web検索 |
+| URL取得 | `WebFetch` | `web`（GitHub.com）/ `fetch`（VS Code） | URL取得 |
 | ユーザー確認 | `AskUserQuestion` | チャット | 対話 |
 
 ## サブエージェント呼び出し
@@ -39,11 +41,13 @@ Task ツール:
 
 #### 前提条件
 
-呼び出し側のエージェントの `tools` に `agent/runSubagent` を含める:
+呼び出し側のエージェントの `tools` に `agent` を含める:
 
 ```yaml
-tools: ["read", "edit", "search", "agent/runSubagent"]
+tools: ["read", "edit", "search", "agent"]
 ```
+
+**注意**: 親エージェントのツール設定はサブエージェントに継承される。親で制限したツールはサブエージェントも使えなくなるため、Orchestrator のように多くのサブエージェントを起動するエージェントは `tools` を省略（全ツール有効）にすること。
 
 #### 呼び出し構文
 
@@ -94,6 +98,8 @@ tools: ["read", "edit", "search", "agent/runSubagent"]
 | コード内容検索 | コード検索 |
 | ファイル読み込み | ファイル読み込み |
 | ファイル作成 | 結果出力 |
+| Web検索 | 技術情報・ライブラリドキュメントの調査 |
+| URL取得 | GitHub Issue等の外部リソース参照 |
 
 ### Planner
 
@@ -103,6 +109,8 @@ tools: ["read", "edit", "search", "agent/runSubagent"]
 | コード内容検索 | コード検索 |
 | ファイル読み込み | ファイル読み込み |
 | ファイル作成 | 計画書出力 |
+| Web検索 | 技術情報・ライブラリドキュメントの調査 |
+| URL取得 | GitHub Issue等の外部リソース参照 |
 | タスク作成 | タスク登録 |
 | タスク更新 | タスク依存関係設定 |
 | タスク一覧取得 | 既存タスク確認 |
