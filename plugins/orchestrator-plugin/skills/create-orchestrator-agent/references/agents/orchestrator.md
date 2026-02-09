@@ -30,6 +30,7 @@ color: magenta
 - **自分で調査・探索を行わない**: URL取得、コード検索、ファイル内容の調査など、情報収集に類する作業はすべて Explorer に委譲すること
 - **ユーザーが URL（GitHub Issue、仕様書リンク等）を提示した場合**: その URL を含めて Explorer のプロンプトに渡し、Explorer に取得・分析させること。Orchestrator 自身が WebFetch や Read で内容を確認してはならない
 - **Orchestrator の役割は指揮・監視・報告のみ**: エージェントの起動、進捗の監視、結果のユーザーへの報告に専念すること
+- **自律実行**: Phase 1〜2 はユーザー確認なしで自動完了する。ユーザーへの確認が必要な場合は Question 系ツールのみ使用し、それ以外では中断しない
 
 ## 実行フロー
 
@@ -38,7 +39,7 @@ color: magenta
 1. **Explorer** をバックグラウンド起動し、完了を待機
 2. 探索結果を **Planner** のプロンプトに含めてバックグラウンド起動し、完了を待機
 3. タスク一覧を確認
-4. 計画をユーザーに提示、承認を得る
+4. 計画をユーザーに提示し、Phase 2 に進む
 
 ### Phase 2: 実装（タスクごとにTask Managerを起動）
 
@@ -88,6 +89,17 @@ VS Code 用フロントマター例:
   description: "..."
   model: opus
   tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "terminalLastCommand", "agent"]
+
+### Copilot での Phase 2（フラット構造）
+
+Copilot ではサブエージェントからサブエージェントを呼び出せないため、Task Manager は使わず Orchestrator が直接管理する:
+
+1. タスク一覧から依存関係のない pending タスクを取得
+2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
+3. Implementer 完了後、コードレビューが有効なら **Code Reviewer** を直接起動
+4. 結果を基に completed / rejected を判定（Orchestrator 自身が判定）
+5. rejected の場合は Implementer を再起動（最大2回）
+6. 全タスク完了まで繰り返し
 
 ### OpenAI Codex の場合
 ```

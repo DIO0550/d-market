@@ -6,6 +6,8 @@ Implementer起動 → Code Reviewer起動 → 完了判定を一貫して行う�
 **推奨モデル**: ⚡ 中程度（sonnet相当）
 - サブエージェント管理、判定、リトライ制御
 
+> **Copilot 制限**: Copilot ではサブエージェントからサブエージェントを呼び出せないため、このエージェントは使用できない。Copilot では Orchestrator が Task Manager の役割（Implementer 起動 → Code Reviewer 起動 → 完了判定）を直接担う。
+
 ---
 
 ## エージェント定義
