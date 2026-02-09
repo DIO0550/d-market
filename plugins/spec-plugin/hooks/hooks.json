@@ -1,6 +1,17 @@
 {
   "description": "Spec-driven開発時のAutoCompact対策。PLANNINGファイルの存在を検出し、計画中であることを警告する。",
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash plugins/spec-plugin/hooks/enforce-diagrams.sh"
+          }
+        ]
+      }
+    ],
     "PreCompact": [
       {
         "hooks": [
