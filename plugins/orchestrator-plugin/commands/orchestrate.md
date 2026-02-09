@@ -16,10 +16,11 @@
 
 このコマンドは以下の2フェーズを自動で実行し、実装完了後に停止する：
 
-1. **Phase 1: 探索・計画**
+1. **Phase 1: 探索・計画・レビュー**
    - explorer をバックグラウンド起動し、完了を待つ
    - 探索結果を planner のプロンプトに含めてバックグラウンド起動し、完了を待つ
-   - 計画をユーザーに提示
+   - 計画を plan-reviewer に渡してレビュー（Needs Revision なら planner 再起動、最大1回）
+   - 計画をユーザーに提示し、Phase 2 に進む
 
 2. **Phase 2: 実装（タスクごとにtask-managerを起動）**
    - Orchestrator が TaskList で依存関係（blockedBy）を確認
@@ -133,15 +134,49 @@ Task tool:
     - TaskUpdate: 依存関係設定（利用可能な場合）
 ```
 
-### Step 4: Planner 完了待ち
+### Step 4: Planner 完了待ち → Plan Reviewer 起動
 
 ```
 1. TaskOutput で planner の結果を取得
-2. `.orchestrator/plan.md` を読み込む
-3. 計画をユーザーに提示し、Phase 2 に進む
 ```
 
-### Step 5: Phase 2 - タスクごとにtask-managerを起動
+Plan Reviewer を起動し、計画の妥当性を検証する。
+
+**plan-reviewer エージェント:**
+```
+Task tool:
+  subagent_type: general-purpose
+  run_in_background: true
+  prompt: |
+    あなたはplan-reviewerエージェントです。
+
+    ## 計画書
+    `.orchestrator/plan.md`
+
+    ## 探索結果
+    `.orchestrator/exploration.md`
+
+    ## レビュー観点
+    1. 仕様書との整合性
+    2. 実現可能性（各タスクが実行可能な粒度か）
+    3. 完全性（必要なファイルがすべてリストされているか）
+    4. リスク評価
+
+    ## 出力
+    レビュー結果を標準出力で返してください。
+    判定: Approved / Needs Revision / Rejected
+```
+
+### Step 5: Plan Reviewer 完了待ち
+
+```
+1. TaskOutput で plan-reviewer の結果を取得
+2. Needs Revision の場合: planner を再起動（最大1回）、再度 plan-reviewer でレビュー
+3. `.orchestrator/plan.md` を読み込む
+4. 計画をユーザーに提示し、Phase 2 に進む
+```
+
+### Step 6: Phase 2 - タスクごとにtask-managerを起動
 
 Orchestrator が依存グラフに基づいてtask-managerを起動する。
 task-manager が内部で Implementer → Code Reviewer → 完了判定を管理する。
@@ -186,14 +221,14 @@ while (pendingタスクが残っている):
      → pending タスクがあれば 1 に戻る
 ```
 
-### Step 6: Phase 2 完了・報告
+### Step 7: Phase 2 完了・報告
 
 1. TaskList で全タスクが completed であることを確認
 2. 各 task-manager の結果を統合して `.orchestrator/implementation-log.md` に書き出す
 3. 実装結果をユーザーに報告
 4. **ここで自動実行を停止**
 
-### Step 7: 次のステップの案内
+### Step 8: 次のステップの案内
 
 ユーザーに以下の選択肢を提示：
 - 「テストとLint実行して」→ Phase 3

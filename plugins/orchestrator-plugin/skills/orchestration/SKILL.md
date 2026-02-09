@@ -20,7 +20,12 @@
     ├── planner (バックグラウンド・探索結果を入力)
     │   └── 探索結果を基にタスクを分析し実装計画を作成
     │
-    ▼ (planner 完了待ち → 計画をユーザーに提示)
+    ▼ (planner 完了待ち)
+    │
+    ├── plan-reviewer (バックグラウンド・計画を入力)
+    │   └── 計画の妥当性を検証（Needs Revision → planner 再起動）
+    │
+    ▼ (plan-reviewer 完了待ち → 計画をユーザーに提示し Phase 2 へ)
     │
 [Phase 2: 実装（タスクごとにtask-manager起動）] ──────────
     │
