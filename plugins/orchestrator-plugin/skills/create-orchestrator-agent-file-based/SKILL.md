@@ -101,20 +101,21 @@ description: "オーケストレーターフロー用のエージェント定義
 
 ## Step 6: テンプレートの配置
 
-`references/templates/` 内の全テンプレートを `.orchestrator/templates/` にコピーする。
+エージェントがランタイムで出力フォーマットを参照できるよう、テンプレートを作業ディレクトリに配置する。
 
 ```bash
 mkdir -p .orchestrator/templates
 ```
 
-以下の7ファイルをコピー:
-- `exploration-result.md`
-- `implementation-plan.md`
-- `code-review-result.md`
-- `test-result.md`
-- `plan-review-result.md`
-- `task-lifecycle-result.md`
-- `tasks.md`
+以下の各テンプレートファイルを Read し、`.orchestrator/templates/` に同名で Write する:
+
+- [exploration-result.md](references/templates/exploration-result.md)
+- [implementation-plan.md](references/templates/implementation-plan.md)
+- [code-review-result.md](references/templates/code-review-result.md)
+- [test-result.md](references/templates/test-result.md)
+- [plan-review-result.md](references/templates/plan-review-result.md)
+- [task-lifecycle-result.md](references/templates/task-lifecycle-result.md)
+- [tasks.md](references/templates/tasks.md)
 
 ## 出力ディレクトリ構造
 
