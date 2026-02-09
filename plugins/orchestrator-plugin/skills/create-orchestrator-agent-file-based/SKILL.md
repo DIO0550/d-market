@@ -99,23 +99,30 @@ description: "オーケストレーターフロー用のエージェント定義
 | Copilot | `.github/agents/{name}.agent.md` |
 | Codex | `{name}/AGENTS.md` または ルート追記 |
 
-## Step 6: テンプレートの配置
+## Step 6: テンプレートの配置（必須）
 
-エージェントがランタイムで出力フォーマットを参照できるよう、テンプレートを作業ディレクトリに配置する。
+エージェントはランタイムで `.orchestrator/templates/` 内のテンプレートを Read して出力フォーマットを決定する。
+**このステップを省略するとエージェントが正しく動作しない。必ず全ファイルをコピーすること。**
+
+まず出力先ディレクトリを作成:
 
 ```bash
 mkdir -p .orchestrator/templates
 ```
 
-以下の各テンプレートファイルを Read し、`.orchestrator/templates/` に同名で Write する:
+次に、以下の7ファイルを **1つずつ Read → Write** でコピーする:
 
-- [exploration-result.md](references/templates/exploration-result.md)
-- [implementation-plan.md](references/templates/implementation-plan.md)
-- [code-review-result.md](references/templates/code-review-result.md)
-- [test-result.md](references/templates/test-result.md)
-- [plan-review-result.md](references/templates/plan-review-result.md)
-- [task-lifecycle-result.md](references/templates/task-lifecycle-result.md)
-- [tasks.md](references/templates/tasks.md)
+| # | Read 対象（このスキルの参照ファイル） | Write 先 |
+|---|--------------------------------------|----------|
+| 1 | [exploration-result.md](references/templates/exploration-result.md) | `.orchestrator/templates/exploration-result.md` |
+| 2 | [implementation-plan.md](references/templates/implementation-plan.md) | `.orchestrator/templates/implementation-plan.md` |
+| 3 | [code-review-result.md](references/templates/code-review-result.md) | `.orchestrator/templates/code-review-result.md` |
+| 4 | [test-result.md](references/templates/test-result.md) | `.orchestrator/templates/test-result.md` |
+| 5 | [plan-review-result.md](references/templates/plan-review-result.md) | `.orchestrator/templates/plan-review-result.md` |
+| 6 | [task-lifecycle-result.md](references/templates/task-lifecycle-result.md) | `.orchestrator/templates/task-lifecycle-result.md` |
+| 7 | [tasks.md](references/templates/tasks.md) | `.orchestrator/templates/tasks.md` |
+
+**手順**: 各行について Read ツールでファイル内容を取得し、Write ツールで Write 先に書き出す。内容は一切変更しない。
 
 ## 出力ディレクトリ構造
 
@@ -134,6 +141,7 @@ mkdir -p .orchestrator/templates
 
 ## 生成後チェックリスト
 
+- [ ] `.orchestrator/templates/` に7ファイルが配置されている
 - [ ] ターゲットツールの形式に従っている
 - [ ] description にトリガー条件が含まれている
 - [ ] **model が適切に設定されている**（🧠/⚡/💨）
