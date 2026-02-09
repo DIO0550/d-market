@@ -81,7 +81,13 @@ Task ツール:
 - agentName: explorer
 ```
 
-前提: フロントマターの `tools` は省略（全ツール有効）にすること。親エージェントのツール設定がサブエージェントに継承されるため、制限するとサブエージェントもツールを使えなくなる。カスタムエージェントを呼び出すには VS Code 設定 `chat.customAgentInSubagent.enabled: true` も必要。
+**前提（VS Code）**: フロントマターの `tools` に全ツールを明示的にリストすること。VS Code では `["*"]` が機能しないため省略や `["*"]` では不十分。親エージェントのツール設定がサブエージェントに継承されるため、Orchestrator で漏れがあるとサブエージェントもそのツールを使えなくなる。カスタムエージェントを呼び出すには VS Code 設定 `chat.customAgentInSubagent.enabled: true` も必要。
+
+VS Code 用フロントマター例:
+  name: orchestrator
+  description: "..."
+  model: opus
+  tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "terminalLastCommand", "agent"]
 
 ### OpenAI Codex の場合
 ```
