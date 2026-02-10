@@ -36,20 +36,18 @@ d-market の rust-workflow-plugin をインストール後、プロジェクト�
 
 ### 2. 既存セクションの確認
 
-`<!-- d-market:rust-workflow:start -->` 〜 `<!-- d-market:rust-workflow:end -->` マーカーが既に存在する場合は、その範囲を上書き更新する。
+`## Rust ワークフロー` 見出しが既に存在する場合は、次の見出し（`##` レベル）までの範囲を上書き更新する。
 
 ### 3. 以下のセクションを生成して追記する
 
 ```markdown
-<!-- d-market:rust-workflow:start -->
-## Rust ワークフロー（d-market / rust-workflow-plugin）
+## Rust ワークフロー
 
 以下の操作は対応するスキルを使用すること。
 
 - テスト実行時は `test` スキルを使用
 - 型チェック・コンパイル確認時は `type-check` スキルを使用
 - Rust ファイル・シンボル検索時は `file-search` スキルを使用
-<!-- d-market:rust-workflow:end -->
 ```
 
 ### 4. ユーザーへの確認

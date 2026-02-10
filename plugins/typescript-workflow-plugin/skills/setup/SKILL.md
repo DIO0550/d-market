@@ -36,20 +36,18 @@ d-market の typescript-workflow-plugin をインストール後、プロジェ�
 
 ### 2. 既存セクションの確認
 
-`<!-- d-market:typescript-workflow:start -->` 〜 `<!-- d-market:typescript-workflow:end -->` マーカーが既に存在する場合は、その範囲を上書き更新する。
+`## TypeScript ワークフロー` 見出しが既に存在する場合は、次の見出し（`##` レベル）までの範囲を上書き更新する。
 
 ### 3. 以下のセクションを生成して追記する
 
 ```markdown
-<!-- d-market:typescript-workflow:start -->
-## TypeScript ワークフロー（d-market / typescript-workflow-plugin）
+## TypeScript ワークフロー
 
 以下の操作は対応するスキルを使用すること。
 
 - テスト実行時は `test` スキルを使用
 - 型チェック時は `type-check` スキルを使用
 - TypeScript ファイル・シンボル検索時は `file-search` スキルを使用
-<!-- d-market:typescript-workflow:end -->
 ```
 
 ### 4. ユーザーへの確認

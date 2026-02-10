@@ -46,15 +46,18 @@ d-market の typescript-rules-plugin をインストール後、プロジェク�
 
 `package.json` に `react` 依存がある場合、React セクションを含める。
 
-### 3. 既存セクションの確認
+### 3. similarity-ts の検出
 
-`<!-- d-market:typescript-rules:start -->` 〜 `<!-- d-market:typescript-rules:end -->` マーカーが既に存在する場合は、その範囲を上書き更新する。
+`which similarity-ts` を実行し、コマンドが存在するか確認する。存在しない場合は `code-similarity-ts` の行を省略する。
 
-### 4. 以下のセクションを生成して追記する
+### 4. 既存セクションの確認
+
+`## TypeScript 開発ルール` 見出しが既に存在する場合は、次の見出し（`##` レベル）までの範囲を上書き更新する。
+
+### 5. 以下のセクションを生成して追記する
 
 ```markdown
-<!-- d-market:typescript-rules:start -->
-## TypeScript 開発ルール（d-market / typescript-rules-plugin）
+## TypeScript 開発ルール
 
 TypeScript コードを変更するすべての作業で以下のスキルを参照すること。
 
@@ -62,16 +65,17 @@ TypeScript コードを変更するすべての作業で以下のスキルを参
 - コーディング中は `coding-standards` スキルを参照
 - テスト作成時は `tdd` および `testing` スキルを参照
 - コード重複が疑われる場合は `code-similarity-ts` スキルを使用
-- React コンポーネント実装時は `react` スキルを参照（react-rules-plugin）
-<!-- d-market:typescript-rules:end -->
+- React コンポーネント実装時は `react` スキルを参照
 ```
 
-**注意**: React を使用していないプロジェクトの場合、React 行は省略する。
+**注意**:
+- React を使用していないプロジェクトの場合、React 行は省略する。
+- `similarity-ts` がインストールされていない場合、`code-similarity-ts` 行は省略する。
 
-### 5. ユーザーへの確認
+### 6. ユーザーへの確認
 
 追記内容と書き込み先をユーザーに提示し、承認を得てから書き込む。
 
-### 6. 完了報告
+### 7. 完了報告
 
 書き込み完了後、対象ファイルと追加したスキル一覧を報告する。

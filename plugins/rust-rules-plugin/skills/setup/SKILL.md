@@ -37,20 +37,18 @@ d-market の rust-rules-plugin をインストール後、プロジェクトの�
 
 ### 2. 既存セクションの確認
 
-`<!-- d-market:rust-rules:start -->` 〜 `<!-- d-market:rust-rules:end -->` マーカーが既に存在する場合は、その範囲を上書き更新する。
+`## Rust 開発ルール` 見出しが既に存在する場合は、次の見出し（`##` レベル）までの範囲を上書き更新する。
 
 ### 3. 以下のセクションを生成して追記する
 
 ```markdown
-<!-- d-market:rust-rules:start -->
-## Rust 開発ルール（d-market / rust-rules-plugin）
+## Rust 開発ルール
 
 Rust コードを変更するすべての作業で以下のスキルを参照すること。
 
 - 実装開始時は `implementation-workflow` スキルのフローに従う
 - コーディング中は `coding-standards` スキルを参照
 - テスト作成時は `tdd` および `testing` スキルを参照
-<!-- d-market:rust-rules:end -->
 ```
 
 ### 4. ユーザーへの確認
