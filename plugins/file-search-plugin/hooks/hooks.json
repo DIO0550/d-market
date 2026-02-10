@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash plugins/file-search-plugin/hooks/file-search-redirect.sh"
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/file-search-redirect.sh\""
           }
         ]
       },
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash plugins/file-search-plugin/hooks/web-search-redirect.sh"
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/web-search-redirect.sh\""
           }
         ]
       }

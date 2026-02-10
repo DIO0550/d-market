@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash plugins/spec-plugin/hooks/enforce-diagrams.sh"
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/enforce-diagrams.sh\""
           }
         ]
       }

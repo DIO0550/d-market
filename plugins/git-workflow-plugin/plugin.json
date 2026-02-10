@@ -6,5 +6,6 @@
     "name": "DIO0550"
   },
   "repository": "https://github.com/DIO0550/d-market",
-  "license": "MIT"
+  "license": "MIT",
+  "hooks": "./hooks/hooks.json"
 }

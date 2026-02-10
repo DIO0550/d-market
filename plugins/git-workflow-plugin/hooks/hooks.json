@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/branch-protection.sh"
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/branch-protection.sh\""
           }
         ]
       }
