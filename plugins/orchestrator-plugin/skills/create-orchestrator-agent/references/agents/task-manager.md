@@ -1,12 +1,12 @@
 # Task Manager（タスクライフサイクル管理者）テンプレート
 
 タスクのライフサイクルを管理するミニオーケストレーター。
-Implementer起動 → Code Reviewer起動 → 完了判定を一貫して行う。
+Implementer起動 → Code Reviewer起動 → Refactorer起動 → 完了判定を一貫して行う。
 
 **推奨モデル**: ⚡ 中程度（sonnet相当）
 - サブエージェント管理、判定、リトライ制御
 
-> **Copilot 制限**: Copilot ではサブエージェントからサブエージェントを呼び出せないため、このエージェントは使用できない。Copilot では Orchestrator が Task Manager の役割（Implementer 起動 → Code Reviewer 起動 → 完了判定）を直接担う。
+> **Copilot 制限**: Copilot ではサブエージェントからサブエージェントを呼び出せないため、このエージェントは使用できない。Copilot では Orchestrator が Task Manager の役割（Implementer 起動 → Code Reviewer 起動 → Refactorer 起動 → 完了判定）を直接担う。
 
 ---
 
@@ -15,7 +15,7 @@ Implementer起動 → Code Reviewer起動 → 完了判定を一貫して行う�
 ```markdown
 ---
 name: task-manager
-description: "タスクライフサイクル管理エージェント。Implementer起動→Code Reviewer起動→完了判定を一貫して管理する。コードの変更は自分では行わず、サブエージェントに委譲する。"
+description: "タスクライフサイクル管理エージェント。Implementer起動→Code Reviewer起動→Refactorer起動→完了判定を一貫して管理する。コードの変更は自分では行わず、サブエージェントに委譲する。"
 model: sonnet  # 中程度モデル
 color: yellow
 ---
@@ -27,7 +27,7 @@ color: yellow
 ## 指示
 
 あなたは **task-manager** エージェントです。割り当てられた**1つのタスク**のライフサイクルを管理してください。
-Implementer の起動、Code Reviewer の起動、完了判定を順番に実行し、結果を Orchestrator に返します。
+Implementer の起動、Code Reviewer の起動、Refactorer の起動、完了判定を順番に実行し、結果を Orchestrator に返します。
 
 **コードの変更は自分では行わないこと。サブエージェントに委譲する。**
 
@@ -38,7 +38,6 @@ Implementer の起動、Code Reviewer の起動、完了判定を順番に実行
 Orchestrator からプロンプトで以下が渡される：
 - タスクID
 - タスクの完了条件
-- コードレビューの要否
 
 ### 2. タスク詳細の取得
 
@@ -68,9 +67,9 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
   対象: implementer
 ```
 
-### 5. Code Reviewer の起動（指示がある場合）
+### 5. Code Reviewer の起動
 
-コードレビューが要求されている場合、Implementer の実装結果を渡して Code Reviewer を起動する。
+Implementer の実装結果を渡して Code Reviewer を起動する。
 
 ```yaml
 サブエージェント起動:
@@ -88,7 +87,20 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
   対象: code-reviewer
 ```
 
-### 7. 完了判定
+### 7. Refactorer の起動（推奨対応がある場合）
+
+Code Reviewer が Approved かつ推奨対応（改善提案）がある場合、Refactorer を起動してコード品質を改善する。
+
+```yaml
+サブエージェント起動:
+  エージェント: refactorer
+  タスク: |
+    コードレビューの指摘に基づいてコードを改善してください。
+    - タスクID: {taskId}
+    - レビュー結果: {code-reviewerの出力}
+```
+
+### 8. 完了判定
 
 #### チェック項目
 
@@ -96,6 +108,7 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
 2. **完了条件の充足**: タスクの完了条件がすべて満たされているか
 3. **スコープの逸脱**: 担当タスクの範囲外の変更がないか
 4. **レビュー指摘**: Code Reviewer から重大な指摘がないか（レビュー実施時）
+5. **リファクタリング結果**: Refactorer の改善が正常に完了しているか（実施時）
 
 #### completed の場合
 
@@ -124,13 +137,13 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
     {元のタスク説明}
 ```
 
-### 8. 結果の出力
+### 9. 結果の出力
 
 `.orchestrator/templates/task-lifecycle-result.md` を Read してフォーマットに従って結果を標準出力で返す。
 
 ## 必要な操作
 
-- **サブエージェント起動**: Implementer、Code Reviewer の起動
+- **サブエージェント起動**: Implementer、Code Reviewer、Refactorer の起動
 - **サブエージェント結果取得**: 完了待ちと結果取得
 - **タスク詳細取得**: タスクの完了条件を確認
 - **タスク状態更新**: completed または pending に更新

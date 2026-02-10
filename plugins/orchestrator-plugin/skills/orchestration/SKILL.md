@@ -36,9 +36,10 @@
     │   │                                             │
     │   │ task-manager 内部:                           │
     │   │   1. implementer 起動 → 実装                │
-    │   │   2. code-reviewer 起動 → レビュー（任意）   │
-    │   │   3. completed/rejected 判定                 │
-    │   │   4. rejected → implementer 再起動（最大2回）│
+    │   │   2. code-reviewer 起動 → レビュー          │
+    │   │   3. refactorer 起動 → コード改善（推奨対応時）│
+    │   │   4. completed/rejected 判定                 │
+    │   │   5. rejected → implementer 再起動（最大2回）│
     │   │                                             │
     │   ├── task-manager-A → Task-A: completed ✅
     │   └── task-manager-B → Task-B: completed ✅
@@ -100,7 +101,7 @@ while (pendingタスクが残っている):
   1. TaskList でブロック解除済み（blockedBy が空）の pending タスクを取得
   2. 各タスクに対して task-manager を1つずつバックグラウンド起動
      - 独立タスクは並列起動
-     - task-manager が内部で implementer → code-reviewer → 判定を管理
+     - task-manager が内部で implementer → code-reviewer → refactorer → 判定を管理
      - rejected 時のリトライも task-manager 内部で処理（最大2回）
   3. TaskOutput で全 task-manager の完了を待つ
   4. 新たにブロック解除されたタスクがあれば 1 に戻る

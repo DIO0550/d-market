@@ -25,7 +25,7 @@
 2. **Phase 2: 実装（タスクごとにtask-managerを起動）**
    - Orchestrator が TaskList で依存関係（blockedBy）を確認
    - ブロック解除済みタスクごとに task-manager を1つ起動（独立タスクは並列）
-   - task-manager が内部で implementer 起動 → code-reviewer 起動 → 完了判定を管理
+   - task-manager が内部で implementer → code-reviewer → refactorer → 完了判定を管理
    - 全タスク completed 後、結果を統合してユーザーに報告
    - **ここで自動実行は停止**
 
@@ -206,14 +206,12 @@ while (pendingタスクが残っている):
          - 説明: {description}
          - 完了条件: {completionCriteria}
 
-         ## コードレビュー
-         {有効 / 無効}
-
          ## 手順
          1. Implementer をサブエージェントとして起動し、実装を委譲
-         2. コードレビューが有効なら Code Reviewer を起動
-         3. 結果を基に completed / rejected を判定
-         4. rejected の場合は Implementer を再起動（最大2回）
+         2. Code Reviewer を起動してレビュー
+         3. Approved + 推奨対応ありの場合、Refactorer を起動してコード改善
+         4. 結果を基に completed / rejected を判定
+         5. rejected の場合は Implementer を再起動（最大2回）
 
   3. TaskOutput で全 task-manager の完了を待つ
 
