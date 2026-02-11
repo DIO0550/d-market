@@ -11,6 +11,7 @@
 | エージェント | 必須度 | 推奨モデル | 役割 | テンプレート |
 |-------------|-------|----------|------|-------------|
 | **Orchestrator** | 必須 | 🧠 高性能 | 全体フロー制御、エージェント起動管理 | [orchestrator.md](agents/orchestrator.md) |
+| **Orchestrator (Copilot)** | 必須（Copilot時） | 🧠 高性能 | 全体フロー制御（フラット構造、Task Manager 不使用） | [orchestrator-copilot.md](agents/orchestrator-copilot.md) |
 
 ### 計画フェーズ
 
@@ -26,6 +27,8 @@
 |-------------|-------|----------|------|-------------|
 | **Task Manager** | 推奨 | ⚡ 中程度 | タスクライフサイクル管理（実装→レビュー→判定） | [task-manager.md](agents/task-manager.md) |
 | **Implementer** | 必須（変更時） | ⚡ 中程度 | 計画に基づくコード実装（1タスク=1エージェント） | [implementer.md](agents/implementer.md) |
+
+> Copilot ではサブエージェントのネスト不可のため Task Manager は使用しない。代わりに [orchestrator-copilot.md](agents/orchestrator-copilot.md) が直接管理する。
 
 ### 検証フェーズ
 

@@ -47,7 +47,7 @@ description: "オーケストレーターフロー用のエージェント定義
 
 ### 個別選択
 
-**制御**: [Orchestrator](references/agents/orchestrator.md)
+**制御**: [Orchestrator](references/agents/orchestrator.md), [Orchestrator Copilot版](references/agents/orchestrator-copilot.md)
 
 **計画**: [Explorer](references/agents/explorer.md), [Planner](references/agents/planner.md), [Plan Reviewer](references/agents/plan-reviewer.md)
 

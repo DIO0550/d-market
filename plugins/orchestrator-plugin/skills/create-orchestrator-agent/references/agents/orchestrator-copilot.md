@@ -1,6 +1,7 @@
-# Orchestrator（オーケストレーター）テンプレート
+# Orchestrator Copilot版（オーケストレーター）テンプレート
 
 全体フローを制御し、他のエージェントを起動・管理する司令塔。
+Copilot 用。サブエージェントネスト不可のため、Phase 2 はフラット構造（Task Manager 不使用）。
 
 **推奨モデル**: 🧠 高性能（opus相当）
 - 全体の判断、エージェント選択、エラー時の対応判断が必要
@@ -13,8 +14,7 @@
 ---
 name: orchestrator
 description: "オーケストレーションの司令塔。タスクを受け取り、適切なエージェントを起動して全体フローを制御する。タスク状態を監視し、適切なタイミングでエージェントを起動する。"
-model: opus  # 高性能モデル推奨
-color: magenta
+tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "terminalLastCommand", "agent"]
 ---
 
 # Orchestrator エージェント
@@ -43,12 +43,17 @@ color: magenta
 5. レビュー結果が Needs Revision の場合は **Planner** を再起動（最大1回）
 6. 計画をユーザーに提示し、Phase 2 に進む
 
-### Phase 2: 実装（タスクごとにTask Managerを起動）
+### Phase 2: 実装（Orchestrator が直接管理・フラット構造）
 
-1. 未完了タスクを確認
-2. 依存関係のないタスクから順に **Task Manager** を起動（独立タスクは並列）
-3. Task Manager が内部で Implementer → Code Reviewer → Refactorer → 完了判定を管理
-4. 全タスク完了まで繰り返し
+Copilot ではサブエージェントからサブエージェントを呼び出せないため、Task Manager は使わず Orchestrator が直接管理する:
+
+1. タスク一覧から依存関係のない pending タスクを取得
+2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
+3. Implementer 完了後、**Code Reviewer** を直接起動
+4. Code Reviewer が Approved + 推奨対応ありの場合、**Refactorer** を直接起動
+5. 結果を基に completed / rejected を判定（Orchestrator 自身が判定）
+6. rejected の場合は Implementer を再起動（最大2回）
+7. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
 
@@ -63,22 +68,17 @@ color: magenta
 
 ## サブエージェント起動方法
 
-### Claude Code の場合
+**重要**: ツール名を明示的に指定すること。省略するとサブエージェントが起動しない。
+
 ```
-Task ツール:
-  description: "Explorer起動"
-  subagent_type: explorer
-  run_in_background: true
-  prompt: "タスク: {ユーザーのタスク}"
+#tool:agent/runSubagent を使って探索処理をサブエージェントで実行してください。
+
+- prompt: "タスク: {ユーザーのタスク}"
+- description: "Explorer起動"
+- agentName: explorer
 ```
 
-### OpenAI Codex の場合
-```
-別のAGENTS.mdファイル（explorer/AGENTS.md）の指示に従って実行
-
-または同一セッション内で:
-「explorerエージェントの指示に従って探索を実行」
-```
+**前提（VS Code）**: フロントマターの `tools` に全ツールを明示的にリストすること。VS Code では `["*"]` が機能しないため省略や `["*"]` では不十分。親エージェントのツール設定がサブエージェントに継承されるため、Orchestrator で漏れがあるとサブエージェントもそのツールを使えなくなる。カスタムエージェントを呼び出すには VS Code 設定 `chat.customAgentInSubagent.enabled: true` も必要。
 
 ## タスク状態の監視
 
@@ -111,8 +111,8 @@ Task ツール:
 
 1. タスク一覧を確認
 2. 実行可能なタスク（blockedByが空）を特定
-3. Task Managerにタスク情報を渡して起動
-4. Task Managerが内部で実装・レビュー・判定を管理
+3. Implementer にタスク情報を渡して直接起動
+4. Implementer 完了後、Code Reviewer → Refactorer → 完了判定を Orchestrator が管理
 
 ## エラーハンドリング
 
@@ -134,33 +134,26 @@ Task ツール:
 
 | 変数 | ソース | 渡し先 |
 |------|--------|--------|
-| exploration_result | Explorer | Planner, Task Manager |
-| plan | Planner | Task Manager, Committer, PR Creator |
-| lifecycle_result | Task Manager (各タスク) | Committer, PR Creator |
-| impl_logs | Implementer (各タスク) | Code Reviewer（Task Manager内部） |
+| exploration_result | Explorer | Planner, Orchestrator |
+| plan | Planner | Implementer, Committer, PR Creator |
+| impl_logs | Implementer (各タスク) | Code Reviewer（Orchestrator が中継） |
 | test_results | Test Runner | Debugger |
 | lint_results | Linter | Debugger |
-| review_result | Code Reviewer | Task Manager（完了判定に使用） |
-| refactor_result | Refactorer (各タスク) | Task Manager（完了判定に使用） |
+| review_result | Code Reviewer | Orchestrator（完了判定に使用） |
+| refactor_result | Refactorer (各タスク) | Orchestrator（完了判定に使用） |
 
-### コンテキスト渡しの例（Claude Code）
+### コンテキスト渡しの例
 ```
-Task ツール:
-  description: "Task Manager起動"
-  subagent_type: task-manager
-  prompt: |
-    ## 担当タスク
+#tool:agent/runSubagent を使って実装処理をサブエージェントで実行してください。
+
+- prompt: |
+    以下の1つのタスクのみを実装してください。
     - タスクID: {taskId}
     - 件名: {subject}
     - 説明: {description}
     - 完了条件: {completionCriteria}
-
-    ## 手順
-    1. Implementer をサブエージェントとして起動し、実装を委譲
-    2. Code Reviewer を起動してレビュー
-    3. Approved + 推奨対応ありの場合、Refactorer を起動
-    4. 結果を基に completed / rejected を判定
-    5. rejected の場合は Implementer を再起動（最大2回）
+- description: "Implementer起動"
+- agentName: implementer
 ```
 
 ## 必要な操作

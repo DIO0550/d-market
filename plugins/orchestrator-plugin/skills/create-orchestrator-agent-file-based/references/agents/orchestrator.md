@@ -72,38 +72,6 @@ Task ツール:
   prompt: "タスク: {ユーザーのタスク}"
 ```
 
-### GitHub Copilot の場合
-
-**重要**: ツール名を明示的に指定すること。省略するとサブエージェントが起動しない。
-
-```
-#tool:agent/runSubagent を使って探索処理をサブエージェントで実行してください。
-
-- prompt: "タスク: {ユーザーのタスク}"
-- description: "Explorer起動"
-- agentName: explorer
-```
-
-**前提（VS Code）**: フロントマターの `tools` に全ツールを明示的にリストすること。VS Code では `["*"]` が機能しないため省略や `["*"]` では不十分。親エージェントのツール設定がサブエージェントに継承されるため、Orchestrator で漏れがあるとサブエージェントもそのツールを使えなくなる。カスタムエージェントを呼び出すには VS Code 設定 `chat.customAgentInSubagent.enabled: true` も必要。
-
-VS Code 用フロントマター例:
-  name: orchestrator
-  description: "..."
-  model: opus
-  tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "terminalLastCommand", "agent"]
-
-### Copilot での Phase 2（フラット構造）
-
-Copilot ではサブエージェントからサブエージェントを呼び出せないため、Task Manager は使わず Orchestrator が直接管理する:
-
-1. タスク一覧から依存関係のない pending タスクを取得
-2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
-3. Implementer 完了後、**Code Reviewer** を直接起動
-4. Code Reviewer が Approved + 推奨対応ありの場合、**Refactorer** を直接起動
-5. 結果を基に completed / rejected を判定（Orchestrator 自身が判定）
-6. rejected の場合は Implementer を再起動（最大2回）
-7. 全タスク完了まで繰り返し
-
 ### OpenAI Codex の場合
 ```
 別のAGENTS.mdファイル（explorer/AGENTS.md）の指示に従って実行
