@@ -86,7 +86,9 @@ Copilot ではサブエージェントからサブエージェントを呼び出
 
 1. **Test Runner** と **Linter** を並列でバックグラウンド起動
 2. 両方の完了を待機
-3. 失敗があれば **Debugger** を起動
+3. 両方 PASS → Phase 4 へ
+4. 失敗があれば **Debugger** を起動（分析+修正）
+5. Debugger 完了後、Test Runner と Linter を再実行（Step 1 に戻る、最大10回リトライ）
 
 ### Phase 4: Git
 
