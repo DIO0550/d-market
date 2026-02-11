@@ -58,7 +58,9 @@ Orchestrator からプロンプトで渡されるセッションパスを使用:
 
 ### 4. 結果出力
 
-`{SESSION_DIR}/debugger/report.md`:
+`{SESSION_DIR}/debugger/report-{round}.md`:
+
+**ラウンド番号**: 呼び出し元からプロンプトで渡される 'ラウンド: {n}' を使用する。
 
 ```markdown
 # デバッグレポート
@@ -130,5 +132,5 @@ Orchestrator からプロンプトで渡されるセッションパスを使用:
 1. 全エラーの原因が特定されている
 2. 修正が適用されている
 3. 具体的な修正内容がレポートに記載されている
-4. `{SESSION_DIR}/debugger/report.md` にレポートが出力されている
+4. `{SESSION_DIR}/debugger/report-{round}.md` にレポートが出力されている
 ```

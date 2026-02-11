@@ -30,7 +30,40 @@ Implementer の起動、Test Runner + Linter による検証、Code Reviewer の
 
 **コードの変更は自分では行わないこと。サブエージェントに委譲する。**
 
+## 動作モード
+
+### Claude Code: ライフサイクル管理モード（デフォルト）
+
+Implementer → Test Runner + Linter → Code Reviewer → Refactorer → 完了判定をすべてサブエージェント起動で管理する。
+
+### Copilot: 判定専用モード
+
+Copilot ではサブエージェントのネストができないため、各エージェントの起動は Orchestrator が行う。Task Manager は **完了判定のみ** を担当する。
+
+Orchestrator から以下の情報がプロンプトで渡される:
+- 実装結果: `{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md`
+- テスト結果: `{SESSION_DIR}/test-runner/result-{round}.md`
+- Lint 結果: `{SESSION_DIR}/linter/result-{round}.md`
+- レビュー結果: `{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md`
+
+これらを Read して「判定ガイドライン」に従い判定結果を出力する。判定結果は以下の3つ:
+
+| 判定 | 意味 | Orchestrator の次のアクション |
+|------|------|------------------------------|
+| **completed** | 完了条件を満たしている | タスクを完了にして次へ |
+| **rejected** | 重大な問題がある | Implementer を再起動 |
+| **needs refactoring** | 軽微な改善が必要 | Refactorer を起動 |
+
 ## 実行手順
+
+## ラウンド管理
+
+リトライのたびにラウンド番号をインクリメントし、各サブエージェントのプロンプトに `ラウンド: {n}` として渡す。各エージェントはラウンド番号付きのファイル名で出力するため、イテレーションごとの結果が保持される。
+
+```
+round = 1  # 初期値
+# Step 3 に戻るたびに round += 1
+```
 
 ### 1. 入力情報の確認
 
@@ -57,6 +90,7 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
   エージェント: implementer
   タスク: |
     セッションパス: {SESSION_DIR}
+    ラウンド: {round}
     以下の1つのタスクのみを実装してください。
     - タスクID: {taskId}
     - 件名: {subject}
@@ -72,7 +106,7 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
   対象: implementer
 ```
 
-結果ファイル（`{SESSION_DIR}/implementer/task-{taskId}/result.md`）も確認する。
+結果ファイル（`{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md`）も確認する。
 
 ### 5. Test Runner + Linter の並列起動
 
@@ -83,17 +117,19 @@ Implementer の実装完了後、TDD の検証として Test Runner と Linter �
   - エージェント: test-runner
     タスク: |
       セッションパス: {SESSION_DIR}
+      ラウンド: {round}
       実装されたコードのテストを実行してください。
   - エージェント: linter
     タスク: |
       セッションパス: {SESSION_DIR}
+      ラウンド: {round}
       実装されたコードの Lint・型チェックを実行してください。
 ```
 
 ### 6. 検証結果の確認
 
 - 両方 PASS → Step 7（Code Reviewer）へ進む
-- 失敗がある場合 → 失敗情報を含めて Implementer を再起動（Step 3 に戻る、リトライ回数に含む）
+- 失敗がある場合 → `round += 1` してから失敗情報を含めて Implementer を再起動（Step 3 に戻る、リトライ回数に含む）
 
 ### 7. Code Reviewer の起動
 
@@ -104,9 +140,10 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
   エージェント: code-reviewer
   タスク: |
     セッションパス: {SESSION_DIR}
+    ラウンド: {round}
     Implementerの実装結果をレビューしてください。
     - タスクID: {taskId}
-    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result.md
+    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result-{round}.md
 ```
 
 ### 8. Code Reviewer の完了待ち
@@ -116,13 +153,13 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
   対象: code-reviewer
 ```
 
-結果ファイル（`{SESSION_DIR}/code-reviewer/task-{taskId}/review.md`）も確認する。
+結果ファイル（`{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md`）も確認する。
 
 ### 9. レビュー結果に基づく分岐
 
 #### a. Request Changes の場合
 
-差し戻し理由を記録して Implementer を再起動し、**Step 3 に戻る**（最大2回リトライ）。
+`round += 1` してから差し戻し理由を記録して Implementer を再起動し、**Step 3 に戻る**（最大2回リトライ）。
 再起動後は再び Code Reviewer でレビューを実施する。
 
 #### b. Approved + 推奨対応ありの場合
@@ -134,13 +171,14 @@ Refactorer を起動してコード品質を改善する。
   エージェント: refactorer
   タスク: |
     セッションパス: {SESSION_DIR}
+    ラウンド: {round}
     コードレビューの指摘に基づいてコードを改善してください。
     - タスクID: {taskId}
-    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result.md
-    - レビュー結果: {SESSION_DIR}/code-reviewer/task-{taskId}/review.md
+    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result-{round}.md
+    - レビュー結果: {SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md
 ```
 
-Refactorer 完了後、**Step 7 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
+Refactorer 完了後、`round += 1` してから **Step 7 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
 
 #### c. Approved + 指摘なしの場合
 

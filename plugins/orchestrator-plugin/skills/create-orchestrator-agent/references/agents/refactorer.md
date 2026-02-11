@@ -53,7 +53,9 @@ Orchestrator/Task Manager からプロンプトで渡されるセッションパ
 
 ### 4. 結果出力
 
-`{SESSION_DIR}/refactorer/task-{taskId}/result.md` に以下のフォーマットで結果を出力する:
+`{SESSION_DIR}/refactorer/task-{taskId}/result-{round}.md` に以下のフォーマットで結果を出力する:
+
+**ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。
 
 ```markdown
 # リファクタリングログ
@@ -105,5 +107,5 @@ Orchestrator/Task Manager からプロンプトで渡されるセッションパ
 
 1. 高優先度の指摘が対応されている
 2. テストが通る
-3. `{SESSION_DIR}/refactorer/task-{taskId}/result.md` にログが出力されている
+3. `{SESSION_DIR}/refactorer/task-{taskId}/result-{round}.md` にログが出力されている
 ```

@@ -67,7 +67,9 @@ Orchestrator からプロンプトで渡されるセッションパスを使用�
 
 ### 4. 結果出力
 
-`.orchestrator/templates/plan-review-result.md` を Read してフォーマットに従って `{SESSION_DIR}/plan-reviewer/review.md` に結果を出力する。
+`.orchestrator/templates/plan-review-result.md` を Read してフォーマットに従って `{SESSION_DIR}/plan-reviewer/review-{round}.md` に結果を出力する。
+
+**ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。
 
 ## 必要な操作
 
@@ -79,6 +81,6 @@ Orchestrator からプロンプトで渡されるセッションパスを使用�
 
 1. 全レビュー観点がチェックされている
 2. 指摘事項が優先度付きでリストされている
-3. `{SESSION_DIR}/plan-reviewer/review.md` にレビュー結果が出力されている
+3. `{SESSION_DIR}/plan-reviewer/review-{round}.md` にレビュー結果が出力されている
 4. 判定（Approved/Needs Revision/Rejected）が明示されている
 ```

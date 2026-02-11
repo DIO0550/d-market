@@ -113,27 +113,33 @@ description: "オーケストレーターフロー用のエージェント定義
 │   │   ├── plan.md
 │   │   └── tasks.md
 │   ├── plan-reviewer/
-│   │   └── review.md
+│   │   ├── review-1.md          # ラウンドごとに連番
+│   │   └── review-2.md
 │   ├── implementer/
 │   │   └── task-{id}/
-│   │       └── result.md
+│   │       ├── result-1.md      # ラウンドごとに連番
+│   │       └── result-2.md
 │   ├── code-reviewer/
 │   │   └── task-{id}/
-│   │       └── review.md
+│   │       ├── review-1.md      # ラウンドごとに連番
+│   │       └── review-2.md
 │   ├── refactorer/
 │   │   └── task-{id}/
-│   │       └── result.md
+│   │       └── result-1.md      # ラウンドごとに連番
 │   ├── task-manager/
 │   │   └── task-{id}/
 │   │       └── lifecycle.md
 │   ├── test-runner/
-│   │   └── result.md
+│   │   ├── result-1.md          # ラウンドごとに連番
+│   │   └── result-2.md
 │   ├── linter/
-│   │   └── result.md
+│   │   ├── result-1.md          # ラウンドごとに連番
+│   │   └── result-2.md
 │   ├── security-scanner/
 │   │   └── result.md
 │   ├── debugger/
-│   │   └── report.md
+│   │   ├── report-1.md          # ラウンドごとに連番
+│   │   └── report-2.md
 │   ├── committer/
 │   │   └── result.md
 │   └── pr-creator/

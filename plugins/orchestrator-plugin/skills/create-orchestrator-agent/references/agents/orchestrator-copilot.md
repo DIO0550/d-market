@@ -57,20 +57,21 @@ tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "ter
    c. Approved になるまで繰り返す（最大2回リトライ）
 6. 計画をユーザーに提示し、Phase 2 に進む
 
-### Phase 2: 実装（Orchestrator が直接管理・フラット構造）
+### Phase 2: 実装（Orchestrator がサブエージェントを直列起動、判定は Task Manager に委譲）
 
-Copilot ではサブエージェントからサブエージェントを呼び出せないため、Task Manager は使わず Orchestrator が直接管理する:
+Copilot ではサブエージェントからサブエージェントを呼び出せないため、各エージェントの起動は Orchestrator が直接行う。ただし完了判定は **Task Manager** に委譲する:
 
 1. タスク一覧から依存関係のない pending タスクを取得
 2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
 3. Implementer 完了後、**Test Runner** と **Linter** を並列起動（TDD検証）
 4. テスト/Lint 失敗 → 失敗情報を含めて Implementer を再起動（Step 2 に戻る、リトライ回数に含む）
 5. テスト/Lint 成功後、**Code Reviewer** を直接起動
-6. Code Reviewer の判定に基づく分岐:
-   a. **Request Changes** → Implementer を再起動し Step 2 に戻る（最大2回リトライ）
-   b. **Approved + 推奨対応あり** → **Refactorer** を起動 → **Code Reviewer** で再レビュー（最大2レビューサイクル）
-   c. **Approved + 指摘なし** → completed
-7. 全タスク完了まで繰り返し
+6. Code Reviewer 完了後、**Task Manager** を起動し判定を委譲（実装結果・テスト結果・レビュー結果のパスを渡す）
+7. Task Manager の判定に基づく分岐:
+   a. **completed** → タスクを完了にして次のタスクへ
+   b. **rejected** → Implementer を再起動し Step 2 に戻る（最大2回リトライ）
+   c. **needs refactoring** → **Refactorer** を起動 → Step 5 に戻り Code Reviewer で再レビュー（最大2レビューサイクル）
+8. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
 
@@ -131,7 +132,8 @@ Copilot ではサブエージェントからサブエージェントを呼び出
 1. タスク一覧を確認
 2. 実行可能なタスク（blockedByが空）を特定
 3. Implementer にタスク情報を渡して直接起動
-4. Implementer 完了後、Test Runner + Linter → Code Reviewer → Refactorer → 完了判定を Orchestrator が管理
+4. Implementer 完了後、Test Runner + Linter → Code Reviewer を Orchestrator が起動
+5. 完了判定は Task Manager に委譲し、結果に基づき Orchestrator が次のアクションを実行
 
 ## エラーハンドリング
 
@@ -156,11 +158,13 @@ Copilot ではサブエージェントからサブエージェントを呼び出
 | {SESSION_DIR}/explorer/result.md | Explorer | Planner, Orchestrator |
 | {SESSION_DIR}/planner/plan.md | Planner | Implementer, Committer, PR Creator |
 | {SESSION_DIR}/planner/tasks.md | Planner | Orchestrator |
-| {SESSION_DIR}/implementer/task-{id}/result.md | Implementer (各タスク) | Code Reviewer（Orchestrator が中継） |
-| {SESSION_DIR}/test-runner/result.md | Test Runner | Debugger |
-| {SESSION_DIR}/linter/result.md | Linter | Debugger |
-| {SESSION_DIR}/code-reviewer/task-{id}/review.md | Code Reviewer | Orchestrator（完了判定に使用） |
-| {SESSION_DIR}/refactorer/task-{id}/result.md | Refactorer (各タスク) | Orchestrator（完了判定に使用） |
+| {SESSION_DIR}/implementer/task-{id}/result-{round}.md | Implementer (各タスク) | Code Reviewer（Orchestrator が中継） |
+| {SESSION_DIR}/test-runner/result-{round}.md | Test Runner | Debugger |
+| {SESSION_DIR}/linter/result-{round}.md | Linter | Debugger |
+| {SESSION_DIR}/code-reviewer/task-{id}/review-{round}.md | Code Reviewer | Orchestrator（完了判定に使用） |
+| {SESSION_DIR}/refactorer/task-{id}/result-{round}.md | Refactorer (各タスク) | Orchestrator（完了判定に使用） |
+| {SESSION_DIR}/plan-reviewer/review-{round}.md | Plan Reviewer | Planner（修正時）|
+| {SESSION_DIR}/debugger/report-{round}.md | Debugger | Orchestrator |
 
 ### コンテキスト渡しの例
 ```

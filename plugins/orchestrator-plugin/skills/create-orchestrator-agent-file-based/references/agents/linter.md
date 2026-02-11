@@ -43,7 +43,9 @@ Lint と型チェックを実行する。
 
 ### 3. 結果出力
 
-`{SESSION_DIR}/linter/result.md`:
+`{SESSION_DIR}/linter/result-{round}.md`:
+
+**ラウンド番号**: 呼び出し元からプロンプトで渡される 'ラウンド: {n}' を使用する。
 
 **セッション情報**: Orchestrator からプロンプトで渡されるセッションパスを使用する。
 
@@ -92,5 +94,5 @@ npm run lint -- --fix
 
 1. Lint と型チェックが実行されている
 2. エラー/警告が分類されている
-3. `{SESSION_DIR}/linter/result.md` に結果が出力されている
+3. `{SESSION_DIR}/linter/result-{round}.md` に結果が出力されている
 ```

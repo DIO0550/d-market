@@ -32,7 +32,7 @@ color: yellow
 
 ```
 Orchestrator/Task Manager からプロンプトで渡されるセッションパスを使用:
-  - {SESSION_DIR}/implementer/task-{taskId}/result.md （実装結果）
+  - {SESSION_DIR}/implementer/task-{taskId}/result-{round}.md （実装結果、ラウンド番号はプロンプトで渡される）
   - 変更されたファイル
   - 参照されている仕様書
 ```
@@ -60,7 +60,9 @@ Orchestrator/Task Manager からプロンプトで渡されるセッションパ
 
 ### 3. 結果出力
 
-`.orchestrator/templates/code-review-result.md` を Read してフォーマットに従って `{SESSION_DIR}/code-reviewer/task-{taskId}/review.md` に結果を出力する。
+`.orchestrator/templates/code-review-result.md` を Read してフォーマットに従って `{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md` に結果を出力する。
+
+**ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。
 
 ## 必要な操作
 
@@ -71,5 +73,5 @@ Orchestrator/Task Manager からプロンプトで渡されるセッションパ
 
 1. 全ての変更ファイルがレビューされている
 2. 指摘事項が重要度付きでリストされている
-3. `{SESSION_DIR}/code-reviewer/task-{taskId}/review.md` にレビュー結果が出力されている
+3. `{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md` にレビュー結果が出力されている
 ```
