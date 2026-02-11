@@ -39,21 +39,9 @@ color: magenta
 1. `.orchestrator/` 内の `????-*` パターンをスキャンし最大連番を取得（なければ 0000）
 2. ユーザーのタスクから feature 名を生成（英小文字ハイフン区切り、例: `user-auth`）
 3. 新しいセッションフォルダを作成: `.orchestrator/{連番+1}-{feature名}/`
-4. エージェントフォルダを一括作成:
+4. セッション初期化スクリプトを実行:
    ```
-   mkdir -p .orchestrator/{SESSION_ID}/explorer
-   mkdir -p .orchestrator/{SESSION_ID}/planner
-   mkdir -p .orchestrator/{SESSION_ID}/plan-reviewer
-   mkdir -p .orchestrator/{SESSION_ID}/implementer
-   mkdir -p .orchestrator/{SESSION_ID}/code-reviewer
-   mkdir -p .orchestrator/{SESSION_ID}/refactorer
-   mkdir -p .orchestrator/{SESSION_ID}/task-manager
-   mkdir -p .orchestrator/{SESSION_ID}/test-runner
-   mkdir -p .orchestrator/{SESSION_ID}/linter
-   mkdir -p .orchestrator/{SESSION_ID}/security-scanner
-   mkdir -p .orchestrator/{SESSION_ID}/debugger
-   mkdir -p .orchestrator/{SESSION_ID}/committer
-   mkdir -p .orchestrator/{SESSION_ID}/pr-creator
+   bash .orchestrator/scripts/init-session.sh .orchestrator/{SESSION_ID}
    ```
 5. 以降すべてのサブエージェント起動プロンプトに `セッションパス: .orchestrator/{SESSION_ID}/` を含める
 

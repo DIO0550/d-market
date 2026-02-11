@@ -108,6 +108,7 @@ description: "オーケストレーターフロー用のエージェント定義
 
 ```bash
 mkdir -p .orchestrator/templates
+mkdir -p .orchestrator/scripts
 ```
 
 次に、以下の7ファイルを **1つずつ Read → Write** でコピーする:
@@ -123,6 +124,20 @@ mkdir -p .orchestrator/templates
 | 7 | [tasks.md](references/templates/tasks.md) | `.orchestrator/templates/tasks.md` |
 
 **手順**: 各行について Read ツールでファイル内容を取得し、Write ツールで Write 先に書き出す。内容は一切変更しない。
+
+### スクリプトの配置
+
+セッション初期化スクリプトを **Read → Write** でコピーする:
+
+| # | Read 対象（このスキルの参照ファイル） | Write 先 |
+|---|--------------------------------------|----------|
+| 1 | [init-session.sh](references/scripts/init-session.sh) | `.orchestrator/scripts/init-session.sh` |
+
+コピー後、実行権限を付与:
+
+```bash
+chmod +x .orchestrator/scripts/init-session.sh
+```
 
 ## 出力ディレクトリ構造
 
@@ -168,6 +183,7 @@ mkdir -p .orchestrator/templates
 ## 生成後チェックリスト
 
 - [ ] `.orchestrator/templates/` に7ファイルが配置されている
+- [ ] `.orchestrator/scripts/init-session.sh` が配置されている
 - [ ] ターゲットツールの形式に従っている
 - [ ] description にトリガー条件が含まれている
 - [ ] **model が適切に設定されている**（🧠/⚡/💨）
