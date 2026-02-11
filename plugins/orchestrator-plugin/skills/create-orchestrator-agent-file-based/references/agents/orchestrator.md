@@ -62,7 +62,7 @@ color: magenta
 
 1. 未完了タスクを確認
 2. 依存関係のないタスクから順に **Task Manager** を起動（独立タスクは並列）
-3. Task Manager が内部で Implementer → Code Reviewer → Refactorer → 完了判定を管理
+3. Task Manager が内部で Implementer → Test Runner + Linter → Code Reviewer → Refactorer → 完了判定を管理
 4. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証

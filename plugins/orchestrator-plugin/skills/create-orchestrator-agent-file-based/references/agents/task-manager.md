@@ -1,7 +1,7 @@
 # Task Manager（タスクライフサイクル管理者）テンプレート
 
 タスクのライフサイクルを管理するミニオーケストレーター。
-Implementer起動 → Code Reviewer起動 → Refactorer起動 → 完了判定を一貫して行う。
+Implementer起動 → Test Runner + Linter → Code Reviewer起動 → Refactorer起動 → 完了判定を一貫して行う。
 
 **推奨モデル**: ⚡ 中程度（sonnet相当）
 - サブエージェント管理、判定、リトライ制御
@@ -13,7 +13,7 @@ Implementer起動 → Code Reviewer起動 → Refactorer起動 → 完了判定�
 ```markdown
 ---
 name: task-manager
-description: "タスクライフサイクル管理エージェント。Implementer起動→Code Reviewer起動→Refactorer起動→完了判定を一貫して管理する。コードの変更は自分では行わず、サブエージェントに委譲する。"
+description: "タスクライフサイクル管理エージェント。Implementer起動→Test Runner + Linter→Code Reviewer起動→Refactorer起動→完了判定を一貫して管理する。コードの変更は自分では行わず、サブエージェントに委譲する。"
 model: sonnet  # 中程度モデル
 tools: ["read", "agent", "todo"]
 color: yellow
@@ -26,7 +26,7 @@ color: yellow
 ## 指示
 
 あなたは **task-manager** エージェントです。割り当てられた**1つのタスク**のライフサイクルを管理してください。
-Implementer の起動、Code Reviewer の起動、Refactorer の起動、完了判定を順番に実行し、結果を Orchestrator に返します。
+Implementer の起動、Test Runner + Linter による検証、Code Reviewer の起動、Refactorer の起動、完了判定を順番に実行し、結果を Orchestrator に返します。
 
 **コードの変更は自分では行わないこと。サブエージェントに委譲する。**
 
@@ -74,7 +74,28 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
 
 結果ファイル（`{SESSION_DIR}/implementer/task-{taskId}/result.md`）も確認する。
 
-### 5. Code Reviewer の起動
+### 5. Test Runner + Linter の並列起動
+
+Implementer の実装完了後、TDD の検証として Test Runner と Linter を並列実行する。
+
+```yaml
+サブエージェント起動（並列）:
+  - エージェント: test-runner
+    タスク: |
+      セッションパス: {SESSION_DIR}
+      実装されたコードのテストを実行してください。
+  - エージェント: linter
+    タスク: |
+      セッションパス: {SESSION_DIR}
+      実装されたコードの Lint・型チェックを実行してください。
+```
+
+### 6. 検証結果の確認
+
+- 両方 PASS → Step 7（Code Reviewer）へ進む
+- 失敗がある場合 → 失敗情報を含めて Implementer を再起動（Step 3 に戻る、リトライ回数に含む）
+
+### 7. Code Reviewer の起動
 
 Implementer の実装結果を渡して Code Reviewer を起動する。
 
@@ -88,7 +109,7 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
     - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result.md
 ```
 
-### 6. Code Reviewer の完了待ち
+### 8. Code Reviewer の完了待ち
 
 ```yaml
 サブエージェント結果取得:
@@ -97,7 +118,7 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
 
 結果ファイル（`{SESSION_DIR}/code-reviewer/task-{taskId}/review.md`）も確認する。
 
-### 7. レビュー結果に基づく分岐
+### 9. レビュー結果に基づく分岐
 
 #### a. Request Changes の場合
 
@@ -119,13 +140,13 @@ Refactorer を起動してコード品質を改善する。
     - レビュー結果: {SESSION_DIR}/code-reviewer/task-{taskId}/review.md
 ```
 
-Refactorer 完了後、**Step 5 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
+Refactorer 完了後、**Step 7 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
 
 #### c. Approved + 指摘なしの場合
 
-Step 8 の完了判定に進む。
+Step 10 の完了判定に進む。
 
-### 8. 完了判定
+### 10. 完了判定
 
 #### チェック項目
 
@@ -161,13 +182,13 @@ Step 8 の完了判定に進む。
     {元のタスク説明}
 ```
 
-### 9. 結果の出力
+### 11. 結果の出力
 
 `.orchestrator/templates/task-lifecycle-result.md` を Read してフォーマットに従って `{SESSION_DIR}/task-manager/task-{taskId}/lifecycle.md` に結果を書き出す。
 
 ## 必要な操作
 
-- **サブエージェント起動**: Implementer、Code Reviewer、Refactorer の起動
+- **サブエージェント起動**: Implementer、Test Runner、Linter、Code Reviewer、Refactorer の起動
 - **サブエージェント結果取得**: 完了待ちと結果取得
 - **タスク詳細取得**: タスクの完了条件を確認
 - **タスク状態更新**: completed または pending に更新
@@ -179,6 +200,8 @@ Step 8 の完了判定に進む。
 ### completed にする基準
 - 完了条件が概ね満たされている
 - 変更対象ファイルが変更されている
+- テストが PASS している
+- Lint・型チェックが PASS している
 - 重大なスコープ逸脱がない
 - Code Reviewer から致命的な指摘がない
 

@@ -175,7 +175,7 @@ tools: ["read", "edit", "search", "agent"]
 
 | 汎用操作 | 用途 |
 |---------|------|
-| サブエージェント起動 | Implementer、Code Reviewer の起動 |
+| サブエージェント起動 | Implementer、Test Runner、Linter、Code Reviewer、Refactorer の起動 |
 | サブエージェント結果取得 | 完了待ちと結果取得 |
 | タスク詳細取得 | タスクの完了条件を確認 |
 | タスク状態更新 | completed または pending に更新 |

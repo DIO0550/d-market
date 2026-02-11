@@ -63,12 +63,14 @@ Copilot ではサブエージェントからサブエージェントを呼び出
 
 1. タスク一覧から依存関係のない pending タスクを取得
 2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
-3. Implementer 完了後、**Code Reviewer** を直接起動
-4. Code Reviewer の判定に基づく分岐:
-   a. **Request Changes** → Implementer を再起動し Step 3 に戻る（最大2回リトライ）
+3. Implementer 完了後、**Test Runner** と **Linter** を並列起動（TDD検証）
+4. テスト/Lint 失敗 → 失敗情報を含めて Implementer を再起動（Step 2 に戻る、リトライ回数に含む）
+5. テスト/Lint 成功後、**Code Reviewer** を直接起動
+6. Code Reviewer の判定に基づく分岐:
+   a. **Request Changes** → Implementer を再起動し Step 2 に戻る（最大2回リトライ）
    b. **Approved + 推奨対応あり** → **Refactorer** を起動 → **Code Reviewer** で再レビュー（最大2レビューサイクル）
    c. **Approved + 指摘なし** → completed
-5. 全タスク完了まで繰り返し
+7. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
 
@@ -129,7 +131,7 @@ Copilot ではサブエージェントからサブエージェントを呼び出
 1. タスク一覧を確認
 2. 実行可能なタスク（blockedByが空）を特定
 3. Implementer にタスク情報を渡して直接起動
-4. Implementer 完了後、Code Reviewer → Refactorer → 完了判定を Orchestrator が管理
+4. Implementer 完了後、Test Runner + Linter → Code Reviewer → Refactorer → 完了判定を Orchestrator が管理
 
 ## エラーハンドリング
 
