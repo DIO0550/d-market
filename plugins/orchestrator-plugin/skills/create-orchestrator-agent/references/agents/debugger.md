@@ -30,10 +30,9 @@ color: red
 ### 1. エラー情報収集
 
 ```
-プロンプトで渡された以下の情報を確認:
-  - テスト結果（Test Runnerの出力結果）
-  - Lint結果（Linterの出力結果）
-読み込むファイル:
+Orchestrator からプロンプトで渡されるセッションパスを使用:
+  - {SESSION_DIR}/test-runner/result.md （テスト結果）
+  - {SESSION_DIR}/linter/result.md （Lint結果）
   - エラーが発生したファイル
 ```
 
@@ -52,7 +51,7 @@ color: red
 
 ### 3. 結果出力
 
-以下のフォーマットで結果を出力する:
+`{SESSION_DIR}/debugger/report.md` に以下のフォーマットで結果を出力する:
 
 ```markdown
 # デバッグレポート
@@ -121,5 +120,5 @@ color: red
 
 1. 全エラーの原因が特定されている
 2. 具体的な修正提案がある
-3. デバッグレポートがフォーマットに従って出力されている
+3. `{SESSION_DIR}/debugger/report.md` にレポートが出力されている
 ```

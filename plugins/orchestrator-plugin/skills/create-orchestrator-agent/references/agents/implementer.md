@@ -55,10 +55,9 @@ Task Managerからプロンプトで渡されたタスク情報を確認:
 ### 3. 関連情報の読み込み
 
 ```
-プロンプトで渡された以下の情報を確認:
-  - 計画書（Plannerの出力結果）
-  - 探索結果（Explorerの出力結果）
-読み込むファイル:
+Orchestrator/Task Manager からプロンプトで渡されるセッションパスを使用:
+  - {SESSION_DIR}/planner/plan.md （計画書）
+  - {SESSION_DIR}/explorer/result.md （探索結果）
   - タスクで指定された仕様書
   - 変更対象ファイル
 ```
@@ -110,7 +109,7 @@ Task Managerからプロンプトで渡されたタスク情報を確認:
 
 **注意**: タスクのステータスは自分で「完了」にしない。Task Manager エージェントが判定する。
 
-標準出力で以下の実装結果を返す（Orchestratorが収集・統合）:
+`{SESSION_DIR}/implementer/task-{taskId}/result.md` に以下の実装結果を書き出す:
 
 ```markdown
 # 実装結果
@@ -163,7 +162,7 @@ Task Managerからプロンプトで渡されたタスク情報を確認:
 2. TDDサイクル（Red→Green→Refactor）に従って実装されている
 3. プロジェクト指示書（CLAUDE.md等）のルールが順守されている
 4. 既存テストが壊れていない
-5. 実装結果が標準出力で報告されている
+5. `{SESSION_DIR}/implementer/task-{taskId}/result.md` に実装結果が出力されている
 ```
 
 ---

@@ -101,16 +101,43 @@ description: "オーケストレーターフロー用のエージェント定義
 
 ## エージェント間の結果受け渡し
 
-エージェントは結果を標準出力（return value）で返す。Orchestrator がサブエージェントの出力を受け取り、後続エージェントのプロンプトにコンテキストとして渡す。
+各エージェントはセッションフォルダ内の所定パスに結果を書き出す。Orchestrator はファイル内容をプロンプトに含めず、パスだけを渡す。各エージェントが自分で Read する。
 
 ```
-Orchestrator
-  ├── Explorer起動 → 探索結果を受け取り
-  ├── Planner起動（探索結果をプロンプトに含める） → 計画を受け取り
-  ├── Implementer起動（計画をプロンプトに含める） → 実装ログを受け取り
-  ├── Test Runner起動 → テスト結果を受け取り
-  ├── Committer起動（実装ログをプロンプトに含める）
-  └── PR Creator起動（計画+実装ログをプロンプトに含める）
+.orchestrator/
+├── templates/                    # 共通テンプレート（セッション外）
+├── {連番}-{feature名}/           # セッションフォルダ（例: 0001-user-auth）
+│   ├── explorer/
+│   │   └── result.md
+│   ├── planner/
+│   │   ├── plan.md
+│   │   └── tasks.md
+│   ├── plan-reviewer/
+│   │   └── review.md
+│   ├── implementer/
+│   │   └── task-{id}/
+│   │       └── result.md
+│   ├── code-reviewer/
+│   │   └── task-{id}/
+│   │       └── review.md
+│   ├── refactorer/
+│   │   └── task-{id}/
+│   │       └── result.md
+│   ├── task-manager/
+│   │   └── task-{id}/
+│   │       └── lifecycle.md
+│   ├── test-runner/
+│   │   └── result.md
+│   ├── linter/
+│   │   └── result.md
+│   ├── security-scanner/
+│   │   └── result.md
+│   ├── debugger/
+│   │   └── report.md
+│   ├── committer/
+│   │   └── result.md
+│   └── pr-creator/
+│       └── result.md
 ```
 
 ## Step 6: テンプレートの配置（必須）

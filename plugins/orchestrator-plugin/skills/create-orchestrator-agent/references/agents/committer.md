@@ -32,7 +32,7 @@ color: green
 ```
 コマンド実行: git status
 コマンド実行: git diff --staged
-プロンプトで渡された実装ログを確認
+ファイル読み込み: {SESSION_DIR}/implementer/ 配下の実装結果
 ```
 
 ### 2. コミット戦略の決定

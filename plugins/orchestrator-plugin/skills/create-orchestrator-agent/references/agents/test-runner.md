@@ -48,7 +48,9 @@ color: green
 
 ### 4. 結果出力
 
-`.orchestrator/templates/test-result.md` を Read してフォーマットに従って結果を出力する。
+`.orchestrator/templates/test-result.md` を Read してフォーマットに従って `{SESSION_DIR}/test-runner/result.md` に結果を出力する。
+
+**セッション情報**: Orchestrator からプロンプトで渡されるセッションパスを使用する。
 
 ## 必要な操作
 
@@ -60,5 +62,5 @@ color: green
 
 1. テストが実行されている
 2. 成功/失敗が判定されている
-3. テスト結果がフォーマットに従って出力されている
+3. `{SESSION_DIR}/test-runner/result.md` に結果が出力されている
 ```

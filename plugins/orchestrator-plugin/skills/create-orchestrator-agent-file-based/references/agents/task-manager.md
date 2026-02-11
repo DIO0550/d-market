@@ -34,8 +34,11 @@ Implementer の起動、Code Reviewer の起動、Refactorer の起動、完了�
 ### 1. 入力情報の確認
 
 Orchestrator からプロンプトで以下が渡される：
+- セッションパス（`{SESSION_DIR}`）
 - タスクID
 - タスクの完了条件
+- 計画: `{SESSION_DIR}/planner/plan.md`
+- 探索結果: `{SESSION_DIR}/explorer/result.md`
 
 ### 2. タスク詳細の取得
 
@@ -52,10 +55,13 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
 サブエージェント起動:
   エージェント: implementer
   タスク: |
+    セッションパス: {SESSION_DIR}
     以下の1つのタスクのみを実装してください。
     - タスクID: {taskId}
     - 件名: {subject}
     - 説明: {description}
+    - 計画: {SESSION_DIR}/planner/plan.md
+    - 探索結果: {SESSION_DIR}/explorer/result.md
 ```
 
 ### 4. Implementer の完了待ち
@@ -65,7 +71,7 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
   対象: implementer
 ```
 
-結果ファイル（`.orchestrator/logs/task-{taskId}-implementation.md`）も確認する。
+結果ファイル（`{SESSION_DIR}/implementer/task-{taskId}/result.md`）も確認する。
 
 ### 5. Code Reviewer の起動
 
@@ -75,9 +81,10 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
 サブエージェント起動:
   エージェント: code-reviewer
   タスク: |
+    セッションパス: {SESSION_DIR}
     Implementerの実装結果をレビューしてください。
     - タスクID: {taskId}
-    - 実装ログ: `.orchestrator/logs/task-{taskId}-implementation.md`
+    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result.md
 ```
 
 ### 6. Code Reviewer の完了待ち
@@ -87,7 +94,7 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
   対象: code-reviewer
 ```
 
-結果ファイル（`.orchestrator/reviews/task-{taskId}-review.md`）も確認する。
+結果ファイル（`{SESSION_DIR}/code-reviewer/task-{taskId}/review.md`）も確認する。
 
 ### 7. Refactorer の起動（推奨対応がある場合）
 
@@ -97,10 +104,11 @@ Code Reviewer が Approved かつ推奨対応（改善提案）がある場合�
 サブエージェント起動:
   エージェント: refactorer
   タスク: |
+    セッションパス: {SESSION_DIR}
     コードレビューの指摘に基づいてコードを改善してください。
     - タスクID: {taskId}
-    - 実装ログ: `.orchestrator/logs/task-{taskId}-implementation.md`
-    - レビュー結果: {code-reviewerの出力}
+    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result.md
+    - レビュー結果: {SESSION_DIR}/code-reviewer/task-{taskId}/review.md
 ```
 
 ### 8. 完了判定
@@ -142,7 +150,7 @@ Code Reviewer が Approved かつ推奨対応（改善提案）がある場合�
 
 ### 9. 結果の出力
 
-`.orchestrator/templates/task-lifecycle-result.md` を Read してフォーマットに従って `.orchestrator/logs/` に結果を書き出す。
+`.orchestrator/templates/task-lifecycle-result.md` を Read してフォーマットに従って `{SESSION_DIR}/task-manager/task-{taskId}/lifecycle.md` に結果を書き出す。
 
 ## 必要な操作
 
@@ -180,7 +188,7 @@ Code Reviewer が Approved かつ推奨対応（改善提案）がある場合�
 ## 完了条件
 
 1. タスクのステータスが更新されている
-2. ライフサイクル結果がファイルに書き出されている
+2. `{SESSION_DIR}/task-manager/task-{taskId}/lifecycle.md` にライフサイクル結果が書き出されている
 ```
 
 ---

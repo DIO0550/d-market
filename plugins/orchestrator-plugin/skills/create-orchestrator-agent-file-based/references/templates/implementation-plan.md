@@ -1,7 +1,7 @@
 # {目的を簡潔に記述}
 
 **関連Issue**: #{Issue番号} <!-- Issueから作成した場合のみ記載 -->
-**出力先**: `.orchestrator/plans/implementation-plan.md`
+**出力先**: `{SESSION_DIR}/planner/plan.md`
 
 {背景・なぜこの変更が必要か、1-2文}
 

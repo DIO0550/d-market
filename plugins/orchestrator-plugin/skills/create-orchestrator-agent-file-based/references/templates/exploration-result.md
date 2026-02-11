@@ -1,6 +1,6 @@
 # 探索結果
 
-**出力先**: `.orchestrator/exploration/exploration-{timestamp}.md`
+**出力先**: `{SESSION_DIR}/explorer/result.md`
 
 探索日時: {timestamp}
 タスク: {タスク概要}

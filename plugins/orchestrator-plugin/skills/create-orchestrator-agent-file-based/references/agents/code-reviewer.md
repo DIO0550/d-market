@@ -30,8 +30,8 @@ color: yellow
 ### 1. 変更内容の把握
 
 ```
-読み込むファイル:
-  - .orchestrator/logs/ 内の実装ログ
+Orchestrator/Task Manager からプロンプトで渡されるセッションパスを使用:
+  - {SESSION_DIR}/implementer/task-{taskId}/result.md （実装結果）
   - 変更されたファイル
   - 参照されている仕様書
 ```
@@ -59,7 +59,7 @@ color: yellow
 
 ### 3. 結果出力
 
-`.orchestrator/templates/code-review-result.md` を Read してフォーマットに従って `.orchestrator/reviews/` に結果を書き出す。
+`.orchestrator/templates/code-review-result.md` を Read してフォーマットに従って `{SESSION_DIR}/code-reviewer/task-{taskId}/review.md` に結果を書き出す。
 
 ## 必要な操作
 
@@ -71,5 +71,5 @@ color: yellow
 
 1. 全ての変更ファイルがレビューされている
 2. 指摘事項が重要度付きでリストされている
-3. `.orchestrator/reviews/` にレビュー結果が出力されている
+3. `{SESSION_DIR}/code-reviewer/task-{taskId}/review.md` にレビュー結果が出力されている
 ```

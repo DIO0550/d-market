@@ -42,7 +42,9 @@ Lint と型チェックを実行する。
 
 ### 3. 結果出力
 
-`.orchestrator/results/lint-results-{timestamp}.md`:
+`{SESSION_DIR}/linter/result.md`:
+
+**セッション情報**: Orchestrator からプロンプトで渡されるセッションパスを使用する。
 
 ```markdown
 # Lint & 型チェック結果
@@ -89,5 +91,5 @@ npm run lint -- --fix
 
 1. Lint と型チェックが実行されている
 2. エラー/警告が分類されている
-3. `.orchestrator/results/` に結果が出力されている
+3. `{SESSION_DIR}/linter/result.md` に結果が出力されている
 ```

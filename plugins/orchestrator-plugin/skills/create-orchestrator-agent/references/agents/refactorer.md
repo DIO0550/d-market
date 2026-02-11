@@ -30,9 +30,9 @@ color: blue
 ### 1. 指摘事項の確認
 
 ```
-プロンプトで渡された以下の情報を確認:
-  - コードレビュー結果（Code Reviewerの出力結果）
-読み込むファイル:
+Orchestrator/Task Manager からプロンプトで渡されるセッションパスを使用:
+  - {SESSION_DIR}/code-reviewer/task-{taskId}/review.md （レビュー結果）
+  - {SESSION_DIR}/implementer/task-{taskId}/result.md （実装結果）
   - 対象ファイル
 ```
 
@@ -52,7 +52,7 @@ color: blue
 
 ### 4. 結果出力
 
-以下のフォーマットで結果を出力する:
+`{SESSION_DIR}/refactorer/task-{taskId}/result.md` に以下のフォーマットで結果を出力する:
 
 ```markdown
 # リファクタリングログ
@@ -104,5 +104,5 @@ color: blue
 
 1. 高優先度の指摘が対応されている
 2. テストが通る
-3. リファクタリングログがフォーマットに従って出力されている
+3. `{SESSION_DIR}/refactorer/task-{taskId}/result.md` にログが出力されている
 ```

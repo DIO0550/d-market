@@ -215,16 +215,26 @@
 
 ## 出力ディレクトリ構造
 
-オーケストレーターフローで使用する標準ディレクトリ:
+セッション単位でフォルダを分離し、エージェントごとのサブフォルダを持つ構造:
 
 ```
 .orchestrator/
-├── plans/           # 計画書（Planner出力）
-├── exploration/     # 探索結果（Explorer出力）
-├── reviews/         # レビュー結果（Plan Reviewer, Code Reviewer出力）
-├── logs/            # 実装ログ（Implementer, Refactorer出力）
-├── results/         # テスト・Lint結果（Test Runner, Linter, Security Scanner出力）
-└── debug/           # デバッグレポート（Debugger出力）
+├── templates/                    # 共通テンプレート（セッション外）
+├── {連番}-{feature名}/           # セッションフォルダ
+│   ├── explorer/result.md        # Explorer出力
+│   ├── planner/plan.md           # Planner出力（計画書）
+│   ├── planner/tasks.md          # Planner出力（タスク一覧）
+│   ├── plan-reviewer/review.md   # Plan Reviewer出力
+│   ├── implementer/task-{id}/result.md  # Implementer出力
+│   ├── code-reviewer/task-{id}/review.md  # Code Reviewer出力
+│   ├── refactorer/task-{id}/result.md  # Refactorer出力
+│   ├── task-manager/task-{id}/lifecycle.md  # Task Manager出力
+│   ├── test-runner/result.md     # Test Runner出力
+│   ├── linter/result.md          # Linter出力
+│   ├── security-scanner/result.md  # Security Scanner出力
+│   ├── debugger/report.md        # Debugger出力
+│   ├── committer/result.md       # Committer出力
+│   └── pr-creator/result.md      # PR Creator出力
 ```
 
 ---

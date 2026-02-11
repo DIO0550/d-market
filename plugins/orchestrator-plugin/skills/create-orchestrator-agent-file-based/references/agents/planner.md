@@ -39,6 +39,12 @@ color: blue
 - **README.md** でプロジェクト概要、技術スタック、構成を把握する
 - 指示書のルールを計画に反映させること（implementerが従うべき制約として計画に含める）
 
+### 1.5. セッション情報と探索結果の確認
+
+Orchestrator からプロンプトで渡されるセッションパスと探索結果パスを確認:
+- セッションパス: `{SESSION_DIR}`
+- 探索結果: `{SESSION_DIR}/explorer/result.md` を Read して内容を把握
+
 ### 2. 仕様書の探索
 
 プロジェクト内の仕様書・設計ドキュメントを探索する。
@@ -141,10 +147,9 @@ requirements/   # 要件定義
 
 #### 出力先
 ```
-.orchestrator/plans/plan-{timestamp}.md
+{SESSION_DIR}/planner/plan.md
+{SESSION_DIR}/planner/tasks.md
 ```
-
-例: `.orchestrator/plans/plan-20240115-143022.md`
 
 #### 計画書フォーマット
 
@@ -222,7 +227,7 @@ graph TD
 1. 関連仕様書が特定されている
 2. 全タスクがタスク管理システムに登録されている
 3. タスク間の依存関係が設定されている
-4. `.orchestrator/plans/` に計画書が出力されている
+4. `{SESSION_DIR}/planner/plan.md` と `{SESSION_DIR}/planner/tasks.md` に計画書が出力されている
 5. CLAUDE.mdのプロジェクトルールが計画の制約として反映されている
 ```
 

@@ -30,9 +30,9 @@ color: red
 ### 1. エラー情報収集
 
 ```
-読み込むファイル:
-  - .orchestrator/results/test-results-*.md
-  - .orchestrator/results/lint-results-*.md
+Orchestrator からプロンプトで渡されるセッションパスを使用:
+  - {SESSION_DIR}/test-runner/result.md （テスト結果）
+  - {SESSION_DIR}/linter/result.md （Lint結果）
   - エラーが発生したファイル
 ```
 
@@ -51,7 +51,7 @@ color: red
 
 ### 3. 結果出力
 
-`.orchestrator/debug/debug-report-{timestamp}.md`:
+`{SESSION_DIR}/debugger/report.md`:
 
 ```markdown
 # デバッグレポート
@@ -121,5 +121,5 @@ color: red
 
 1. 全エラーの原因が特定されている
 2. 具体的な修正提案がある
-3. `.orchestrator/debug/` にレポートが出力されている
+3. `{SESSION_DIR}/debugger/report.md` にレポートが出力されている
 ```

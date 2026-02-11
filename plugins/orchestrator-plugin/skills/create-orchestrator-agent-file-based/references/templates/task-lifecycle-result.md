@@ -1,6 +1,6 @@
 # タスクライフサイクル結果
 
-**出力先**: `.orchestrator/logs/task-{taskId}-lifecycle.md`
+**出力先**: `{SESSION_DIR}/task-manager/task-{id}/lifecycle.md`
 
 タスクID: {taskId}
 最終判定: {completed / rejected}

@@ -1,6 +1,6 @@
 # コードレビュー
 
-**出力先**: `.orchestrator/reviews/code-review-{timestamp}.md`
+**出力先**: `{SESSION_DIR}/code-reviewer/task-{id}/review.md`
 
 レビュー日時: {timestamp}
 

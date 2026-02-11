@@ -30,10 +30,10 @@ GitHub Pull Request を作成する。
 ### 1. 情報収集
 
 ```
-ファイル読み込み:
-  - .orchestrator/plans/ 内の計画書
-  - .orchestrator/logs/ 内の実装ログ
-  - .orchestrator/results/ 内のテスト結果
+Orchestrator からプロンプトで渡されるセッションパスを使用:
+  - {SESSION_DIR}/planner/plan.md （計画書）
+  - {SESSION_DIR}/implementer/ 配下の実装結果
+  - {SESSION_DIR}/test-runner/result.md （テスト結果）
 
 コマンド実行:
   - git log {base}..HEAD --oneline

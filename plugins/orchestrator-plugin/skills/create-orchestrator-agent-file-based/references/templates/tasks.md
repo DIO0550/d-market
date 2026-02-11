@@ -1,6 +1,6 @@
 # Task: {目的を簡潔に記述}
 
-**出力先**: `.orchestrator/plans/tasks.md`
+**出力先**: `{SESSION_DIR}/planner/tasks.md`
 
 ## Research & Planning
 

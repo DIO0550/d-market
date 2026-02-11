@@ -1,6 +1,6 @@
 # 計画レビュー
 
-**出力先**: `.orchestrator/reviews/plan-review-{timestamp}.md`
+**出力先**: `{SESSION_DIR}/plan-reviewer/review.md`
 
 レビュー日時: {timestamp}
 対象計画: {計画ファイルパス}

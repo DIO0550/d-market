@@ -213,26 +213,45 @@
 
 ---
 
-## 結果の受け渡し方式
+## 結果の受け渡し方式（パス渡し）
 
-各エージェントは結果を標準出力で返す（ファイルには書き込まない）。
-Orchestrator がサブエージェントの返り値を受け取り、必要に応じて後続エージェントのプロンプトに含める。
+各エージェントはセッションフォルダ内の所定パスに結果を書き出す。Orchestrator はファイル内容をプロンプトに含めず、パスだけを渡す。
 
-| エージェント | 出力内容 | 受け渡し先 |
+| エージェント | 出力パス | 受け渡し先 |
 |-------------|---------|-----------|
-| Explorer | 探索結果 | Planner, Orchestrator |
-| Planner | 計画書 | Implementer, Plan Reviewer, Orchestrator |
-| Plan Reviewer | レビュー結果 | Orchestrator |
-| Task Manager | ライフサイクル結果（実装+レビュー+判定） | Orchestrator |
-| Implementer | 実装ログ | Task Manager |
-| Code Reviewer | レビュー結果 | Refactorer, Orchestrator |
-| Test Runner | テスト結果 | Debugger, Orchestrator |
-| Linter | Lint結果 | Debugger, Orchestrator |
-| Security Scanner | スキャン結果 | Orchestrator |
-| Debugger | デバッグレポート | Implementer, Orchestrator |
-| Refactorer | リファクタリングログ | Orchestrator |
-| Committer | コミット結果 | PR Creator, Orchestrator |
-| PR Creator | PR URL | Orchestrator |
+| Explorer | `{SESSION_DIR}/explorer/result.md` | Planner, Orchestrator |
+| Planner | `{SESSION_DIR}/planner/plan.md`, `tasks.md` | Implementer, Plan Reviewer, Orchestrator |
+| Plan Reviewer | `{SESSION_DIR}/plan-reviewer/review.md` | Orchestrator |
+| Task Manager | `{SESSION_DIR}/task-manager/task-{id}/lifecycle.md` | Orchestrator |
+| Implementer | `{SESSION_DIR}/implementer/task-{id}/result.md` | Code Reviewer, Task Manager |
+| Code Reviewer | `{SESSION_DIR}/code-reviewer/task-{id}/review.md` | Refactorer, Orchestrator |
+| Test Runner | `{SESSION_DIR}/test-runner/result.md` | Debugger, Orchestrator |
+| Linter | `{SESSION_DIR}/linter/result.md` | Debugger, Orchestrator |
+| Security Scanner | `{SESSION_DIR}/security-scanner/result.md` | Orchestrator |
+| Debugger | `{SESSION_DIR}/debugger/report.md` | Implementer, Orchestrator |
+| Refactorer | `{SESSION_DIR}/refactorer/task-{id}/result.md` | Orchestrator |
+| Committer | `{SESSION_DIR}/committer/result.md` | PR Creator, Orchestrator |
+| PR Creator | `{SESSION_DIR}/pr-creator/result.md` | Orchestrator |
+
+セッションフォルダ構造:
+```
+.orchestrator/
+├── templates/                    # 共通テンプレート（セッション外）
+├── {連番}-{feature名}/           # セッションフォルダ
+│   ├── explorer/result.md
+│   ├── planner/plan.md, tasks.md
+│   ├── plan-reviewer/review.md
+│   ├── implementer/task-{id}/result.md
+│   ├── code-reviewer/task-{id}/review.md
+│   ├── refactorer/task-{id}/result.md
+│   ├── task-manager/task-{id}/lifecycle.md
+│   ├── test-runner/result.md
+│   ├── linter/result.md
+│   ├── security-scanner/result.md
+│   ├── debugger/report.md
+│   ├── committer/result.md
+│   └── pr-creator/result.md
+```
 
 ---
 

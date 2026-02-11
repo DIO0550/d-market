@@ -1,6 +1,6 @@
 # テスト結果
 
-**出力先**: `.orchestrator/results/test-results-{timestamp}.md`
+**出力先**: `{SESSION_DIR}/test-runner/result.md`
 
 実行日時: {timestamp}
 実行コマンド: {command}

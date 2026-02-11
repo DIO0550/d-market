@@ -29,9 +29,10 @@ color: yellow
 
 ### 1. 入力の確認
 
-以下のファイルを読み込む:
-- `.orchestrator/plans/` 内の最新計画書
-- `.orchestrator/exploration/` 内の探索結果
+Orchestrator からプロンプトで渡されるセッションパスを使用し、以下のファイルを読み込む:
+- `{SESSION_DIR}/planner/plan.md` （計画書）
+- `{SESSION_DIR}/planner/tasks.md` （タスク一覧）
+- `{SESSION_DIR}/explorer/result.md` （探索結果）
 - 計画書で参照されている仕様書
 
 ### 2. タスク一覧の確認
@@ -65,7 +66,7 @@ color: yellow
 
 ### 4. 結果出力
 
-`.orchestrator/templates/plan-review-result.md` を Read してフォーマットに従って `.orchestrator/reviews/` に結果を書き出す。
+`.orchestrator/templates/plan-review-result.md` を Read してフォーマットに従って `{SESSION_DIR}/plan-reviewer/review.md` に結果を書き出す。
 
 ## 必要な操作
 
@@ -78,6 +79,6 @@ color: yellow
 
 1. 全レビュー観点がチェックされている
 2. 指摘事項が優先度付きでリストされている
-3. `.orchestrator/reviews/` にレビュー結果が出力されている
+3. `{SESSION_DIR}/plan-reviewer/review.md` にレビュー結果が出力されている
 4. 判定（Approved/Needs Revision/Rejected）が明示されている
 ```

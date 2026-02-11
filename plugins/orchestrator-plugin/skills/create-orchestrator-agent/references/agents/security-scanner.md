@@ -56,7 +56,9 @@ color: red
 
 ### 3. 結果出力
 
-以下のフォーマットで結果を出力する:
+`{SESSION_DIR}/security-scanner/result.md` に以下のフォーマットで結果を出力する:
+
+**セッション情報**: Orchestrator からプロンプトで渡されるセッションパスを使用する。
 
 ```markdown
 # セキュリティスキャン結果
@@ -99,5 +101,5 @@ color: red
 
 1. コード静的解析が完了している
 2. 依存関係チェックが完了している
-3. スキャン結果がフォーマットに従って出力されている
+3. `{SESSION_DIR}/security-scanner/result.md` に結果が出力されている
 ```

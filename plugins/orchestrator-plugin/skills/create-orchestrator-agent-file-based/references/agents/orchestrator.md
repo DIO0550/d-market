@@ -34,10 +34,33 @@ color: magenta
 
 ## 実行フロー
 
+### Phase 0: セッション初期化
+
+1. `.orchestrator/` 内の `????-*` パターンをスキャンし最大連番を取得（なければ 0000）
+2. ユーザーのタスクから feature 名を生成（英小文字ハイフン区切り、例: `user-auth`）
+3. 新しいセッションフォルダを作成: `.orchestrator/{連番+1}-{feature名}/`
+4. エージェントフォルダを一括作成:
+   ```
+   mkdir -p .orchestrator/{SESSION_ID}/explorer
+   mkdir -p .orchestrator/{SESSION_ID}/planner
+   mkdir -p .orchestrator/{SESSION_ID}/plan-reviewer
+   mkdir -p .orchestrator/{SESSION_ID}/implementer
+   mkdir -p .orchestrator/{SESSION_ID}/code-reviewer
+   mkdir -p .orchestrator/{SESSION_ID}/refactorer
+   mkdir -p .orchestrator/{SESSION_ID}/task-manager
+   mkdir -p .orchestrator/{SESSION_ID}/test-runner
+   mkdir -p .orchestrator/{SESSION_ID}/linter
+   mkdir -p .orchestrator/{SESSION_ID}/security-scanner
+   mkdir -p .orchestrator/{SESSION_ID}/debugger
+   mkdir -p .orchestrator/{SESSION_ID}/committer
+   mkdir -p .orchestrator/{SESSION_ID}/pr-creator
+   ```
+5. 以降すべてのサブエージェント起動プロンプトに `セッションパス: .orchestrator/{SESSION_ID}/` を含める
+
 ### Phase 1: 探索・計画・レビュー
 
 1. **Explorer** をバックグラウンド起動し、完了を待機
-2. 探索結果を **Planner** のプロンプトに含めてバックグラウンド起動し、完了を待機
+2. 探索結果のパスを **Planner** のプロンプトに渡してバックグラウンド起動し、完了を待機
 3. タスク一覧を確認
 4. 計画を **Plan Reviewer** に渡してレビューを実施
 5. レビュー結果が Needs Revision の場合は **Planner** を再起動（最大1回）
@@ -128,6 +151,38 @@ Task ツール:
 2. Debugger を起動して原因分析
 3. 「修正する」「手動で対応」の選択肢を提示
 
+## サブエージェント結果の活用（パス渡し方式）
+
+各サブエージェントはセッションフォルダ内の所定パスに結果を書き出す。Orchestrator はファイル内容をプロンプトに含めず、パスだけを渡す。各エージェントが自分で Read する:
+
+| パス | ソース | 渡し先 |
+|------|--------|--------|
+| {SESSION_DIR}/explorer/result.md | Explorer | Planner, Task Manager |
+| {SESSION_DIR}/planner/plan.md | Planner | Task Manager, Committer, PR Creator |
+| {SESSION_DIR}/planner/tasks.md | Planner | Task Manager |
+| {SESSION_DIR}/task-manager/task-{id}/lifecycle.md | Task Manager (各タスク) | Committer, PR Creator |
+| {SESSION_DIR}/implementer/task-{id}/result.md | Implementer (各タスク) | Code Reviewer（Task Manager内部） |
+| {SESSION_DIR}/test-runner/result.md | Test Runner | Debugger |
+| {SESSION_DIR}/linter/result.md | Linter | Debugger |
+| {SESSION_DIR}/code-reviewer/task-{id}/review.md | Code Reviewer | Task Manager（完了判定に使用） |
+| {SESSION_DIR}/refactorer/task-{id}/result.md | Refactorer (各タスク) | Task Manager（完了判定に使用） |
+
+### コンテキスト渡しの例（Claude Code）
+```
+Task ツール:
+  description: "Task Manager起動"
+  subagent_type: task-manager
+  prompt: |
+    セッションパス: .orchestrator/{SESSION_ID}
+    ## 担当タスク
+    - タスクID: {taskId}
+    - 件名: {subject}
+    - 説明: {description}
+    - 完了条件: {completionCriteria}
+    - 計画: {SESSION_DIR}/planner/plan.md
+    - 探索結果: {SESSION_DIR}/explorer/result.md
+```
+
 ## 必要な操作
 
 - **サブエージェント起動**: 他のエージェントを呼び出す
@@ -135,6 +190,8 @@ Task ツール:
 - **タスク一覧取得**: 現在のタスク状態を確認
 - **タスク状態更新**: タスクのステータスを変更
 - **ファイル読み込み**: 中間ファイルの確認
+- **ディレクトリ作成**: セッションフォルダの初期化
+- **ファイルパターン検索**: セッション連番の取得
 
 ## 完了条件
 

@@ -126,17 +126,43 @@ mkdir -p .orchestrator/templates
 
 ## 出力ディレクトリ構造
 
-エージェント間で共有する標準ディレクトリ:
+セッション単位でフォルダを分離し、エージェントごとのサブフォルダを持つ構造:
 
 ```
 .orchestrator/
-├── templates/       # 出力フォーマットテンプレート
-├── plans/           # Planner
-├── exploration/     # Explorer
-├── reviews/         # Plan Reviewer, Code Reviewer
-├── logs/            # Implementer, Refactorer
-├── results/         # Test Runner, Linter, Security Scanner
-└── debug/           # Debugger
+├── templates/                    # 共通テンプレート（セッション外）
+├── {連番}-{feature名}/           # セッションフォルダ（例: 0001-user-auth）
+│   ├── explorer/
+│   │   └── result.md
+│   ├── planner/
+│   │   ├── plan.md
+│   │   └── tasks.md
+│   ├── plan-reviewer/
+│   │   └── review.md
+│   ├── implementer/
+│   │   └── task-{id}/
+│   │       └── result.md
+│   ├── code-reviewer/
+│   │   └── task-{id}/
+│   │       └── review.md
+│   ├── refactorer/
+│   │   └── task-{id}/
+│   │       └── result.md
+│   ├── task-manager/
+│   │   └── task-{id}/
+│   │       └── lifecycle.md
+│   ├── test-runner/
+│   │   └── result.md
+│   ├── linter/
+│   │   └── result.md
+│   ├── security-scanner/
+│   │   └── result.md
+│   ├── debugger/
+│   │   └── report.md
+│   ├── committer/
+│   │   └── result.md
+│   └── pr-creator/
+│       └── result.md
 ```
 
 ## 生成後チェックリスト

@@ -83,7 +83,9 @@ color: cyan
 
 ### 6. 結果の出力
 
-`.orchestrator/templates/exploration-result.md` を Read してフォーマットに従って `.orchestrator/exploration/` に結果を書き出す。
+`.orchestrator/templates/exploration-result.md` を Read してフォーマットに従って `{SESSION_DIR}/explorer/result.md` に結果を書き出す。
+
+**セッション情報**: Orchestrator からプロンプトで渡されるセッションパスを使用する。
 
 ## 必要な操作
 
@@ -105,7 +107,7 @@ color: cyan
 1. 関連仕様書がリストアップされている
 2. 変更対象ファイルが特定されている
 3. 類似実装パターンが発見されている
-4. `.orchestrator/exploration/` に結果が出力されている
+4. `{SESSION_DIR}/explorer/result.md` に結果が出力されている
 5. CLAUDE.mdの検索制約が探索に反映されている
 ```
 
