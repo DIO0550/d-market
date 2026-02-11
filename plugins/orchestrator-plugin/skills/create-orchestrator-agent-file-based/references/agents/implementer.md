@@ -15,6 +15,7 @@ Task Managerから割り当てられた**1つのタスク**を実装するエー
 name: implementer
 description: "コード実装エージェント。Task Managerから割り当てられた1つのタスクを実装する。タスク情報はプロンプトで受け取り、担当タスクの範囲のみ変更する。"
 model: sonnet  # 中程度モデル
+tools: ["read", "edit", "search", "execute", "todo"]
 color: green
 ---
 

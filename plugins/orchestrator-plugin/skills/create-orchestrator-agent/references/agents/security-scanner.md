@@ -14,6 +14,7 @@
 name: security-scanner
 description: "セキュリティスキャンエージェント。コードの脆弱性と依存関係のセキュリティ問題をチェックする。"
 model: sonnet  # 中程度モデル
+tools: ["read", "search", "execute"]
 color: red
 ---
 

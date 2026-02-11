@@ -14,6 +14,7 @@
 name: orchestrator
 description: "オーケストレーションの司令塔。タスクを受け取り、適切なエージェントを起動して全体フローを制御する。タスク状態を監視し、適切なタイミングでエージェントを起動する。"
 model: opus  # 高性能モデル推奨
+tools: ["read", "search", "execute", "agent", "todo"]
 color: magenta
 ---
 

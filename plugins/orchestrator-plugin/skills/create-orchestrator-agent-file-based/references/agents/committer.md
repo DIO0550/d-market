@@ -14,6 +14,7 @@
 name: committer
 description: "コミット作成エージェント。変更を適切なメッセージでGitにコミットする。Conventional Commits形式を使用。"
 model: haiku  # 軽量モデル
+tools: ["read", "execute"]
 color: green
 ---
 

@@ -14,6 +14,7 @@
 name: planner
 description: "実装計画作成エージェント。仕様書を探索し、タスクを分析して管理可能な計画を作成する。タスクを細分化してタスク管理システムに登録する。"
 model: opus  # 高性能モデル推奨
+tools: ["read", "search", "todo", "web"]
 color: blue
 ---
 

@@ -14,6 +14,7 @@
 name: debugger
 description: "デバッグエージェント。テスト失敗やLintエラーの原因を調査し、修正を実行する。"
 model: opus  # 高性能モデル推奨
+tools: ["read", "search", "edit", "execute"]
 color: red
 ---
 

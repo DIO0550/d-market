@@ -14,6 +14,7 @@
 name: refactorer
 description: "リファクタリングエージェント。コードレビューの指摘に基づいてコードを改善する。機能を変えずに品質を向上させる。"
 model: sonnet  # 中程度モデル
+tools: ["read", "edit", "search"]
 color: blue
 ---
 

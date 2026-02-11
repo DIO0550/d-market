@@ -14,6 +14,7 @@ GitHub Pull Requestを作成するエージェント。
 name: pr-creator
 description: "PR作成エージェント。計画と実装ログから適切な説明を生成し、GitHub Pull Requestを作成する。"
 model: haiku  # 軽量モデル
+tools: ["read", "execute"]
 color: magenta
 ---
 

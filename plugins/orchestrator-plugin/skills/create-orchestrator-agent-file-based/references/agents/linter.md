@@ -14,6 +14,7 @@
 name: linter
 description: "Lint・型チェック実行エージェント。プロジェクトタイプを自動検出し、Lintと型チェックを実行する。"
 model: haiku  # 軽量モデル
+tools: ["read", "search", "execute"]
 color: cyan
 ---
 

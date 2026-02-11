@@ -75,6 +75,43 @@ tools: ["read", "edit", "search", "agent"]
 「{agent_name}エージェントの指示に従って実行」
 ```
 
+## フロントマター `tools:` の変換
+
+エージェント定義の YAML フロントマターに `tools:` を記載する。各プラットフォームで値が異なる。
+
+### 汎用操作 → tools 値の対応
+
+| 汎用操作 | Claude Code | GitHub Copilot |
+|---------|-------------|----------------|
+| ファイル読み込み | `read` | `search` |
+| ファイル編集・作成 | `edit` | `editFiles` |
+| ファイル・コード検索 | `search` | `search`, `codebase`, `usages` |
+| コマンド実行 | `execute` | `terminalLastCommand` |
+| サブエージェント起動 | `agent` | `agent` |
+| タスク管理 | `todo` | （GitHub Issues） |
+| Web検索・URL取得 | `web` | `fetch`, `githubRepo` |
+
+### エージェント別の推奨 tools（Claude Code）
+
+| エージェント | tools |
+|-------------|-------|
+| orchestrator | `["read", "search", "execute", "agent", "todo"]` |
+| explorer | `["read", "search", "web"]` |
+| planner | `["read", "search", "todo", "web"]` |
+| plan-reviewer | `["read", "search", "todo"]` |
+| implementer | `["read", "edit", "search", "execute", "todo"]` |
+| task-manager | `["read", "agent", "todo"]` |
+| code-reviewer | `["read", "search"]` |
+| test-runner | `["read", "search", "execute"]` |
+| linter | `["read", "search", "execute"]` |
+| security-scanner | `["read", "search", "execute"]` |
+| debugger | `["read", "search", "edit", "execute"]` |
+| refactorer | `["read", "edit", "search"]` |
+| committer | `["read", "execute"]` |
+| pr-creator | `["read", "execute"]` |
+
+**重要**: `execute` がないとエージェントはコマンドを実行できない。テスト実行（test-runner）、Lint（linter）、git操作（committer, pr-creator）、デバッグ（debugger）、監査（security-scanner）、TDDサイクル（implementer）には `execute` が必須。
+
 ## エージェント別の使用操作
 
 各エージェントがどの操作を使うかの一覧。エージェント定義の「必要な操作」には汎用操作名を記載し、生成時に上記の対応表でターゲットツール固有の名前に変換する。

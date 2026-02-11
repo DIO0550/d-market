@@ -14,6 +14,7 @@ Plannerが作成した計画の妥当性を検証し、リスクや改善点を�
 name: plan-reviewer
 description: "計画レビューエージェント。Plannerが作成した計画と仕様書を照合し、実現可能性・完全性・リスクを検証する。"
 model: opus  # 高性能モデル推奨
+tools: ["read", "search", "todo"]
 color: yellow
 ---
 

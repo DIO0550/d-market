@@ -14,6 +14,7 @@
 name: test-runner
 description: "テスト実行エージェント。プロジェクトタイプを自動検出し、テストを実行して結果を報告する。失敗時は詳細な分析を提供する。"
 model: haiku  # 軽量モデル
+tools: ["read", "search", "execute"]
 color: green
 ---
 

@@ -15,6 +15,7 @@ Implementer起動 → Code Reviewer起動 → Refactorer起動 → 完了判定�
 name: task-manager
 description: "タスクライフサイクル管理エージェント。Implementer起動→Code Reviewer起動→Refactorer起動→完了判定を一貫して管理する。コードの変更は自分では行わず、サブエージェントに委譲する。"
 model: sonnet  # 中程度モデル
+tools: ["read", "agent", "todo"]
 color: yellow
 ---
 

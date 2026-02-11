@@ -48,7 +48,23 @@ color: cyan  # オプション: cyan, green, yellow, red, magenta, blue
 |-----------|-----|------|------|
 | `name` | string | Yes | エージェントの識別名 |
 | `description` | string | Yes | いつ使うかを含む説明（自動選択に使用） |
+| `model` | string | No | 使用モデル（`opus`, `sonnet`, `haiku`） |
+| `tools` | string[] | No | 使用可能なツール（省略時は全ツール有効） |
 | `color` | string | No | ターミナル表示色 |
+
+### tools の値
+
+| 値 | 対応ツール | 用途 |
+|----|-----------|------|
+| `read` | Read | ファイル読み込み |
+| `edit` | Edit, Write | ファイル編集・作成 |
+| `search` | Glob, Grep | ファイル・コード検索 |
+| `execute` | Bash | コマンド実行（テスト、Lint、git等） |
+| `agent` | Task, TaskOutput | サブエージェント起動・結果取得 |
+| `todo` | TaskCreate, TaskUpdate, TaskList, TaskGet | タスク管理 |
+| `web` | WebSearch, WebFetch | Web検索・URL取得 |
+
+**重要**: `execute` を含めないとエージェントは Bash を使えない。テスト実行、Lint、git操作などコマンド実行が必要なエージェントには必ず `execute` を含めること。
 
 ## Task ツールでの呼び出し
 

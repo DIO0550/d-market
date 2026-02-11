@@ -14,6 +14,7 @@
 name: code-reviewer
 description: "コードレビューエージェント。実装されたコードを仕様書と照合し、品質・セキュリティ・保守性の観点からレビューする。"
 model: opus  # 高性能モデル推奨
+tools: ["read", "search"]
 color: yellow
 ---
 

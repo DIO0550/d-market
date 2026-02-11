@@ -14,6 +14,7 @@
 name: explorer
 description: "コードベース探索エージェント。仕様書、関連ファイル、実装パターンを発見し、Plannerに情報を提供する。"
 model: sonnet  # 中程度モデル
+tools: ["read", "search", "web"]
 color: cyan
 ---
 
