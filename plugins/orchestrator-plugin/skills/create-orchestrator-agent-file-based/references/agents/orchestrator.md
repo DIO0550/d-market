@@ -63,7 +63,10 @@ color: magenta
 2. 探索結果のパスを **Planner** のプロンプトに渡してバックグラウンド起動し、完了を待機
 3. タスク一覧を確認
 4. 計画を **Plan Reviewer** に渡してレビューを実施
-5. レビュー結果が Needs Revision の場合は **Planner** を再起動（最大1回）
+5. レビュー結果が Needs Revision の場合:
+   a. Plan Reviewer の指摘を **Planner** のプロンプトに含めて再起動
+   b. 再度 **Plan Reviewer** にレビューを依頼
+   c. Approved になるまで繰り返す（最大2回リトライ）
 6. 計画をユーザーに提示し、Phase 2 に進む
 
 ### Phase 2: 実装（タスクごとにTask Managerを起動）

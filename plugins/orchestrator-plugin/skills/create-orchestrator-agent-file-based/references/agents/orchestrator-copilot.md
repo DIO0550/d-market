@@ -63,7 +63,10 @@ tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "ter
 2. 探索結果のパスを **Planner** のプロンプトに渡してバックグラウンド起動し、完了を待機
 3. タスク一覧を確認
 4. 計画を **Plan Reviewer** に渡してレビューを実施
-5. レビュー結果が Needs Revision の場合は **Planner** を再起動（最大1回）
+5. レビュー結果が Needs Revision の場合:
+   a. Plan Reviewer の指摘を **Planner** のプロンプトに含めて再起動
+   b. 再度 **Plan Reviewer** にレビューを依頼
+   c. Approved になるまで繰り返す（最大2回リトライ）
 6. 計画をユーザーに提示し、Phase 2 に進む
 
 ### Phase 2: 実装（Orchestrator が直接管理・フラット構造）
@@ -73,10 +76,11 @@ Copilot ではサブエージェントからサブエージェントを呼び出
 1. タスク一覧から依存関係のない pending タスクを取得
 2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
 3. Implementer 完了後、**Code Reviewer** を直接起動
-4. Code Reviewer が Approved + 推奨対応ありの場合、**Refactorer** を直接起動
-5. 結果を基に completed / rejected を判定（Orchestrator 自身が判定）
-6. rejected の場合は Implementer を再起動（最大2回）
-7. 全タスク完了まで繰り返し
+4. Code Reviewer の判定に基づく分岐:
+   a. **Request Changes** → Implementer を再起動し Step 3 に戻る（最大2回リトライ）
+   b. **Approved + 推奨対応あり** → **Refactorer** を起動 → **Code Reviewer** で再レビュー（最大2レビューサイクル）
+   c. **Approved + 指摘なし** → completed
+5. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
 

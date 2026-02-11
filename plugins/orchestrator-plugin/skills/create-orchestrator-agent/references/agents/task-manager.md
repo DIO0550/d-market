@@ -92,9 +92,16 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
   対象: code-reviewer
 ```
 
-### 7. Refactorer の起動（推奨対応がある場合）
+### 7. レビュー結果に基づく分岐
 
-Code Reviewer が Approved かつ推奨対応（改善提案）がある場合、Refactorer を起動してコード品質を改善する。
+#### a. Request Changes の場合
+
+差し戻し理由を記録して Implementer を再起動し、**Step 3 に戻る**（最大2回リトライ）。
+再起動後は再び Code Reviewer でレビューを実施する。
+
+#### b. Approved + 推奨対応ありの場合
+
+Refactorer を起動してコード品質を改善する。
 
 ```yaml
 サブエージェント起動:
@@ -107,6 +114,12 @@ Code Reviewer が Approved かつ推奨対応（改善提案）がある場合�
     - レビュー結果: {SESSION_DIR}/code-reviewer/task-{taskId}/review.md
 ```
 
+Refactorer 完了後、**Step 5 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
+
+#### c. Approved + 指摘なしの場合
+
+Step 8 の完了判定に進む。
+
 ### 8. 完了判定
 
 #### チェック項目
@@ -114,8 +127,7 @@ Code Reviewer が Approved かつ推奨対応（改善提案）がある場合�
 1. **変更対象ファイル**: タスクで指定されたファイルが変更されているか
 2. **完了条件の充足**: タスクの完了条件がすべて満たされているか
 3. **スコープの逸脱**: 担当タスクの範囲外の変更がないか
-4. **レビュー指摘**: Code Reviewer から重大な指摘がないか（レビュー実施時）
-5. **リファクタリング結果**: Refactorer の改善が正常に完了しているか（実施時）
+4. **レビュー指摘**: Code Reviewer の最終レビューで重大な指摘がないか
 
 #### completed の場合
 
