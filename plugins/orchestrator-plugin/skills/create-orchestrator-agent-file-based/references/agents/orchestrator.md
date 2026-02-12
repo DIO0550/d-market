@@ -60,10 +60,14 @@ color: magenta
 
 ### Phase 2: 実装（タスクごとにTask Managerを起動）
 
-1. 未完了タスクを確認
-2. 依存関係のないタスクから順に **Task Manager** を起動（独立タスクは並列）
-3. Task Manager が内部で Implementer → Test Runner + Linter → Code Reviewer → Refactorer → 完了判定を管理
-4. 全タスク完了まで繰り返し
+1. 未完了タスクを確認し、依存関係のないタスクを取得
+2. 各タスクのディレクトリを初期化:
+   ```bash
+   bash .orchestrator/scripts/init-task.sh {SESSION_DIR} {taskId}
+   ```
+3. **Task Manager** を起動（独立タスクは並列）
+4. Task Manager が内部で Implementer → Test Runner + Linter → Code Reviewer → Refactorer → 完了判定を管理
+5. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
 

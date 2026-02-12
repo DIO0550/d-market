@@ -62,16 +62,20 @@ tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "ter
 Copilot ではサブエージェントからサブエージェントを呼び出せないため、各エージェントの起動は Orchestrator が直接行う。ただし完了判定は **Task Manager** に委譲する:
 
 1. タスク一覧から依存関係のない pending タスクを取得
-2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
-3. Implementer 完了後、**Test Runner** と **Linter** を並列起動（TDD検証）
-4. テスト/Lint 失敗 → 失敗情報を含めて Implementer を再起動（Step 2 に戻る、リトライ回数に含む）
-5. テスト/Lint 成功後、**Code Reviewer** を直接起動
-6. Code Reviewer 完了後、**Task Manager** を起動し判定を委譲（実装結果・テスト結果・レビュー結果のパスを渡す）
-7. Task Manager の判定に基づく分岐:
+2. タスクディレクトリを初期化:
+   ```bash
+   bash .orchestrator/scripts/init-task.sh {SESSION_DIR} {taskId}
+   ```
+3. 各タスクに対して **Implementer** を直接サブエージェントとして起動
+4. Implementer 完了後、**Test Runner** と **Linter** を並列起動（TDD検証）
+5. テスト/Lint 失敗 → 失敗情報を含めて Implementer を再起動（Step 3 に戻る、リトライ回数に含む）
+6. テスト/Lint 成功後、**Code Reviewer** を直接起動
+7. Code Reviewer 完了後、**Task Manager** を起動し判定を委譲（実装結果・テスト結果・レビュー結果のパスを渡す）
+8. Task Manager の判定に基づく分岐:
    a. **completed** → タスクを完了にして次のタスクへ
-   b. **rejected** → Implementer を再起動し Step 2 に戻る（最大2回リトライ）
-   c. **needs refactoring** → **Refactorer** を起動 → Step 5 に戻り Code Reviewer で再レビュー（最大2レビューサイクル）
-8. 全タスク完了まで繰り返し
+   b. **rejected** → Implementer を再起動し Step 3 に戻る（最大2回リトライ）
+   c. **needs refactoring** → **Refactorer** を起動 → Step 6 に戻り Code Reviewer で再レビュー（最大2レビューサイクル）
+9. 全タスク完了まで繰り返し
 
 ### Phase 3: 検証
 

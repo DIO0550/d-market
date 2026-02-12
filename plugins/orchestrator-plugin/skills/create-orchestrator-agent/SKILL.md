@@ -182,17 +182,18 @@ mkdir -p .orchestrator/scripts
 | # | Read 対象（このスキルの参照ファイル） | Write 先 |
 |---|--------------------------------------|----------|
 | 1 | [init-session.sh](references/scripts/init-session.sh) | `.orchestrator/scripts/init-session.sh` |
+| 2 | [init-task.sh](references/scripts/init-task.sh) | `.orchestrator/scripts/init-task.sh` |
 
 コピー後、実行権限を付与:
 
 ```bash
-chmod +x .orchestrator/scripts/init-session.sh
+chmod +x .orchestrator/scripts/init-session.sh .orchestrator/scripts/init-task.sh
 ```
 
 ## 生成後チェックリスト
 
 - [ ] `.orchestrator/templates/` に7ファイルが配置されている
-- [ ] `.orchestrator/scripts/init-session.sh` が配置されている
+- [ ] `.orchestrator/scripts/init-session.sh` と `init-task.sh` が配置されている
 - [ ] ターゲットツールの形式に従っている
 - [ ] description にトリガー条件が含まれている
 - [ ] **model が適切に設定されている**（🧠/⚡/💨）
