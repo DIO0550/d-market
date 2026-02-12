@@ -159,12 +159,15 @@ Copilot ではサブエージェントからサブエージェントを呼び出
 | {SESSION_DIR}/planner/plan.md | Planner | Implementer, Committer, PR Creator |
 | {SESSION_DIR}/planner/tasks.md | Planner | Orchestrator |
 | {SESSION_DIR}/implementer/task-{id}/result-{round}.md | Implementer (各タスク) | Code Reviewer（Orchestrator が中継） |
-| {SESSION_DIR}/test-runner/result-{round}.md | Test Runner | Debugger |
-| {SESSION_DIR}/linter/result-{round}.md | Linter | Debugger |
+| {SESSION_DIR}/test-runner/task-{id}/result-{round}.md | Test Runner (Phase 2) | Task Manager, Debugger |
+| {SESSION_DIR}/linter/task-{id}/result-{round}.md | Linter (Phase 2) | Task Manager, Debugger |
+| {SESSION_DIR}/debugger/task-{id}/report-{round}.md | Debugger (Phase 2) | Task Manager |
 | {SESSION_DIR}/code-reviewer/task-{id}/review-{round}.md | Code Reviewer | Orchestrator（完了判定に使用） |
 | {SESSION_DIR}/refactorer/task-{id}/result-{round}.md | Refactorer (各タスク) | Orchestrator（完了判定に使用） |
 | {SESSION_DIR}/plan-reviewer/review-{round}.md | Plan Reviewer | Planner（修正時）|
-| {SESSION_DIR}/debugger/report-{round}.md | Debugger | Orchestrator |
+| {SESSION_DIR}/test-runner/result-{round}.md | Test Runner (Phase 3) | Debugger |
+| {SESSION_DIR}/linter/result-{round}.md | Linter (Phase 3) | Debugger |
+| {SESSION_DIR}/debugger/report-{round}.md | Debugger (Phase 3) | Orchestrator |
 
 ### コンテキスト渡しの例
 ```

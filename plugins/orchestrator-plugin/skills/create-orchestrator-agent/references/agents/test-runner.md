@@ -49,7 +49,11 @@ color: green
 
 ### 4. 結果出力
 
-`.orchestrator/templates/test-result.md` を Read してフォーマットに従って `{SESSION_DIR}/test-runner/result-{round}.md` に結果を出力する。
+`.orchestrator/templates/test-result.md` を Read してフォーマットに従って結果を出力する。
+
+**出力先パス**: 呼び出し元のプロンプトに `タスクID` が含まれるかで分岐:
+- タスクID あり（Phase 2）: `{SESSION_DIR}/test-runner/task-{taskId}/result-{round}.md`
+- タスクID なし（Phase 3）: `{SESSION_DIR}/test-runner/result-{round}.md`
 
 **ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。
 
@@ -65,5 +69,5 @@ color: green
 
 1. テストが実行されている
 2. 成功/失敗が判定されている
-3. `{SESSION_DIR}/test-runner/result-{round}.md` に結果が出力されている
+3. 結果が所定のパスに出力されている
 ```

@@ -43,7 +43,11 @@ Lint と型チェックを実行する。
 
 ### 3. 結果出力
 
-`{SESSION_DIR}/linter/result-{round}.md` に以下のフォーマットで結果を出力する:
+以下のフォーマットで結果を出力する。
+
+**出力先パス**: 呼び出し元のプロンプトに `タスクID` が含まれるかで分岐:
+- タスクID あり（Phase 2）: `{SESSION_DIR}/linter/task-{taskId}/result-{round}.md`
+- タスクID なし（Phase 3）: `{SESSION_DIR}/linter/result-{round}.md`
 
 **ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。
 
@@ -93,5 +97,5 @@ npm run lint -- --fix
 
 1. Lint と型チェックが実行されている
 2. エラー/警告が分類されている
-3. `{SESSION_DIR}/linter/result-{round}.md` に結果が出力されている
+3. 結果が所定のパスに出力されている
 ```

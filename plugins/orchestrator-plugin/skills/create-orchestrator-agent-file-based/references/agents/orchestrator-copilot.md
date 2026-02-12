@@ -59,7 +59,7 @@ tools: ["search", "codebase", "fetch", "githubRepo", "usages", "editFiles", "ter
 
 ### Phase 2: 実装（Orchestrator がサブエージェントを直列起動、判定は Task Manager に委譲）
 
-Copilot ではサブエージェントのネストができないため、各エージェントの起動は Orchestrator が直接行う。ただし完了判定は **Task Manager** に委譲する:
+Copilot ではサブエージェントからサブエージェントを呼び出せないため、各エージェントの起動は Orchestrator が直接行う。ただし完了判定は **Task Manager** に委譲する:
 
 1. タスク一覧から依存関係のない pending タスクを取得
 2. 各タスクに対して **Implementer** を直接サブエージェントとして起動
@@ -159,12 +159,15 @@ Copilot ではサブエージェントのネストができないため、各エ
 | {SESSION_DIR}/planner/plan.md | Planner | Implementer, Committer, PR Creator |
 | {SESSION_DIR}/planner/tasks.md | Planner | Orchestrator |
 | {SESSION_DIR}/implementer/task-{id}/result-{round}.md | Implementer (各タスク) | Code Reviewer（Orchestrator が中継） |
-| {SESSION_DIR}/test-runner/result-{round}.md | Test Runner | Debugger |
-| {SESSION_DIR}/linter/result-{round}.md | Linter | Debugger |
+| {SESSION_DIR}/test-runner/task-{id}/result-{round}.md | Test Runner (Phase 2) | Task Manager, Debugger |
+| {SESSION_DIR}/linter/task-{id}/result-{round}.md | Linter (Phase 2) | Task Manager, Debugger |
+| {SESSION_DIR}/debugger/task-{id}/report-{round}.md | Debugger (Phase 2) | Task Manager |
 | {SESSION_DIR}/code-reviewer/task-{id}/review-{round}.md | Code Reviewer | Orchestrator（完了判定に使用） |
 | {SESSION_DIR}/refactorer/task-{id}/result-{round}.md | Refactorer (各タスク) | Orchestrator（完了判定に使用） |
-| {SESSION_DIR}/plan-reviewer/review-{round}.md | Plan Reviewer | Planner（修正時） |
-| {SESSION_DIR}/debugger/report-{round}.md | Debugger | Orchestrator |
+| {SESSION_DIR}/plan-reviewer/review-{round}.md | Plan Reviewer | Planner（修正時）|
+| {SESSION_DIR}/test-runner/result-{round}.md | Test Runner (Phase 3) | Debugger |
+| {SESSION_DIR}/linter/result-{round}.md | Linter (Phase 3) | Debugger |
+| {SESSION_DIR}/debugger/report-{round}.md | Debugger (Phase 3) | Orchestrator |
 
 ### コンテキスト渡しの例
 ```
@@ -189,10 +192,8 @@ Copilot ではサブエージェントのネストができないため、各エ
 - **サブエージェント結果取得**: エージェントの完了を待ち結果を取得
 - **タスク一覧取得**: 現在のタスク状態を確認
 - **タスク状態更新**: タスクのステータスを変更
-- **ファイル読み込み**: 中間ファイルの確認
 - **ディレクトリ作成**: セッションフォルダの初期化
 - **ファイルパターン検索**: セッション連番の取得
-
 ## 完了条件
 
 1. 全タスクが完了になっている

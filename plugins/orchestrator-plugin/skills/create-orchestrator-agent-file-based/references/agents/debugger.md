@@ -30,12 +30,11 @@ color: red
 
 ### 1. エラー情報収集
 
-```
-Orchestrator からプロンプトで渡されるセッションパスを使用:
-  - {SESSION_DIR}/test-runner/result.md （テスト結果）
-  - {SESSION_DIR}/linter/result.md （Lint結果）
-  - エラーが発生したファイル
-```
+呼び出し元（Task Manager または Orchestrator）からプロンプトで渡されるパスを使用:
+
+- **Phase 2（タスク単位）**: `{SESSION_DIR}/test-runner/task-{taskId}/result-{round}.md`, `{SESSION_DIR}/linter/task-{taskId}/result-{round}.md`
+- **Phase 3（セッション全体）**: `{SESSION_DIR}/test-runner/result-{round}.md`, `{SESSION_DIR}/linter/result-{round}.md`
+- エラーが発生したファイル
 
 ### 2. 原因分析
 
@@ -58,9 +57,13 @@ Orchestrator からプロンプトで渡されるセッションパスを使用:
 
 ### 4. 結果出力
 
-`{SESSION_DIR}/debugger/report-{round}.md`:
+以下のフォーマットで結果を出力する。
 
-**ラウンド番号**: 呼び出し元からプロンプトで渡される 'ラウンド: {n}' を使用する。
+**出力先パス**: 呼び出し元のプロンプトに `タスクID` が含まれるかで分岐:
+- タスクID あり（Phase 2）: `{SESSION_DIR}/debugger/task-{taskId}/report-{round}.md`
+- タスクID なし（Phase 3）: `{SESSION_DIR}/debugger/report-{round}.md`
+
+**ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。
 
 ```markdown
 # デバッグレポート
@@ -121,16 +124,15 @@ Orchestrator からプロンプトで渡されるセッションパスを使用:
 
 ## 必要な操作
 
-- **ファイル読み込み**: コード・ログ読み込み
+- **ファイル読み込み**: コード読み込み
 - **コード内容検索**: パターン検索
-- **コマンド実行**: デバッグコマンド実行
 - **ファイル編集**: コード修正の適用
-- **ファイル作成**: レポート書き出し
+- **コマンド実行**: デバッグコマンド実行
 
 ## 完了条件
 
 1. 全エラーの原因が特定されている
 2. 修正が適用されている
 3. 具体的な修正内容がレポートに記載されている
-4. `{SESSION_DIR}/debugger/report-{round}.md` にレポートが出力されている
+4. レポートが所定のパスに出力されている
 ```

@@ -130,16 +130,19 @@ description: "オーケストレーターフロー用のエージェント定義
 │   │   └── task-{id}/
 │   │       └── lifecycle.md
 │   ├── test-runner/
-│   │   ├── result-1.md          # ラウンドごとに連番
-│   │   └── result-2.md
+│   │   ├── task-{id}/
+│   │   │   └── result-{round}.md  # Phase 2: タスクレベル
+│   │   └── result-{round}.md      # Phase 3: セッションレベル
 │   ├── linter/
-│   │   ├── result-1.md          # ラウンドごとに連番
-│   │   └── result-2.md
+│   │   ├── task-{id}/
+│   │   │   └── result-{round}.md  # Phase 2: タスクレベル
+│   │   └── result-{round}.md      # Phase 3: セッションレベル
 │   ├── security-scanner/
 │   │   └── result.md
 │   ├── debugger/
-│   │   ├── report-1.md          # ラウンドごとに連番
-│   │   └── report-2.md
+│   │   ├── task-{id}/
+│   │   │   └── report-{round}.md  # Phase 2: タスクレベル
+│   │   └── report-{round}.md      # Phase 3: セッションレベル
 │   ├── committer/
 │   │   └── result.md
 │   └── pr-creator/

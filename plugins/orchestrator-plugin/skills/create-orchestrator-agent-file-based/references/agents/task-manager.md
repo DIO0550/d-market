@@ -42,8 +42,8 @@ Copilot ではサブエージェントのネストができないため、各エ
 
 Orchestrator から以下の情報がプロンプトで渡される:
 - 実装結果: `{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md`
-- テスト結果: `{SESSION_DIR}/test-runner/result-{round}.md`
-- Lint 結果: `{SESSION_DIR}/linter/result-{round}.md`
+- テスト結果: `{SESSION_DIR}/test-runner/task-{taskId}/result-{round}.md`
+- Lint 結果: `{SESSION_DIR}/linter/task-{taskId}/result-{round}.md`
 - レビュー結果: `{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md`
 
 これらを Read して「判定ガイドライン」に従い判定結果を出力する。判定結果は以下の3つ:
@@ -54,8 +54,6 @@ Orchestrator から以下の情報がプロンプトで渡される:
 | **rejected** | 重大な問題がある | Implementer を再起動 |
 | **needs refactoring** | 軽微な改善が必要 | Refactorer を起動 |
 
-## 実行手順
-
 ## ラウンド管理
 
 リトライのたびにラウンド番号をインクリメントし、各サブエージェントのプロンプトに `ラウンド: {n}` として渡す。各エージェントはラウンド番号付きのファイル名で出力するため、イテレーションごとの結果が保持される。
@@ -64,6 +62,8 @@ Orchestrator から以下の情報がプロンプトで渡される:
 round = 1  # 初期値
 # Step 3 に戻るたびに round += 1
 ```
+
+## 実行手順
 
 ### 1. 入力情報の確認
 
@@ -106,8 +106,6 @@ Implementer をサブエージェントとして起動し、実装を委譲す�
   対象: implementer
 ```
 
-結果ファイル（`{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md`）も確認する。
-
 ### 5. Test Runner + Linter の並列起動
 
 Implementer の実装完了後、TDD の検証として Test Runner と Linter を並列実行する。
@@ -117,11 +115,13 @@ Implementer の実装完了後、TDD の検証として Test Runner と Linter �
   - エージェント: test-runner
     タスク: |
       セッションパス: {SESSION_DIR}
+      タスクID: {taskId}
       ラウンド: {round}
       実装されたコードのテストを実行してください。
   - エージェント: linter
     タスク: |
       セッションパス: {SESSION_DIR}
+      タスクID: {taskId}
       ラウンド: {round}
       実装されたコードの Lint・型チェックを実行してください。
 ```
@@ -129,7 +129,7 @@ Implementer の実装完了後、TDD の検証として Test Runner と Linter �
 ### 6. 検証結果の確認
 
 - 両方 PASS → Step 7（Code Reviewer）へ進む
-- 失敗がある場合 → `round += 1` してから失敗情報を含めて Implementer を再起動（Step 3 に戻る、リトライ回数に含む）
+- 失敗がある場合 → `round += 1` し、失敗情報を含めて Implementer を再起動（Step 3 に戻る、リトライ回数に含む）
 
 ### 7. Code Reviewer の起動
 
@@ -153,14 +153,12 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
   対象: code-reviewer
 ```
 
-結果ファイル（`{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md`）も確認する。
-
 ### 9. レビュー結果に基づく分岐
 
 #### a. Request Changes の場合
 
-`round += 1` してから差し戻し理由を記録して Implementer を再起動し、**Step 3 に戻る**（最大2回リトライ）。
-再起動後は再び Code Reviewer でレビューを実施する。
+`round += 1` し、差し戻し理由を記録して Implementer を再起動し、**Step 3 に戻る**（最大2回リトライ）。
+再起動後は再び Test Runner + Linter → Code Reviewer でレビューを実施する。
 
 #### b. Approved + 推奨対応ありの場合
 
@@ -178,7 +176,7 @@ Refactorer を起動してコード品質を改善する。
     - レビュー結果: {SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md
 ```
 
-Refactorer 完了後、`round += 1` してから **Step 7 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
+`round += 1` し、Refactorer 完了後、**Step 7 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
 
 #### c. Approved + 指摘なしの場合
 
@@ -230,8 +228,7 @@ Step 10 の完了判定に進む。
 - **サブエージェント結果取得**: 完了待ちと結果取得
 - **タスク詳細取得**: タスクの完了条件を確認
 - **タスク状態更新**: completed または pending に更新
-- **ファイル読み込み**: 中間ファイル・変更ファイルの確認
-- **ファイル作成**: ライフサイクル結果の書き出し
+- **ファイル読み込み**: 変更されたファイルの確認（必要に応じて）
 
 ## 判定ガイドライン
 

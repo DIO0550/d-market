@@ -42,8 +42,8 @@ Copilot ではサブエージェントのネストができないため、各エ
 
 Orchestrator から以下の情報がプロンプトで渡される:
 - 実装結果: `{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md`
-- テスト結果: `{SESSION_DIR}/test-runner/result-{round}.md`
-- Lint 結果: `{SESSION_DIR}/linter/result-{round}.md`
+- テスト結果: `{SESSION_DIR}/test-runner/task-{taskId}/result-{round}.md`
+- Lint 結果: `{SESSION_DIR}/linter/task-{taskId}/result-{round}.md`
 - レビュー結果: `{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md`
 
 これらを Read して「判定ガイドライン」に従い判定結果を出力する。判定結果は以下の3つ:
@@ -115,11 +115,13 @@ Implementer の実装完了後、TDD の検証として Test Runner と Linter �
   - エージェント: test-runner
     タスク: |
       セッションパス: {SESSION_DIR}
+      タスクID: {taskId}
       ラウンド: {round}
       実装されたコードのテストを実行してください。
   - エージェント: linter
     タスク: |
       セッションパス: {SESSION_DIR}
+      タスクID: {taskId}
       ラウンド: {round}
       実装されたコードの Lint・型チェックを実行してください。
 ```
