@@ -110,7 +110,7 @@ Orchestrator/Task Manager からプロンプトで渡されるセッションパ
 
 **注意**: タスクのステータスは自分で「完了」にしない。Task Manager エージェントが判定する。
 
-`{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md` に以下の実装結果を書き出す:
+`{SESSION_DIR}/task-{taskId}/implementer/result-{round}.md` に以下の実装結果を書き出す:
 
 **ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。
 
@@ -165,7 +165,7 @@ Orchestrator/Task Manager からプロンプトで渡されるセッションパ
 2. TDDサイクル（Red→Green→Refactor）に従って実装されている
 3. プロジェクト指示書（CLAUDE.md等）のルールが順守されている
 4. 既存テストが壊れていない
-5. `{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md` に実装結果が出力されている
+5. `{SESSION_DIR}/task-{taskId}/implementer/result-{round}.md` に実装結果が出力されている
 ```
 
 ---

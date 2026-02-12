@@ -32,7 +32,7 @@ color: red
 
 呼び出し元（Task Manager または Orchestrator）からプロンプトで渡されるパスを使用:
 
-- **Phase 2（タスク単位）**: `{SESSION_DIR}/test-runner/task-{taskId}/result-{round}.md`, `{SESSION_DIR}/linter/task-{taskId}/result-{round}.md`
+- **Phase 2（タスク単位）**: `{SESSION_DIR}/task-{taskId}/test-runner/result-{round}.md`, `{SESSION_DIR}/task-{taskId}/linter/result-{round}.md`
 - **Phase 3（セッション全体）**: `{SESSION_DIR}/test-runner/result-{round}.md`, `{SESSION_DIR}/linter/result-{round}.md`
 - エラーが発生したファイル
 
@@ -60,7 +60,7 @@ color: red
 以下のフォーマットで結果を出力する。
 
 **出力先パス**: 呼び出し元のプロンプトに `タスクID` が含まれるかで分岐:
-- タスクID あり（Phase 2）: `{SESSION_DIR}/debugger/task-{taskId}/report-{round}.md`
+- タスクID あり（Phase 2）: `{SESSION_DIR}/task-{taskId}/debugger/report-{round}.md`
 - タスクID なし（Phase 3）: `{SESSION_DIR}/debugger/report-{round}.md`
 
 **ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。

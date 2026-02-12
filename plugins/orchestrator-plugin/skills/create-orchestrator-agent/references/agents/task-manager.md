@@ -41,10 +41,10 @@ Implementer → Test Runner + Linter → Code Reviewer → Refactorer → 完了
 Copilot ではサブエージェントのネストができないため、各エージェントの起動は Orchestrator が行う。Task Manager は **完了判定のみ** を担当する。
 
 Orchestrator から以下の情報がプロンプトで渡される:
-- 実装結果: `{SESSION_DIR}/implementer/task-{taskId}/result-{round}.md`
-- テスト結果: `{SESSION_DIR}/test-runner/task-{taskId}/result-{round}.md`
-- Lint 結果: `{SESSION_DIR}/linter/task-{taskId}/result-{round}.md`
-- レビュー結果: `{SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md`
+- 実装結果: `{SESSION_DIR}/task-{taskId}/implementer/result-{round}.md`
+- テスト結果: `{SESSION_DIR}/task-{taskId}/test-runner/result-{round}.md`
+- Lint 結果: `{SESSION_DIR}/task-{taskId}/linter/result-{round}.md`
+- レビュー結果: `{SESSION_DIR}/task-{taskId}/code-reviewer/review-{round}.md`
 
 これらを Read して「判定ガイドライン」に従い判定結果を出力する。判定結果は以下の3つ:
 
@@ -143,7 +143,7 @@ Implementer の実装結果を渡して Code Reviewer を起動する。
     ラウンド: {round}
     Implementerの実装結果をレビューしてください。
     - タスクID: {taskId}
-    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result-{round}.md
+    - 実装結果: {SESSION_DIR}/task-{taskId}/implementer/result-{round}.md
 ```
 
 ### 8. Code Reviewer の完了待ち
@@ -172,8 +172,8 @@ Refactorer を起動してコード品質を改善する。
     ラウンド: {round}
     コードレビューの指摘に基づいてコードを改善してください。
     - タスクID: {taskId}
-    - 実装結果: {SESSION_DIR}/implementer/task-{taskId}/result-{round}.md
-    - レビュー結果: {SESSION_DIR}/code-reviewer/task-{taskId}/review-{round}.md
+    - 実装結果: {SESSION_DIR}/task-{taskId}/implementer/result-{round}.md
+    - レビュー結果: {SESSION_DIR}/task-{taskId}/code-reviewer/review-{round}.md
 ```
 
 `round += 1` し、Refactorer 完了後、**Step 7 に戻り Code Reviewer で再レビュー**を実施する（最大2レビューサイクル）。
@@ -220,7 +220,7 @@ Step 10 の完了判定に進む。
 
 ### 11. 結果の出力
 
-`.orchestrator/templates/task-lifecycle-result.md` を Read してフォーマットに従って `{SESSION_DIR}/task-manager/task-{taskId}/lifecycle.md` に結果を書き出す。
+`.orchestrator/templates/task-lifecycle-result.md` を Read してフォーマットに従って `{SESSION_DIR}/task-{taskId}/task-manager/lifecycle.md` に結果を書き出す。
 
 ## 必要な操作
 
@@ -259,7 +259,7 @@ Step 10 の完了判定に進む。
 ## 完了条件
 
 1. タスクのステータスが更新されている
-2. `{SESSION_DIR}/task-manager/task-{taskId}/lifecycle.md` にライフサイクル結果が書き出されている
+2. `{SESSION_DIR}/task-{taskId}/task-manager/lifecycle.md` にライフサイクル結果が書き出されている
 ```
 
 ---

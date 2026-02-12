@@ -46,7 +46,7 @@ Lint と型チェックを実行する。
 以下のフォーマットで結果を出力する。
 
 **出力先パス**: 呼び出し元のプロンプトに `タスクID` が含まれるかで分岐:
-- タスクID あり（Phase 2）: `{SESSION_DIR}/linter/task-{taskId}/result-{round}.md`
+- タスクID あり（Phase 2）: `{SESSION_DIR}/task-{taskId}/linter/result-{round}.md`
 - タスクID なし（Phase 3）: `{SESSION_DIR}/linter/result-{round}.md`
 
 **ラウンド番号**: 呼び出し元からプロンプトで渡される `ラウンド: {n}` を使用する。

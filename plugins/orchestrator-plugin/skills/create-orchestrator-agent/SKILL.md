@@ -115,35 +115,30 @@ description: "オーケストレーターフロー用のエージェント定義
 │   ├── plan-reviewer/
 │   │   ├── review-1.md          # ラウンドごとに連番
 │   │   └── review-2.md
-│   ├── implementer/
-│   │   └── task-{id}/
-│   │       ├── result-1.md      # ラウンドごとに連番
-│   │       └── result-2.md
-│   ├── code-reviewer/
-│   │   └── task-{id}/
-│   │       ├── review-1.md      # ラウンドごとに連番
-│   │       └── review-2.md
-│   ├── refactorer/
-│   │   └── task-{id}/
-│   │       └── result-1.md      # ラウンドごとに連番
-│   ├── task-manager/
-│   │   └── task-{id}/
+│   ├── task-{id}/                  # Phase 2: タスク単位
+│   │   ├── implementer/
+│   │   │   └── result-{round}.md
+│   │   ├── test-runner/
+│   │   │   └── result-{round}.md
+│   │   ├── linter/
+│   │   │   └── result-{round}.md
+│   │   ├── code-reviewer/
+│   │   │   └── review-{round}.md
+│   │   ├── refactorer/
+│   │   │   └── result-{round}.md
+│   │   ├── debugger/
+│   │   │   └── report-{round}.md
+│   │   └── task-manager/
 │   │       └── lifecycle.md
-│   ├── test-runner/
-│   │   ├── task-{id}/
-│   │   │   └── result-{round}.md  # Phase 2: タスクレベル
-│   │   └── result-{round}.md      # Phase 3: セッションレベル
+│   ├── test-runner/                # Phase 3: セッション全体検証
+│   │   └── result-{round}.md
 │   ├── linter/
-│   │   ├── task-{id}/
-│   │   │   └── result-{round}.md  # Phase 2: タスクレベル
-│   │   └── result-{round}.md      # Phase 3: セッションレベル
+│   │   └── result-{round}.md
+│   ├── debugger/
+│   │   └── report-{round}.md
 │   ├── security-scanner/
 │   │   └── result.md
-│   ├── debugger/
-│   │   ├── task-{id}/
-│   │   │   └── report-{round}.md  # Phase 2: タスクレベル
-│   │   └── report-{round}.md      # Phase 3: セッションレベル
-│   ├── committer/
+│   ├── committer/                  # Phase 4: Git
 │   │   └── result.md
 │   └── pr-creator/
 │       └── result.md

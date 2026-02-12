@@ -158,13 +158,13 @@ Task ツール:
 | {SESSION_DIR}/explorer/result.md | Explorer | Planner, Task Manager |
 | {SESSION_DIR}/planner/plan.md | Planner | Task Manager, Committer, PR Creator |
 | {SESSION_DIR}/planner/tasks.md | Planner | Task Manager |
-| {SESSION_DIR}/task-manager/task-{id}/lifecycle.md | Task Manager (各タスク) | Committer, PR Creator |
-| {SESSION_DIR}/implementer/task-{id}/result-{round}.md | Implementer (各タスク) | Code Reviewer（Task Manager内部） |
-| {SESSION_DIR}/test-runner/task-{id}/result-{round}.md | Test Runner (Phase 2) | Task Manager, Debugger |
-| {SESSION_DIR}/linter/task-{id}/result-{round}.md | Linter (Phase 2) | Task Manager, Debugger |
-| {SESSION_DIR}/debugger/task-{id}/report-{round}.md | Debugger (Phase 2) | Task Manager |
-| {SESSION_DIR}/code-reviewer/task-{id}/review-{round}.md | Code Reviewer | Task Manager（完了判定に使用） |
-| {SESSION_DIR}/refactorer/task-{id}/result-{round}.md | Refactorer (各タスク) | Task Manager（完了判定に使用） |
+| {SESSION_DIR}/task-{id}/task-manager/lifecycle.md | Task Manager (各タスク) | Committer, PR Creator |
+| {SESSION_DIR}/task-{id}/implementer/result-{round}.md | Implementer (各タスク) | Code Reviewer（Task Manager内部） |
+| {SESSION_DIR}/task-{id}/test-runner/result-{round}.md | Test Runner (Phase 2) | Task Manager, Debugger |
+| {SESSION_DIR}/task-{id}/linter/result-{round}.md | Linter (Phase 2) | Task Manager, Debugger |
+| {SESSION_DIR}/task-{id}/debugger/report-{round}.md | Debugger (Phase 2) | Task Manager |
+| {SESSION_DIR}/task-{id}/code-reviewer/review-{round}.md | Code Reviewer | Task Manager（完了判定に使用） |
+| {SESSION_DIR}/task-{id}/refactorer/result-{round}.md | Refactorer (各タスク) | Task Manager（完了判定に使用） |
 | {SESSION_DIR}/plan-reviewer/review-{round}.md | Plan Reviewer | Planner（修正時）|
 | {SESSION_DIR}/test-runner/result-{round}.md | Test Runner (Phase 3) | Debugger |
 | {SESSION_DIR}/linter/result-{round}.md | Linter (Phase 3) | Debugger |
