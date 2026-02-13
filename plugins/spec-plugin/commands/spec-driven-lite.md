@@ -2,7 +2,7 @@
 
 ## Description
 
-機能実装前に対話的なヒアリングで仕様を明確化し、implementation-plan.mdとtasks.mdを生成します。他のAIによるレビューを省略した軽量版です。
+機能実装前に対話的なヒアリングで仕様を明確化し、探索と計画をサブエージェントに委譲して implementation-plan.md と tasks.md を生成します。他のAIによるレビューを省略した軽量版です。
 
 ## Prompt Template
 
@@ -21,7 +21,9 @@
    mkdir -p .specs/${next_num}-{feature-name} && touch .specs/${next_num}-{feature-name}/PLANNING
    ```
 
-1. **ヒアリング実施**
+1. **ヒアリング実施 → hearing-notes.md 書き出し**
+
+   AskUserQuestion でヒアリングし、結果を `.specs/{nnn}-{feature-name}/hearing-notes.md` に書き出す。
 
    **Batch 1: スコープ確認**
    - 何を実現したいか（目的）
@@ -37,25 +39,25 @@
    - テスト要件
    - パフォーマンス要件
 
-2. **implementation-plan.md 生成**
+2. **コードベース探索（codebase-explorer サブエージェントに委譲）**
 
-   - `.specs/{nnn}-{feature-name}/implementation-plan.md` に出力
-   - ファイル単位で `[NEW]` `[MODIFY]` `[DELETE]` タグを使用
-   - 検証計画を必ず含める
-   - **⚠️ システム図を最初に生成する**（状態マシン図 + データフロー図 — 省略禁止）
-     - 図を先に作り、その後で変更案・検証計画を書く
-     - 図がない場合、implementation-plan.mdは不完全として扱う
+   - hearing-notes.md を元に codebase-explorer サブエージェントを Task tool で起動
+   - 4カテゴリ（アーキテクチャ・関連コード・技術的制約・変更影響範囲）を探索
+   - `.specs/{nnn}-{feature-name}/exploration-report.md` に結果を出力
+   - `TaskOutput` で完了待ち
 
-3. **tasks.md 生成**
+3. **実装計画生成（spec-planner サブエージェントに委譲）**
 
-   - `.specs/{nnn}-{feature-name}/tasks.md` に出力
-   - Research & Planning / Implementation / Verification の3構成
+   - hearing-notes.md + exploration-report.md を元に spec-planner サブエージェントを起動
+   - `.specs/{nnn}-{feature-name}/implementation-plan.md` + `tasks.md` を生成
+   - **⚠️ システム図（状態マシン図 + データフロー図）は必須 — 省略禁止**
+   - `TaskOutput` で完了待ち
 
 4. **ユーザー確認**
 
    - implementation-plan.md のサマリー提示
    - tasks.md のタスク一覧提示
-   - 修正要求があればStep 2に戻る
+   - 修正要求があればStep 3に戻る
 
 5. **PLANNINGファイル削除**（実装開始許可後）
 
@@ -73,3 +75,4 @@
 - 1機能 = 1計画（小さく保つ）
 - 質問形式は `references/question-patterns.md` を参照
 - **他のAI（Codex/Copilot）によるレビューは省略**
+- 探索と計画はサブエージェントに委譲する

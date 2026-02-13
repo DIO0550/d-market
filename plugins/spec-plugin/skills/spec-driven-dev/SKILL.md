@@ -1,11 +1,12 @@
 ---
 name: spec-driven-dev
-description: 仕様駆動型開発スキル。機能実装前に対話的なヒアリングで仕様を明確化し、implementation-plan.mdとtasks.mdを生成する。「機能を実装したい」「新しいコンポーネントを作りたい」「○○を追加したい」などの実装リクエスト時に使用。Codexによる自動レビューと修正ループで品質を担保する。
+description: 仕様駆動型開発スキル。機能実装前に対話的なヒアリングで仕様を明確化し、探索と計画をサブエージェントに委譲して implementation-plan.md と tasks.md を生成する。「機能を実装したい」「新しいコンポーネントを作りたい」「○○を追加したい」などの実装リクエスト時に使用。Codexによる自動レビューと修正ループで品質を担保する。
 ---
 
 # Spec-Driven Development
 
 機能実装前に仕様を明確化し、実装計画とタスクリストを生成するスキル。
+ヒアリングはオーケストレーターが行い、**探索と計画生成は別々のサブエージェントに委譲**する。
 
 ## ⚠️ 重要: システム図は必須
 
@@ -24,26 +25,37 @@ description: 仕様駆動型開発スキル。機能実装前に対話的なヒ�
 ## ワークフロー概要
 
 ```
-1. ユーザーが目的を伝える
+1. specsフォルダ作成 + PLANNINGファイル配置
    ↓
-2. specsフォルダ作成 + PLANNINGファイル配置
+2. AskUserQuestion形式でヒアリング → hearing-notes.md 書き出し
    ↓
-3. AskUserQuestion形式でヒアリング
+3. codebase-explorer サブエージェント → exploration-report.md
    ↓
-4. implementation-plan.md 生成
+4. spec-planner サブエージェント → implementation-plan.md + tasks.md
    ↓
 5. Codexレビュー → 修正ループ（自動）
    ↓
-6. tasks.md 生成
+6. ユーザーに提示
    ↓
-7. ユーザーに提示
-   ↓
-8. 実装開始許可後、PLANNINGファイル削除
+7. 実装開始許可後、PLANNINGファイル削除
 ```
 
-## Step 1: ヒアリング
+## Step 1: specsフォルダ + PLANNINGファイル作成
 
-ユーザーの要求を受けたら、以下の観点で質問する。一度に1-4個の質問をまとめて聞く。
+ヒアリング開始前に、specディレクトリとPLANNINGファイルを作成する。
+
+```bash
+next_num=$(printf "%03d" $(( $(ls -1d .specs/[0-9][0-9][0-9]-* .specs/archive/[0-9][0-9][0-9]-* 2>/dev/null | sed 's|.*/\([0-9]\{3\}\)-.*|\1|' | sort -rn | head -1 | sed 's/^0*//; s/^$/0/') + 1 )))
+mkdir -p .specs/${next_num}-{feature-name} && touch .specs/${next_num}-{feature-name}/PLANNING
+```
+
+**重要**: PLANNINGファイルが存在する間は計画フェーズであり、コードの実装は禁止。
+
+## Step 2: ヒアリング → hearing-notes.md 書き出し
+
+ユーザーの要求を受けたら、AskUserQuestion で質問し、結果を `.specs/{nnn}-{feature-name}/hearing-notes.md` に書き出す。
+
+一度に1-4個の質問をまとめて聞く。
 
 ### 必須ヒアリング項目
 
@@ -64,75 +76,86 @@ description: 仕様駆動型開発スキル。機能実装前に対話的なヒ�
 
 質問形式の詳細は `references/question-patterns.md` を参照。
 
-## Step 2: specsフォルダ + PLANNINGファイル作成
+### hearing-notes.md 書き出し
 
-ヒアリング開始前または開始直後に、specディレクトリとPLANNINGファイルを作成する。
+ヒアリング完了後、テンプレートに沿って結果をファイルに書き出す。
 
-```bash
-next_num=$(printf "%03d" $(( $(ls -1d .specs/[0-9][0-9][0-9]-* .specs/archive/[0-9][0-9][0-9]-* 2>/dev/null | sed 's|.*/\([0-9]\{3\}\)-.*|\1|' | sort -rn | head -1 | sed 's/^0*//; s/^$/0/') + 1 )))
-mkdir -p .specs/${next_num}-{feature-name} && touch .specs/${next_num}-{feature-name}/PLANNING
-```
+テンプレート: `assets/templates/hearing-notes.md`
+出力先: `.specs/{nnn}-{feature-name}/hearing-notes.md`
 
-**重要**: PLANNINGファイルが存在する間は計画フェーズであり、コードの実装は禁止。
+## Step 3: コードベース探索（codebase-explorer サブエージェントに委譲）
 
-## Step 3: implementation-plan.md 生成
-
-ヒアリング結果を元に `.specs/{nnn}-{feature-name}/implementation-plan.md` を生成。
-
-テンプレート: `assets/templates/implementation-plan.md`
-
-### Step 3-1: 各セクションを執筆
-
-- 1機能 = 1計画（小さく保つ）
-- ファイル単位で変更内容を明記
-- `[NEW]` `[MODIFY]` `[DELETE]` タグを使用
-- 検証計画を必ず含める
-- **必ずシステム図を含める**（状態マシン図 + データフロー図）
-
-### Step 3-2: システム図を作成
-
-状態マシン図とデータフロー図を**必ず**作成する。これにより：
-- すべてのパス・分岐・エッジケースを可視化
-- 実装の抜け漏れを防止
-- システムレベルでの正しさを検証可能
+hearing-notes.md を書き出したら、codebase-explorer サブエージェントを起動する。
 
 ```
-ASCII図の例:
+Task tool:
+  description: "codebase-explorer: {feature-name}"
+  subagent_type: general-purpose
+  run_in_background: true
+  prompt: |
+    あなたはcodebase-explorerエージェントです。
+    .specs/{nnn}-{feature-name}/hearing-notes.md を読み込み、
+    その目的・スコープに基づいてコードベースを探索してください。
 
-    入力
-      │
-      ▼
-┌─────────────┐
-│  STATE_A    │─── 条件1 ───▶ STATE_B
-└─────────────┘                  │
-      │                          │
-   条件2                      条件3
-      │                          │
-      ▼                          ▼
-┌─────────────┐           ┌─────────────┐
-│  STATE_C    │           │  STATE_D    │
-└─────────────┘           └─────────────┘
+    ## 参照スキル
+    spec-driven-dev:exploration-perspectives
+
+    ## テンプレート
+    spec-driven-dev:exploration-report
+
+    ## 出力先
+    .specs/{nnn}-{feature-name}/exploration-report.md
 ```
 
-図に含めるべき要素：
-- **状態（State）**: 各状態を明確に命名
-- **遷移条件**: 何がトリガーで状態が変わるか
-- **分岐**: すべての条件分岐を網羅
-- **エッジケース**: エラー時・タイムアウト時の遷移
-- **ループ**: 繰り返し処理がある場合
+```
+TaskOutput:
+  task_id: "{codebase-explorerのtask_id}"
+  block: true
+  timeout: 300000
+```
 
-### Step 3-3: 完了チェックリスト
+探索の4カテゴリ: アーキテクチャ概要 / 関連コード分析 / 技術的制約・リスク / 変更影響範囲
 
-implementation-plan.md生成後、以下を確認すること：
+詳細は `references/exploration-perspectives.md` を参照。
 
-- [ ] 状態マシン図が含まれているか
-- [ ] データフロー図が含まれているか
-- [ ] 図にすべての状態・遷移条件・エッジケースが含まれているか
-- [ ] 図と各セクションの内容が整合しているか
+## Step 4: 実装計画生成（spec-planner サブエージェントに委譲）
 
-**チェックリストを満たさない場合、生成完了とみなさない。**
+exploration-report.md が完成したら、spec-planner サブエージェントを起動する。
 
-## Step 4: Codexレビューループ
+```
+Task tool:
+  description: "spec-planner: {feature-name}"
+  subagent_type: general-purpose
+  run_in_background: true
+  prompt: |
+    あなたはspec-plannerエージェントです。
+    以下のファイルを読み込み、implementation-plan.md と tasks.md を生成してください。
+
+    ## 入力
+    - .specs/{nnn}-{feature-name}/hearing-notes.md
+    - .specs/{nnn}-{feature-name}/exploration-report.md
+
+    ## テンプレート
+    - spec-driven-dev:implementation-plan
+    - spec-driven-dev:tasks
+
+    ## 出力先
+    - .specs/{nnn}-{feature-name}/implementation-plan.md
+    - .specs/{nnn}-{feature-name}/tasks.md
+
+    ## 重要
+    - システム図（状態マシン図 + データフロー図）は必須。省略禁止。
+    - exploration-report.md の制約・リスクを implementation-plan.md に反映すること。
+```
+
+```
+TaskOutput:
+  task_id: "{spec-plannerのtask_id}"
+  block: true
+  timeout: 300000
+```
+
+## Step 5: Codexレビューループ
 
 生成した implementation-plan.md を Codex でレビューする。
 
@@ -160,37 +183,13 @@ codex exec --cd "$PWD" --dangerously-bypass-approvals-and-sandbox "以下の実�
 ### ループ処理
 
 1. Codexの出力を解析
-2. 「問題なし」なら Step 5 へ
+2. 「問題なし」なら Step 6 へ
 3. 問題があれば:
    - 指摘内容を元に implementation-plan.md を修正
    - 再度 Codex レビューを実行
    - 最大5回までループ
 
 レビュー観点の詳細は `references/review-criteria.md` を参照。
-
-## Step 5: tasks.md 生成
-
-レビュー完了後、`.specs/{nnn}-{feature-name}/tasks.md` を生成。
-
-テンプレート: `assets/templates/tasks.md`
-
-### タスク構成
-
-```
-Task: {目的}
-
-□ Research & Planning
-  □ サブタスク1
-  □ サブタスク2
-
-□ Implementation  
-  □ サブタスク1
-  □ サブタスク2
-
-□ Verification
-  □ サブタスク1
-  □ サブタスク2
-```
 
 ## Step 6: ユーザー確認
 
@@ -200,7 +199,7 @@ Task: {目的}
 2. tasks.md のタスク一覧
 3. 「修正が必要な場合はお知らせください」
 
-ユーザーが修正を要求した場合は Step 4 のループに戻る。
+ユーザーが修正を要求した場合は Step 5 のループに戻る。
 
 ## Step 7: PLANNINGファイル削除（実装開始）
 
@@ -216,10 +215,12 @@ rm .specs/{nnn}-{feature-name}/PLANNING
 
 ```
 .specs/
-└── {feature-name}/
+└── {nnn}-{feature-name}/
     ├── PLANNING                 # 計画中は存在、実装開始時に削除
-    ├── implementation-plan.md
-    └── tasks.md
+    ├── hearing-notes.md         # ヒアリング結果（オーケストレーター生成）
+    ├── exploration-report.md    # 探索レポート（codebase-explorer 生成）
+    ├── implementation-plan.md   # 実装計画（spec-planner 生成）
+    └── tasks.md                 # タスクリスト（spec-planner 生成）
 ```
 
 `{nnn}` は `.specs/` 内の既存フォルダ数に基づく3桁の連番（001, 002, 003...）
