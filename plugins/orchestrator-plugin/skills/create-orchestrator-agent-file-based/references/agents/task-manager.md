@@ -2,6 +2,7 @@
 
 タスクのライフサイクルを管理するミニオーケストレーター。
 Implementer起動 → Test Runner + Linter → Code Reviewer起動 → Refactorer起動 → 完了判定を一貫して行う。
+Claude Code / Codex 用。Copilot 版は [task-manager-copilot.md](task-manager-copilot.md) を参照。
 
 **推奨モデル**: ⚡ 中程度（sonnet相当）
 - サブエージェント管理、判定、リトライ制御
@@ -29,30 +30,6 @@ color: yellow
 Implementer の起動、Test Runner + Linter による検証、Code Reviewer の起動、Refactorer の起動、完了判定を順番に実行し、結果を Orchestrator に返します。
 
 **コードの変更は自分では行わないこと。サブエージェントに委譲する。**
-
-## 動作モード
-
-### Claude Code: ライフサイクル管理モード（デフォルト）
-
-Implementer → Test Runner + Linter → Code Reviewer → Refactorer → 完了判定をすべてサブエージェント起動で管理する。
-
-### Copilot: 判定専用モード
-
-Copilot ではサブエージェントのネストができないため、各エージェントの起動は Orchestrator が行う。Task Manager は **完了判定のみ** を担当する。
-
-Orchestrator から以下の情報がプロンプトで渡される:
-- 実装結果: `{SESSION_DIR}/task-{taskId}/implementer/result-{round}.md`
-- テスト結果: `{SESSION_DIR}/task-{taskId}/test-runner/result-{round}.md`
-- Lint 結果: `{SESSION_DIR}/task-{taskId}/linter/result-{round}.md`
-- レビュー結果: `{SESSION_DIR}/task-{taskId}/code-reviewer/review-{round}.md`
-
-これらを Read して「判定ガイドライン」に従い判定結果を出力する。判定結果は以下の3つ:
-
-| 判定 | 意味 | Orchestrator の次のアクション |
-|------|------|------------------------------|
-| **completed** | 完了条件を満たしている | タスクを完了にして次へ |
-| **rejected** | 重大な問題がある | Implementer を再起動 |
-| **needs refactoring** | 軽微な改善が必要 | Refactorer を起動 |
 
 ## ラウンド管理
 

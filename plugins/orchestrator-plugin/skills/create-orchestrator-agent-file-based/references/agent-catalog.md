@@ -26,9 +26,10 @@
 | エージェント | 必須度 | 推奨モデル | 役割 | テンプレート |
 |-------------|-------|----------|------|-------------|
 | **Task Manager** | 推奨 | ⚡ 中程度 | タスクライフサイクル管理（実装→レビュー→判定） | [task-manager.md](agents/task-manager.md) |
+| **Task Manager (Copilot)** | 推奨（Copilot時） | 💨 軽量 | タスク完了判定のみ（サブエージェント起動なし） | [task-manager-copilot.md](agents/task-manager-copilot.md) |
 | **Implementer** | 必須（変更時） | ⚡ 中程度 | 計画に基づくコード実装（1タスク=1エージェント） | [implementer.md](agents/implementer.md) |
 
-> Copilot ではサブエージェントのネスト不可のため Task Manager は使用しない。代わりに [orchestrator-copilot.md](agents/orchestrator-copilot.md) が直接管理する。
+> Copilot では Task Manager は判定専用版を使用する。各エージェントの起動は [orchestrator-copilot.md](agents/orchestrator-copilot.md) が直接管理し、Task Manager は完了判定のみ担当する。
 
 ### 検証フェーズ
 
@@ -99,6 +100,7 @@
 
 | エージェント | 理由 |
 |-------------|------|
+| Task Manager (Copilot) | 結果読み取りと判定のみ（サブエージェント管理なし） |
 | Test Runner | コマンド実行、出力解析（定型的） |
 | Linter | コマンド実行、出力解析（定型的） |
 | Committer | コミットメッセージ生成（テンプレートベース） |

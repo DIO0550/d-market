@@ -51,7 +51,7 @@ description: "オーケストレーターフロー用のエージェント定義
 
 **計画**: [Explorer](references/agents/explorer.md), [Planner](references/agents/planner.md), [Plan Reviewer](references/agents/plan-reviewer.md)
 
-**実装**: [Implementer](references/agents/implementer.md), [Task Manager](references/agents/task-manager.md)
+**実装**: [Implementer](references/agents/implementer.md), [Task Manager](references/agents/task-manager.md), [Task Manager Copilot版](references/agents/task-manager-copilot.md)
 
 **検証**: [Code Reviewer](references/agents/code-reviewer.md), [Test Runner](references/agents/test-runner.md), [Linter](references/agents/linter.md), [Security Scanner](references/agents/security-scanner.md)
 
