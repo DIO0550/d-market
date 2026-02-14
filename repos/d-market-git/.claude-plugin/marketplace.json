@@ -1,0 +1,18 @@
+{
+  "name": "d-market-git",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "git-workflow-plugin",
+      "source": "./plugins/git-workflow-plugin",
+      "description": "Git操作支援プラグイン（コミット・PR作成・ブランチ保護）"
+    },
+    {
+      "name": "workflow-automation-plugin",
+      "source": "./plugins/workflow-automation-plugin",
+      "description": "ワークフロー自動化プラグイン（PR CIエラー修正・レビュー指摘修正）"
+    }
+  ]
+}

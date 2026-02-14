@@ -1,0 +1,13 @@
+{
+  "name": "d-market-react",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "react-rules-plugin",
+      "source": "./plugins/react-rules-plugin",
+      "description": "React開発ルールプラグイン（コンポーネント規約、カスタムフック、Storybook）"
+    }
+  ]
+}

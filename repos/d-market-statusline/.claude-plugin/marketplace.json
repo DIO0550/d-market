@@ -1,0 +1,13 @@
+{
+  "name": "d-market-statusline",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "statusline-plugin",
+      "source": "./plugins/statusline-plugin",
+      "description": "Powerlineスタイルのステータスラインセットアップ"
+    }
+  ]
+}

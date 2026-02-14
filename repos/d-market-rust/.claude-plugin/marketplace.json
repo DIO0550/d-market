@@ -1,0 +1,18 @@
+{
+  "name": "d-market-rust",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "rust-rules-plugin",
+      "source": "./plugins/rust-rules-plugin",
+      "description": "Rust開発ルールプラグイン（コーディング規約、TDD、テスト、実装ワークフロー）"
+    },
+    {
+      "name": "rust-workflow-plugin",
+      "source": "./plugins/rust-workflow-plugin",
+      "description": "Rustワークフロープラグイン（テスト実行、型チェック、ファイル検索エージェント）"
+    }
+  ]
+}

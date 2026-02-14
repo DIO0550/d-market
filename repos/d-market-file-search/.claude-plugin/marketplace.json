@@ -1,0 +1,13 @@
+{
+  "name": "d-market-file-search",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "file-search-plugin",
+      "source": "./plugins/file-search-plugin",
+      "description": "ファイル検索・Web検索エージェント委譲プラグイン"
+    }
+  ]
+}

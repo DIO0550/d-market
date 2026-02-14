@@ -1,0 +1,13 @@
+{
+  "name": "d-market-code-review",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "code-review-plugin",
+      "source": "./plugins/code-review-plugin",
+      "description": "コードレビュー・品質チェックプラグイン"
+    }
+  ]
+}
