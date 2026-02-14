@@ -132,6 +132,7 @@ Task tool:
     - Grep: コード検索
     - TaskCreate: タスク登録（利用可能な場合）
     - TaskUpdate: 依存関係設定（利用可能な場合）
+    - AskUserQuestion: 不明点・曖昧な要件についてユーザーに質問
 ```
 
 ### Step 4: Planner 完了待ち → Plan Reviewer 起動

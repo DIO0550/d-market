@@ -97,7 +97,7 @@ tools: ["read", "edit", "search", "agent"]
 |-------------|-------|
 | orchestrator | `["read", "search", "execute", "agent", "todo"]` |
 | explorer | `["read", "search", "web"]` |
-| planner | `["read", "search", "todo", "web"]` |
+| planner | `["read", "search", "todo", "web", "ask"]` |
 | plan-reviewer | `["read", "search", "todo"]` |
 | implementer | `["read", "edit", "search", "execute", "todo"]` |
 | task-manager | `["read", "agent", "todo"]` |
@@ -150,6 +150,7 @@ tools: ["read", "edit", "search", "agent"]
 | タスク作成 | タスク登録 |
 | タスク更新 | タスク依存関係設定 |
 | タスク一覧取得 | 既存タスク確認 |
+| ユーザー確認 | 不明点・曖昧な要件についてユーザーに質問 |
 
 ### Plan Reviewer
 
@@ -180,6 +181,13 @@ tools: ["read", "edit", "search", "agent"]
 | タスク詳細取得 | タスクの完了条件を確認 |
 | タスク状態更新 | completed または pending に更新 |
 | ファイル読み込み | 変更されたファイルの確認（必要に応じて） |
+
+### Task Manager (Copilot)
+
+| 汎用操作 | 用途 |
+|---------|------|
+| ファイル読み込み | 各エージェントの結果ファイルを読み取る |
+| ファイル作成 | 判定結果の書き出し |
 
 ### Code Reviewer
 
