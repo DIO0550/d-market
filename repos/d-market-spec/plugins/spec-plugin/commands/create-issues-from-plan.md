@@ -10,15 +10,15 @@ Keywords: github-issues, epic, sub-issues, automation, implementation-plan
 
 このコマンドは以下のスキルとテンプレートを使用します：
 
-- **`plan-to-issues` スキル**: `plugins/spec-plugin/skills/plan-to-issues/SKILL.md`
-- **Issue テンプレート**: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/`
+- **`plan-to-issues` スキル**: `skills/plan-to-issues/SKILL.md`
+- **Issue テンプレート**: `skills/plan-to-issues/assets/templates/`
   - `epic.template.md`: Epic Issue のテンプレート
   - `feature.template.md`: Feature Issue のテンプレート
   - `migration.template.md`: Migration Issue のテンプレート
   - `test.template.md`: Test Issue のテンプレート
   - `docs.template.md`: Docs Issue のテンプレート
   - `chore.template.md`: Chore Issue のテンプレート
-- **実装計画テンプレート**: `plugins/spec-plugin/skills/implementation-plan/assets/templates/implementation-plan-template.md`
+- **実装計画テンプレート**: `skills/implementation-plan/assets/templates/implementation-plan-template.md`
 
 ## 前提条件
 
@@ -30,8 +30,8 @@ Keywords: github-issues, epic, sub-issues, automation, implementation-plan
 
 1. **必要なテンプレートを読み込み**
 
-   - **実装計画テンプレート**: `plugins/spec-plugin/skills/implementation-plan/assets/templates/implementation-plan-template.md` を参照
-   - **Issue テンプレート**: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/` から各種テンプレートを読み込み
+   - **実装計画テンプレート**: `skills/implementation-plan/assets/templates/implementation-plan-template.md` を参照
+   - **Issue テンプレート**: `skills/plan-to-issues/assets/templates/` から各種テンプレートを読み込み
      - `epic.template.md` (Epic 用)
      - `feature.template.md` (実装 Issue 用)
      - `migration.template.md` (移行 Issue 用)
@@ -65,12 +65,12 @@ Keywords: github-issues, epic, sub-issues, automation, implementation-plan
 
 以下のタスクを実行してください：
 
-1. **`plan-to-issues` スキル（`plugins/spec-plugin/skills/plan-to-issues/SKILL.md`）を読み込み、Issue 作成ガイドラインを理解すること**
+1. **`plan-to-issues` スキル（`skills/plan-to-issues/SKILL.md`）を読み込み、Issue 作成ガイドラインを理解すること**
 
 2. **必要なテンプレートを読み込むこと**
 
-   - 実装計画テンプレート: `plugins/spec-plugin/skills/implementation-plan/assets/templates/implementation-plan-template.md`
-   - Issue テンプレート: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/` 配下の各テンプレート
+   - 実装計画テンプレート: `skills/implementation-plan/assets/templates/implementation-plan-template.md`
+   - Issue テンプレート: `skills/plan-to-issues/assets/templates/` 配下の各テンプレート
 
 3. **実装計画ドキュメントを解析すること**
 
@@ -115,8 +115,8 @@ Keywords: github-issues, epic, sub-issues, automation, implementation-plan
 
 1. **テンプレートを読み込み**
 
-   - `plugins/spec-plugin/skills/implementation-plan/assets/templates/implementation-plan-template.md` を参照し、実装計画の構造を理解
-   - `plugins/spec-plugin/skills/plan-to-issues/assets/templates/` から各種 Issue テンプレートを読み込み
+   - `skills/implementation-plan/assets/templates/implementation-plan-template.md` を参照し、実装計画の構造を理解
+   - `skills/plan-to-issues/assets/templates/` から各種 Issue テンプレートを読み込み
    - または、ユーザー指定のファイルを読み込み
 
 2. **実装計画の解析と Issue リストの生成**
@@ -184,11 +184,11 @@ gh issue create \
 
 ## Issue 種別とテンプレート
 
-> **注記**: すべてのテンプレートは `plugins/spec-plugin/skills/plan-to-issues/assets/templates/` に格納されています。
+> **注記**: すべてのテンプレートは `skills/plan-to-issues/assets/templates/` に格納されています。
 
 ### 実装 Issue（Feature）
 
-テンプレート: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/feature.template.md`
+テンプレート: `skills/plan-to-issues/assets/templates/feature.template.md`
 
 タイトル例:
 
@@ -200,7 +200,7 @@ gh issue create \
 
 ### 移行 Issue（Migration）
 
-テンプレート: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/migration.template.md`
+テンプレート: `skills/plan-to-issues/assets/templates/migration.template.md`
 
 タイトル例:
 
@@ -215,9 +215,9 @@ gh issue create \
 
 MCP Prompts:
 
-- Test: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/test.template.md`
-- Docs: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/docs.template.md`
-- Chore: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/chore.template.md`
+- Test: `skills/plan-to-issues/assets/templates/test.template.md`
+- Docs: `skills/plan-to-issues/assets/templates/docs.template.md`
+- Chore: `skills/plan-to-issues/assets/templates/chore.template.md`
 
 タイトル例:
 
@@ -313,7 +313,7 @@ Epic を作成後、GitHub UI で以下の操作を行うことを推奨しま�
 
 ## 注意事項
 
-- **テンプレート**: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/` に各種テンプレートが格納されています
+- **テンプレート**: `skills/plan-to-issues/assets/templates/` に各種テンプレートが格納されています
 - **ラベル**: リポジトリに存在するラベルのみ指定可能
 - **マイルストーン**: 事前に作成しておく必要がある
 - **担当者**: GitHub アカウント名で指定（例: `@username`）
@@ -351,12 +351,12 @@ gh label create "type:docs" --color "0075CA" --description "Documentation"
 ## Notes
 
 - **GitHub CLI**: `gh auth status` で認証状態を確認してください
-- **テンプレート**: `plugins/spec-plugin/skills/plan-to-issues/assets/templates/` にテンプレートファイルが格納されています
+- **テンプレート**: `skills/plan-to-issues/assets/templates/` にテンプレートファイルが格納されています
 - **推奨運用**: Epic 作成後、GitHub UI で「Convert to sub-issues」を使用すると親子リンクが自動設定されます
 
 ## 関連ドキュメント
 
-- `plugins/spec-plugin/skills/implementation-plan/assets/templates/implementation-plan-template.md`: 実装計画テンプレート
-- `plugins/spec-plugin/skills/plan-to-issues/SKILL.md`: Issue 作成の詳細ガイド
-- `plugins/spec-plugin/skills/plan-to-issues/assets/templates/`: Issue テンプレート集
-- `plugins/spec-plugin/skills/plan-to-issues/scripts/create-github-labels.sh`: ラベル作成スクリプト
+- `skills/implementation-plan/assets/templates/implementation-plan-template.md`: 実装計画テンプレート
+- `skills/plan-to-issues/SKILL.md`: Issue 作成の詳細ガイド
+- `skills/plan-to-issues/assets/templates/`: Issue テンプレート集
+- `skills/plan-to-issues/scripts/create-github-labels.sh`: ラベル作成スクリプト
