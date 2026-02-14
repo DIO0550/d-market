@@ -3,46 +3,70 @@
 Claude Code用プラグインのマーケットプレイス。
 
 開発ワークフローを効率化するためのプラグイン群を提供します。
+用途に合わせて必要なリポジトリだけをインストールできます。
 
-## プラグイン一覧
+## リポジトリ一覧
 
-### ワークフロー系
+### 言語別ツールキット
 
-| プラグイン | 説明 | インストール |
-|-----------|------|------------|
-| [rust-workflow-plugin](./plugins/rust-workflow-plugin) | Rustプロジェクト用ワークフロー（テスト実行・型チェック・ファイル検索） | `claude plugin add DIO0550/d-market --plugin rust-workflow-plugin` |
-| [typescript-workflow-plugin](./plugins/typescript-workflow-plugin) | TypeScriptプロジェクト用ワークフロー（テスト実行・型チェック・ファイル検索） | `claude plugin add DIO0550/d-market --plugin typescript-workflow-plugin` |
-| [git-workflow-plugin](./plugins/git-workflow-plugin) | Git操作支援（コミット・PR作成・ブランチ保護） | `claude plugin add DIO0550/d-market --plugin git-workflow-plugin` |
-| [workflow-automation-plugin](./plugins/workflow-automation-plugin) | ワークフロー自動化（PR修正・CIエラー修正・類似コード検出） | `claude plugin add DIO0550/d-market --plugin workflow-automation-plugin` |
-| [orchestrator-plugin](./plugins/orchestrator-plugin) | オーケストレーター（サブエージェント並列起動・タスク分散実行） | `claude plugin add DIO0550/d-market --plugin orchestrator-plugin` |
+| リポジトリ | 説明 | プラグイン | インストール |
+|-----------|------|----------|------------|
+| [d-market-rust](https://github.com/DIO0550/d-market-rust) | Rust開発ツールキット（ルール + ワークフロー） | rust-rules-plugin, rust-workflow-plugin | `claude mcp add-plugin DIO0550/d-market-rust` |
+| [d-market-typescript](https://github.com/DIO0550/d-market-typescript) | TypeScript開発ツールキット（ルール + ワークフロー + レビュー） | typescript-rules-plugin, typescript-workflow-plugin | `claude mcp add-plugin DIO0550/d-market-typescript` |
+| [d-market-react](https://github.com/DIO0550/d-market-react) | React開発ルール（コンポーネント・フック・Storybook） | react-rules-plugin | `claude mcp add-plugin DIO0550/d-market-react` |
 
-### コードレビュー系
+### ワークフロー
 
-| プラグイン | 説明 | インストール |
-|-----------|------|------------|
-| [code-review-plugin](./plugins/code-review-plugin) | コードレビュー・品質チェック（コメント・テスト・命名規則・マジックナンバー・セキュリティ） | `claude plugin add DIO0550/d-market --plugin code-review-plugin` |
+| リポジトリ | 説明 | プラグイン | インストール |
+|-----------|------|----------|------------|
+| [d-market-orchestrator](https://github.com/DIO0550/d-market-orchestrator) | オーケストレーター（サブエージェント並列起動・タスク分散） | orchestrator-plugin | `claude mcp add-plugin DIO0550/d-market-orchestrator` |
+| [d-market-spec](https://github.com/DIO0550/d-market-spec) | 仕様策定・実装計画・Issue作成支援 | spec-plugin | `claude mcp add-plugin DIO0550/d-market-spec` |
+| [d-market-git](https://github.com/DIO0550/d-market-git) | Git操作支援・PR修正自動化 | git-workflow-plugin, workflow-automation-plugin | `claude mcp add-plugin DIO0550/d-market-git` |
 
-### 開発ルール系
+### コード品質
 
-| プラグイン | 説明 | インストール |
-|-----------|------|------------|
-| [react-rules-plugin](./plugins/react-rules-plugin) | React開発ルール（コンポーネント・カスタムフック・Storybook・TDD） | `claude plugin add DIO0550/d-market --plugin react-rules-plugin` |
-| [rust-rules-plugin](./plugins/rust-rules-plugin) | Rust開発ルール（実装ワークフロー・TDD・品質チェック・コーディング規約） | `claude plugin add DIO0550/d-market --plugin rust-rules-plugin` |
-| [typescript-rules-plugin](./plugins/typescript-rules-plugin) | TypeScript開発ルール（実装ワークフロー・TDD・品質チェック・コーディング規約） | `claude plugin add DIO0550/d-market --plugin typescript-rules-plugin` |
+| リポジトリ | 説明 | プラグイン | インストール |
+|-----------|------|----------|------------|
+| [d-market-code-review](https://github.com/DIO0550/d-market-code-review) | コードレビュー・セキュリティチェック | code-review-plugin | `claude mcp add-plugin DIO0550/d-market-code-review` |
+| [d-market-doc-gen](https://github.com/DIO0550/d-market-doc-gen) | 仕様書・設計書ドキュメント生成 | doc-gen-plugin | `claude mcp add-plugin DIO0550/d-market-doc-gen` |
 
-### ドキュメント・仕様系
+### ユーティリティ
 
-| プラグイン | 説明 | インストール |
-|-----------|------|------------|
-| [doc-gen-plugin](./plugins/doc-gen-plugin) | 仕様書・設計書ドキュメント生成（feature-spec・api-spec・system-design） | `claude plugin add DIO0550/d-market --plugin doc-gen-plugin` |
-| [spec-plugin](./plugins/spec-plugin) | 仕様策定支援（設計ドキュメント・実装計画・Issue作成・仕様駆動開発） | `claude plugin add DIO0550/d-market --plugin spec-plugin` |
+| リポジトリ | 説明 | プラグイン | インストール |
+|-----------|------|----------|------------|
+| [d-market-file-search](https://github.com/DIO0550/d-market-file-search) | ファイル検索・Web検索エージェント委譲 | file-search-plugin | `claude mcp add-plugin DIO0550/d-market-file-search` |
+| [d-market-statusline](https://github.com/DIO0550/d-market-statusline) | Powerlineスタイルのステータスライン | statusline-plugin | `claude mcp add-plugin DIO0550/d-market-statusline` |
 
-### ユーティリティ系
+## 利用シーン別おすすめ
 
-| プラグイン | 説明 | インストール |
-|-----------|------|------------|
-| [file-search-plugin](./plugins/file-search-plugin) | ファイル検索のサブエージェント委譲 | `claude plugin add DIO0550/d-market --plugin file-search-plugin` |
-| [statusline-plugin](./plugins/statusline-plugin) | Powerlineスタイルのステータスラインセットアップ | `claude plugin add DIO0550/d-market --plugin statusline-plugin` |
+### Rustプロジェクト
+
+```sh
+claude mcp add-plugin DIO0550/d-market-rust
+claude mcp add-plugin DIO0550/d-market-git
+```
+
+### TypeScript/Reactプロジェクト
+
+```sh
+claude mcp add-plugin DIO0550/d-market-typescript
+claude mcp add-plugin DIO0550/d-market-react
+claude mcp add-plugin DIO0550/d-market-git
+```
+
+### 大規模機能開発
+
+```sh
+claude mcp add-plugin DIO0550/d-market-orchestrator
+claude mcp add-plugin DIO0550/d-market-spec
+```
+
+### コード品質重視
+
+```sh
+claude mcp add-plugin DIO0550/d-market-code-review
+claude mcp add-plugin DIO0550/d-market-doc-gen
+```
 
 ## ライセンス
 
