@@ -1,0 +1,13 @@
+{
+  "name": "d-market-spec",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "spec-plugin",
+      "source": "./plugins/spec-plugin",
+      "description": "仕様策定・実装計画・Issue作成支援プラグイン"
+    }
+  ]
+}

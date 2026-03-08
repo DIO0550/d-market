@@ -1,0 +1,18 @@
+{
+  "name": "d-market-typescript",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "typescript-rules-plugin",
+      "source": "./plugins/typescript-rules-plugin",
+      "description": "TypeScript開発ルールプラグイン（実装ワークフロー、TDD、品質チェック、Gitワークフロー）"
+    },
+    {
+      "name": "typescript-workflow-plugin",
+      "source": "./plugins/typescript-workflow-plugin",
+      "description": "TypeScriptワークフロープラグイン（テスト実行、型チェック、ファイル検索エージェント）"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "d-market-doc-gen",
+  "owner": {
+    "name": "DIO0550"
+  },
+  "plugins": [
+    {
+      "name": "doc-gen-plugin",
+      "source": "./plugins/doc-gen-plugin",
+      "description": "仕様書・設計書ドキュメント生成プラグイン（機能仕様書・API仕様書・システム設計書）"
+    }
+  ]
+}
