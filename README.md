@@ -13,6 +13,10 @@ Claude Code用プラグインのマーケットプレイス。
 
 Rust開発ツールキット（ルール + ワークフロー） — `rust-rules-plugin`, `rust-workflow-plugin`
 
+```
+https://github.com/DIO0550/d-market-rust
+```
+
 ```sh
 claude marketplace install DIO0550/d-market-rust
 ```
@@ -21,6 +25,10 @@ claude marketplace install DIO0550/d-market-rust
 
 TypeScript開発ツールキット（ルール + ワークフロー + レビュー） — `typescript-rules-plugin`, `typescript-workflow-plugin`
 
+```
+https://github.com/DIO0550/d-market-typescript
+```
+
 ```sh
 claude marketplace install DIO0550/d-market-typescript
 ```
@@ -28,6 +36,10 @@ claude marketplace install DIO0550/d-market-typescript
 #### [d-market-react](https://github.com/DIO0550/d-market-react)
 
 React開発ルール（コンポーネント・フック・Storybook） — `react-rules-plugin`
+
+```
+https://github.com/DIO0550/d-market-react
+```
 
 ```sh
 claude marketplace install DIO0550/d-market-react
@@ -39,6 +51,10 @@ claude marketplace install DIO0550/d-market-react
 
 オーケストレーター（サブエージェント並列起動・タスク分散） — `orchestrator-plugin`
 
+```
+https://github.com/DIO0550/d-market-orchestrator
+```
+
 ```sh
 claude marketplace install DIO0550/d-market-orchestrator
 ```
@@ -47,6 +63,10 @@ claude marketplace install DIO0550/d-market-orchestrator
 
 仕様策定・実装計画・Issue作成支援 — `spec-plugin`
 
+```
+https://github.com/DIO0550/d-market-spec
+```
+
 ```sh
 claude marketplace install DIO0550/d-market-spec
 ```
@@ -54,6 +74,10 @@ claude marketplace install DIO0550/d-market-spec
 #### [d-market-git](https://github.com/DIO0550/d-market-git)
 
 Git操作支援・PR修正自動化 — `git-workflow-plugin`, `workflow-automation-plugin`
+
+```
+https://github.com/DIO0550/d-market-git
+```
 
 ```sh
 claude marketplace install DIO0550/d-market-git
@@ -65,6 +89,10 @@ claude marketplace install DIO0550/d-market-git
 
 コードレビュー・セキュリティチェック — `code-review-plugin`
 
+```
+https://github.com/DIO0550/d-market-code-review
+```
+
 ```sh
 claude marketplace install DIO0550/d-market-code-review
 ```
@@ -72,6 +100,10 @@ claude marketplace install DIO0550/d-market-code-review
 #### [d-market-doc-gen](https://github.com/DIO0550/d-market-doc-gen)
 
 仕様書・設計書ドキュメント生成 — `doc-gen-plugin`
+
+```
+https://github.com/DIO0550/d-market-doc-gen
+```
 
 ```sh
 claude marketplace install DIO0550/d-market-doc-gen
@@ -83,6 +115,10 @@ claude marketplace install DIO0550/d-market-doc-gen
 
 Compact後ドキュメント自動再読み込み — `post-compact-docs-loader`
 
+```
+https://github.com/DIO0550/d-market-workflow
+```
+
 ```sh
 claude marketplace install DIO0550/d-market-workflow
 ```
@@ -91,6 +127,10 @@ claude marketplace install DIO0550/d-market-workflow
 
 ファイル検索・Web検索エージェント委譲 — `file-search-plugin`
 
+```
+https://github.com/DIO0550/d-market-file-search
+```
+
 ```sh
 claude marketplace install DIO0550/d-market-file-search
 ```
@@ -98,6 +138,10 @@ claude marketplace install DIO0550/d-market-file-search
 #### [d-market-statusline](https://github.com/DIO0550/d-market-statusline)
 
 Powerlineスタイルのステータスライン — `statusline-plugin`
+
+```
+https://github.com/DIO0550/d-market-statusline
+```
 
 ```sh
 claude marketplace install DIO0550/d-market-statusline
@@ -156,6 +200,22 @@ claude marketplace install DIO0550/d-market-doc-gen
 claude marketplace install DIO0550/d-market-workflow
 claude marketplace install DIO0550/d-market-file-search
 claude marketplace install DIO0550/d-market-statusline
+```
+
+## 全リポジトリURL一覧
+
+```
+https://github.com/DIO0550/d-market-rust
+https://github.com/DIO0550/d-market-typescript
+https://github.com/DIO0550/d-market-react
+https://github.com/DIO0550/d-market-orchestrator
+https://github.com/DIO0550/d-market-spec
+https://github.com/DIO0550/d-market-git
+https://github.com/DIO0550/d-market-code-review
+https://github.com/DIO0550/d-market-doc-gen
+https://github.com/DIO0550/d-market-workflow
+https://github.com/DIO0550/d-market-file-search
+https://github.com/DIO0550/d-market-statusline
 ```
 
 ## ライセンス
