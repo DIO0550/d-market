@@ -79,6 +79,14 @@ claude marketplace install DIO0550/d-market-doc-gen
 
 ### ユーティリティ
 
+#### [d-market-workflow](https://github.com/DIO0550/d-market-workflow)
+
+Compact後ドキュメント自動再読み込み — `post-compact-docs-loader`
+
+```sh
+claude marketplace install DIO0550/d-market-workflow
+```
+
 #### [d-market-file-search](https://github.com/DIO0550/d-market-file-search)
 
 ファイル検索・Web検索エージェント委譲 — `file-search-plugin`
@@ -145,6 +153,7 @@ claude marketplace install DIO0550/d-market-spec
 claude marketplace install DIO0550/d-market-git
 claude marketplace install DIO0550/d-market-code-review
 claude marketplace install DIO0550/d-market-doc-gen
+claude marketplace install DIO0550/d-market-workflow
 claude marketplace install DIO0550/d-market-file-search
 claude marketplace install DIO0550/d-market-statusline
 ```
