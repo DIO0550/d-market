@@ -218,6 +218,54 @@ https://github.com/DIO0550/d-market-file-search
 https://github.com/DIO0550/d-market-statusline
 ```
 
+## settings.json での設定例
+
+`extraKnownMarketplaces` に追加することで、マーケットプレイスとして認識させることができます。
+
+```jsonc
+// ~/.claude/settings.json
+{
+  "extraKnownMarketplaces": {
+    "d-market-typescript": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-typescript"
+      }
+    },
+    "d-market-react": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-react"
+      }
+    },
+    "d-market-spec": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-spec"
+      }
+    },
+    "d-market-git": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-git"
+      }
+    },
+    "d-market-doc-gen": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-doc-gen"
+      }
+    },
+    "d-market-statusline": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-statusline"
+      }
+    }
+  }
+}
+```
+
 ## ライセンス
 
 [MIT](./LICENSE)
