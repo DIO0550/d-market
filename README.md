@@ -226,6 +226,12 @@ https://github.com/DIO0550/d-market-statusline
 // ~/.claude/settings.json
 {
   "extraKnownMarketplaces": {
+    "d-market-rust": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-rust"
+      }
+    },
     "d-market-typescript": {
       "source": {
         "source": "github",
@@ -236,6 +242,12 @@ https://github.com/DIO0550/d-market-statusline
       "source": {
         "source": "github",
         "repo": "DIO0550/d-market-react"
+      }
+    },
+    "d-market-orchestrator": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-orchestrator"
       }
     },
     "d-market-spec": {
@@ -250,10 +262,28 @@ https://github.com/DIO0550/d-market-statusline
         "repo": "DIO0550/d-market-git"
       }
     },
+    "d-market-code-review": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-code-review"
+      }
+    },
     "d-market-doc-gen": {
       "source": {
         "source": "github",
         "repo": "DIO0550/d-market-doc-gen"
+      }
+    },
+    "d-market-workflow": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-workflow"
+      }
+    },
+    "d-market-file-search": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-file-search"
       }
     },
     "d-market-statusline": {
