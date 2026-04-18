@@ -109,6 +109,20 @@ https://github.com/DIO0550/d-market-doc-gen
 claude marketplace install DIO0550/d-market-doc-gen
 ```
 
+### Skill
+
+#### [d-market-skill](https://github.com/DIO0550/d-market-skill)
+
+Claude Code Skillの作成・成長・Marketplace雛形生成 — `skill-creator`, `skill-grower`, `marketplace-template`
+
+```
+https://github.com/DIO0550/d-market-skill
+```
+
+```sh
+claude marketplace install DIO0550/d-market-skill
+```
+
 ### ユーティリティ
 
 #### [d-market-workflow](https://github.com/DIO0550/d-market-workflow)
@@ -121,18 +135,6 @@ https://github.com/DIO0550/d-market-workflow
 
 ```sh
 claude marketplace install DIO0550/d-market-workflow
-```
-
-#### [d-market-file-search](https://github.com/DIO0550/d-market-file-search)
-
-ファイル検索・Web検索エージェント委譲 — `file-search-plugin`
-
-```
-https://github.com/DIO0550/d-market-file-search
-```
-
-```sh
-claude marketplace install DIO0550/d-market-file-search
 ```
 
 #### [d-market-statusline](https://github.com/DIO0550/d-market-statusline)
@@ -186,6 +188,14 @@ claude marketplace install DIO0550/d-market-code-review
 claude marketplace install DIO0550/d-market-doc-gen
 ```
 
+### Skill開発
+
+- [d-market-skill](https://github.com/DIO0550/d-market-skill)
+
+```sh
+claude marketplace install DIO0550/d-market-skill
+```
+
 ## 全プラグイン一括インストール
 
 ```sh
@@ -197,8 +207,8 @@ claude marketplace install DIO0550/d-market-spec
 claude marketplace install DIO0550/d-market-git
 claude marketplace install DIO0550/d-market-code-review
 claude marketplace install DIO0550/d-market-doc-gen
+claude marketplace install DIO0550/d-market-skill
 claude marketplace install DIO0550/d-market-workflow
-claude marketplace install DIO0550/d-market-file-search
 claude marketplace install DIO0550/d-market-statusline
 ```
 
@@ -213,8 +223,8 @@ https://github.com/DIO0550/d-market-spec
 https://github.com/DIO0550/d-market-git
 https://github.com/DIO0550/d-market-code-review
 https://github.com/DIO0550/d-market-doc-gen
+https://github.com/DIO0550/d-market-skill
 https://github.com/DIO0550/d-market-workflow
-https://github.com/DIO0550/d-market-file-search
 https://github.com/DIO0550/d-market-statusline
 ```
 
@@ -274,16 +284,16 @@ https://github.com/DIO0550/d-market-statusline
         "repo": "DIO0550/d-market-doc-gen"
       }
     },
+    "d-market-skill": {
+      "source": {
+        "source": "github",
+        "repo": "DIO0550/d-market-skill"
+      }
+    },
     "d-market-workflow": {
       "source": {
         "source": "github",
         "repo": "DIO0550/d-market-workflow"
-      }
-    },
-    "d-market-file-search": {
-      "source": {
-        "source": "github",
-        "repo": "DIO0550/d-market-file-search"
       }
     },
     "d-market-statusline": {
